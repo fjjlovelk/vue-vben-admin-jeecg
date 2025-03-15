@@ -39,9 +39,7 @@ interface AppPreferences {
   enableCheckUpdates: boolean;
   /** 是否显示偏好设置 */
   enablePreferences: boolean;
-  /**
-   * @zh_CN 是否开启refreshToken
-   */
+  /** 是否开启refreshToken */
   enableRefreshToken: boolean;
   /** 是否移动端 */
   isMobile: boolean;
@@ -53,9 +51,7 @@ interface AppPreferences {
   name: string;
   /** 偏好设置按钮位置 */
   preferencesButtonPosition: PreferencesButtonPositionType;
-  /**
-   * @zh_CN 是否开启水印
-   */
+  /** 是否开启水印 */
   watermark: boolean;
 }
 

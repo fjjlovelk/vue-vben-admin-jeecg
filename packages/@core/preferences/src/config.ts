@@ -2,23 +2,22 @@ import type { Preferences } from './types';
 
 const defaultPreferences: Preferences = {
   app: {
-    accessMode: 'frontend',
-    authPageLayout: 'panel-right',
+    accessMode: 'backend',
+    authPageLayout: 'panel-center',
     checkUpdatesInterval: 1,
     colorGrayMode: false,
     colorWeakMode: false,
     compact: false,
     contentCompact: 'wide',
-    defaultAvatar:
-      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp',
+    defaultAvatar: '',
     dynamicTitle: true,
-    enableCheckUpdates: true,
-    enablePreferences: true,
+    enableCheckUpdates: false,
+    enablePreferences: false,
     enableRefreshToken: false,
     isMobile: false,
     layout: 'sidebar-nav',
     loginExpiredMode: 'page',
-    name: 'Vben Admin',
+    name: 'Vben Admin Jeecg',
     preferencesButtonPosition: 'auto',
     watermark: false,
   },
@@ -36,7 +35,7 @@ const defaultPreferences: Preferences = {
     enable: true,
     icp: '',
     icpLink: '',
-    settingShow: true,
+    settingShow: false,
   },
   footer: {
     enable: false,
@@ -49,8 +48,8 @@ const defaultPreferences: Preferences = {
     mode: 'fixed',
   },
   logo: {
-    enable: true,
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    enable: false,
+    source: '',
   },
   navigation: {
     accordion: true,
@@ -58,11 +57,11 @@ const defaultPreferences: Preferences = {
     styleType: 'rounded',
   },
   shortcutKeys: {
-    enable: true,
-    globalLockScreen: true,
-    globalLogout: true,
-    globalPreferences: true,
-    globalSearch: true,
+    enable: false,
+    globalLockScreen: false,
+    globalLogout: false,
+    globalPreferences: false,
+    globalSearch: false,
   },
   sidebar: {
     autoActivateChild: false,
@@ -95,7 +94,7 @@ const defaultPreferences: Preferences = {
     colorSuccess: 'hsl(144 57% 58%)',
     colorWarning: 'hsl(42 84% 61%)',
     mode: 'dark',
-    radius: '0.5',
+    radius: '0.1',
     semiDarkHeader: false,
     semiDarkSidebar: false,
   },
@@ -107,12 +106,12 @@ const defaultPreferences: Preferences = {
   },
   widget: {
     fullscreen: true,
-    globalSearch: true,
-    lockScreen: true,
+    globalSearch: false,
+    lockScreen: false,
     notification: true,
     refresh: true,
     sidebarToggle: true,
-    themeToggle: true,
+    themeToggle: false,
   },
 };
 
