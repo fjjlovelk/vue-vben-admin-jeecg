@@ -39,9 +39,18 @@
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
+    "crypto-js": "catalog:",
     "dayjs": "catalog:",
+    "md5": "catalog:",
     "pinia": "catalog:",
+    "print-js": "catalog:",
+    "qs": "catalog:",
+    "sm-crypto": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "catalog:",
+    "@types/qs": "catalog:"
   }
 }
