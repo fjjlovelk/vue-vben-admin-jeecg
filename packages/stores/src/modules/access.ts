@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import type { SysAllDictItems } from '@vben/types';
+
 import type { MenuRecordRaw } from '@vben-core/typings';
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
@@ -35,6 +37,9 @@ interface AccessState {
    * 登录 accessToken
    */
   refreshToken: AccessToken;
+
+  // 字典
+  sysAllDictItems: SysAllDictItems;
 }
 
 /**
@@ -82,10 +87,13 @@ export const useAccessStore = defineStore('core-access', {
     setRefreshToken(token: AccessToken) {
       this.refreshToken = token;
     },
+    setSysAllDictItems(sysAllDictItems?: SysAllDictItems) {
+      this.sysAllDictItems = sysAllDictItems || {};
+    },
   },
   persist: {
     // 持久化
-    pick: ['accessToken', 'refreshToken', 'accessCodes'],
+    pick: ['accessToken', 'refreshToken', 'accessCodes', 'sysAllDictItems'],
   },
   state: (): AccessState => ({
     accessCodes: [],
@@ -95,6 +103,7 @@ export const useAccessStore = defineStore('core-access', {
     isAccessChecked: false,
     loginExpired: false,
     refreshToken: null,
+    sysAllDictItems: {},
   }),
 });
 

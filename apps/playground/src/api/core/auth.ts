@@ -3,13 +3,15 @@ import { baseRequestClient, requestClient } from '#/api/request';
 export namespace AuthApi {
   /** 登录接口参数 */
   export interface LoginParams {
-    password?: string;
-    username?: string;
+    password: string;
+    username: string;
+    captcha: string;
+    checkKey: number;
   }
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    accessToken: string;
+    token: string;
   }
 
   export interface RefreshTokenResult {
@@ -18,40 +20,31 @@ export namespace AuthApi {
   }
 }
 
-/**
- * 登录
- */
+// 登录
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data, {
-    withCredentials: true,
-  });
+  return requestClient.post<AuthApi.LoginResult>('/api/sys/login', data);
 }
 
-/**
- * 刷新accessToken
- */
+// 刷新accessToken
 export async function refreshTokenApi() {
-  return baseRequestClient.post<AuthApi.RefreshTokenResult>(
-    '/auth/refresh',
-    null,
-    {
-      withCredentials: true,
-    },
-  );
-}
-
-/**
- * 退出登录
- */
-export async function logoutApi() {
-  return baseRequestClient.post('/auth/logout', null, {
+  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh', {
     withCredentials: true,
   });
 }
 
-/**
- * 获取用户权限码
- */
+// 退出登录
+export async function logoutApi() {
+  return baseRequestClient.post('/api/sys/logout', {
+    withCredentials: true,
+  });
+}
+
+// 获取用户权限码
 export async function getAccessCodesApi() {
   return requestClient.get<string[]>('/auth/codes');
+}
+
+// 获取验证码
+export async function getCaptchaApi(key: number) {
+  return requestClient.get<string>(`/api/sys/randomImage/${key}`);
 }

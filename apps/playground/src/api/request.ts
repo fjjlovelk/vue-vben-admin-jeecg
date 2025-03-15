@@ -57,7 +57,8 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   }
 
   function formatToken(token: null | string) {
-    return token ? `Bearer ${token}` : null;
+    // return token ? `Bearer ${token}` : null;
+    return token;
   }
 
   // 请求头处理
@@ -66,6 +67,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       const accessStore = useAccessStore();
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
+      config.headers['x-access-token'] = formatToken(accessStore.accessToken);
       return config;
     },
   });
@@ -74,8 +76,8 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   client.addResponseInterceptor(
     defaultResponseInterceptor({
       codeField: 'code',
-      dataField: 'data',
-      successCode: 0,
+      dataField: 'result',
+      successCode: (code) => code === 0 || code === 200,
     }),
   );
 

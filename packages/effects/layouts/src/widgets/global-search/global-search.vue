@@ -3,13 +3,7 @@ import type { MenuRecordRaw } from '@vben/types';
 
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
-import {
-  ArrowDown,
-  ArrowUp,
-  CornerDownLeft,
-  MdiKeyboardEsc,
-  Search,
-} from '@vben/icons';
+import { ArrowDown, ArrowUp, CornerDownLeft, Search } from '@vben/icons';
 import { isWindowsOs } from '@vben/utils';
 
 import { useVbenModal } from '@vben-core/popup-ui';
@@ -125,7 +119,7 @@ onMounted(() => {
             导航
           </div>
           <div class="flex items-center">
-            <MdiKeyboardEsc class="mr-1 size-3" />
+            <!--            <MdiKeyboardEsc class="mr-1 size-3" />-->
             关闭
           </div>
         </div>

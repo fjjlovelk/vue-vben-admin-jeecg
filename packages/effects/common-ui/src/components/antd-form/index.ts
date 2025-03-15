@@ -1,13 +1,14 @@
 import type {
   VbenFormSchema as FormSchema,
+  VbenFormAdapterOptions,
   VbenFormProps,
-} from '@vben/common-ui';
+} from '@vben-core/form-ui';
 
-import type { ComponentType } from './component';
+import type { AntdComponentType } from './component';
 
-import { setupVbenForm, useVbenForm as useForm, z } from '@vben/common-ui';
+import { setupVbenForm, useVbenForm } from '@vben-core/form-ui';
 
-setupVbenForm<ComponentType>({
+const antdFormConfig: VbenFormAdapterOptions = {
   config: {
     // ant design vue组件库默认都是 v-model:value
     baseModelPropName: 'value',
@@ -35,10 +36,15 @@ setupVbenForm<ComponentType>({
       return true;
     },
   },
-});
+};
 
-const useVbenForm = useForm<ComponentType>;
+const useAntdForm = useVbenForm<AntdComponentType>;
 
-export { useVbenForm, z };
-export type VbenFormSchema = FormSchema<ComponentType>;
-export type { VbenFormProps };
+type AntdFormProps = VbenFormProps<AntdComponentType>;
+
+export { antdFormConfig, setupVbenForm as setupAntdForm, useAntdForm };
+
+export type AntdFormSchema = FormSchema<AntdComponentType>;
+export type { AntdComponentType, AntdFormProps };
+
+export { initComponentAdapter } from './component';

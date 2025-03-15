@@ -1,3 +1,4 @@
+export * from './antd-form';
 export * from './api-component';
 export * from './captcha';
 export * from './col-page';
@@ -9,6 +10,7 @@ export * from './loading';
 export * from './page';
 export * from './resize';
 export * from './tippy';
+export * from './vxe-table';
 export * from '@vben-core/form-ui';
 export * from '@vben-core/popup-ui';
 

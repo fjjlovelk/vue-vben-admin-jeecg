@@ -1,7 +1,15 @@
+import type { AntdComponentType } from '@vben/common-ui';
+
 import { createApp, watchEffect } from 'vue';
 
 import { registerAccessDirective } from '@vben/access';
-import { initTippy, registerLoadingDirective } from '@vben/common-ui';
+import {
+  antdFormConfig,
+  initComponentAdapter,
+  initTippy,
+  registerLoadingDirective,
+  setupAntdForm,
+} from '@vben/common-ui';
 import { MotionPlugin } from '@vben/plugins/motion';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
@@ -10,15 +18,18 @@ import '@vben/styles/antd';
 
 import { VueQueryPlugin } from '@tanstack/vue-query';
 import { useTitle } from '@vueuse/core';
+import Antd from 'ant-design-vue';
 
 import { router } from '#/router';
 
-import { initComponentAdapter } from './adapter/component';
 import App from './app.vue';
+
+import 'ant-design-vue/dist/reset.css';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
   await initComponentAdapter();
+  setupAntdForm<AntdComponentType>(antdFormConfig);
 
   // // 设置弹窗的默认配置
   // setDefaultModalProps({
@@ -48,6 +59,8 @@ async function bootstrap(namespace: string) {
 
   // 配置路由及路由守卫
   app.use(router);
+
+  app.use(Antd);
 
   // 配置@tanstack/vue-query
   app.use(VueQueryPlugin);

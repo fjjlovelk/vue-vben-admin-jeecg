@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import type {VbenFormSchema} from '@vben/common-ui';
-import {AuthenticationCodeLogin, z} from '@vben/common-ui';
-import type {Recordable} from '@vben/types';
+import type { VbenFormSchema } from '@vben/common-ui';
+import type { Recordable } from '@vben/types';
 
-import {computed, ref, useTemplateRef} from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
-import {message} from 'ant-design-vue';
+import { AuthenticationCodeLogin, z } from '@vben/common-ui';
+
+import { message } from 'ant-design-vue';
 
 defineOptions({ name: 'CodeLogin' });
 
@@ -51,9 +52,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       componentProps: {
         codeLength: CODE_LENGTH,
         createText: (countdown: number) => {
-          return countdown > 0
-            ? `${countdown}秒后重新获取`
-            : '获取验证码';
+          return countdown > 0 ? `${countdown}秒后重新获取` : '获取验证码';
         },
         handleSendCode: async () => {
           // 模拟发送验证码

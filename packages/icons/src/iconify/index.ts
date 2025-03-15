@@ -1,13 +1,9 @@
-import { createIconifyIcon } from '@vben-core/icons';
+import { addCollection } from '@vben-core/icons';
+
+import antDesign from '@iconify/json/json/ant-design.json';
+import carbon from '@iconify/json/json/carbon.json';
+
+addCollection(antDesign);
+addCollection(carbon);
 
 export * from '@vben-core/icons';
-
-export const MdiKeyboardEsc = createIconifyIcon('mdi:keyboard-esc');
-
-export const MdiWechat = createIconifyIcon('mdi:wechat');
-
-export const MdiGithub = createIconifyIcon('mdi:github');
-
-export const MdiGoogle = createIconifyIcon('mdi:google');
-
-export const MdiQqchat = createIconifyIcon('mdi:qqchat');

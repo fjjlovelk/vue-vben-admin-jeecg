@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MdiGithub, MdiGoogle, MdiQqchat, MdiWechat } from '@vben/icons';
+import { IconifyIcon } from '@vben/icons';
 
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
@@ -20,16 +20,16 @@ defineOptions({
 
     <div class="mt-4 flex flex-wrap justify-center">
       <VbenIconButton class="mb-3">
-        <MdiWechat />
+        <IconifyIcon icon="ant-design:wechat-outlined" />
       </VbenIconButton>
       <VbenIconButton class="mb-3">
-        <MdiQqchat />
+        <IconifyIcon icon="ant-design:qq-outlined" />
       </VbenIconButton>
       <VbenIconButton class="mb-3">
-        <MdiGithub />
+        <IconifyIcon icon="ant-design:github-outlined" />
       </VbenIconButton>
       <VbenIconButton class="mb-3">
-        <MdiGoogle />
+        <IconifyIcon icon="ant-design:google-outlined" />
       </VbenIconButton>
     </div>
   </div>

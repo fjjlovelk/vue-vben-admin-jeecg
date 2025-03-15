@@ -9,18 +9,17 @@ import { get, isFunction, isString } from '@vben/utils';
 import { objectOmit } from '@vueuse/core';
 import { Button, Image, Popconfirm, Switch, Tag } from 'ant-design-vue';
 
-import { useVbenForm } from './form';
+import { useAntdForm } from '../antd-form';
 
 setupVbenVxeTable({
   configVxeTable: (vxeUI) => {
     vxeUI.setConfig({
       grid: {
         align: 'center',
-        border: false,
+        border: true,
         columnConfig: {
-          resizable: true,
+          resizable: false,
         },
-
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,
@@ -29,14 +28,13 @@ setupVbenVxeTable({
         proxyConfig: {
           autoLoad: true,
           response: {
-            result: 'items',
+            result: 'result',
             total: 'total',
             list: '',
           },
           showActiveMsg: true,
           showResponseMsg: false,
         },
-        round: true,
         showOverflow: true,
         size: 'small',
       },
@@ -153,11 +151,9 @@ setupVbenVxeTable({
           options || ['edit', 'delete']
         )
           .map((opt) => {
-            if (isString(opt)) {
-              return { code: opt, ...(presets[opt] || {}), ...defaultProps };
-            } else {
-              return { ...defaultProps, ...presets[opt.code], ...opt };
-            }
+            return isString(opt)
+              ? { code: opt, ...presets[opt], ...defaultProps }
+              : { ...defaultProps, ...presets[opt.code], ...opt };
           })
           .map((opt) => {
             const optBtn: Recordable<any> = {};
@@ -246,7 +242,7 @@ setupVbenVxeTable({
     // 这里可以自行扩展 vxe-table 的全局配置，比如自定义格式化
     // vxeUI.formats.add
   },
-  useVbenForm,
+  useVbenForm: useAntdForm,
 });
 
 export { useVbenVxeGrid };

@@ -1321,15 +1321,24 @@ importers:
       '@vben/icons':
         specifier: workspace:*
         version: link:../../icons
+      '@vben/plugins':
+        specifier: workspace:*
+        version: link:../plugins
       '@vben/types':
         specifier: workspace:*
         version: link:../../types
+      '@vben/utils':
+        specifier: workspace:*
+        version: link:../../utils
       '@vueuse/core':
         specifier: 'catalog:'
         version: 12.8.2(typescript@5.8.2)
       '@vueuse/integrations':
         specifier: 'catalog:'
         version: 12.8.2(async-validator@4.2.5)(axios@1.8.2)(change-case@5.4.4)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.6)(typescript@5.8.2)
+      ant-design-vue:
+        specifier: 'catalog:'
+        version: 4.2.6(vue@3.5.13(typescript@5.8.2))
       qrcode:
         specifier: 'catalog:'
         version: 1.5.4
@@ -1500,6 +1509,9 @@ importers:
 
   packages/icons:
     dependencies:
+      '@iconify/json':
+        specifier: 'catalog:'
+        version: 2.2.314
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../@core/base/icons
@@ -1524,6 +1536,9 @@ importers:
       '@vben-core/typings':
         specifier: workspace:*
         version: link:../@core/base/typings
+      '@vben/types':
+        specifier: workspace:*
+        version: link:../types
       pinia:
         specifier: 2.3.1
         version: 2.3.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))

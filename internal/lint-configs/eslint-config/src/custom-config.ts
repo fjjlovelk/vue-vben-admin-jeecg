@@ -104,7 +104,6 @@ const customConfig: Linter.Config[] = [
       'packages/icons/**/**',
       'packages/constants/**/**',
       'packages/styles/**/**',
-      'packages/stores/**/**',
       'packages/preferences/**/**',
     ],
     ignores: restrictedImportIgnores,

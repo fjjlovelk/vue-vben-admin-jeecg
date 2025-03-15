@@ -1,10 +1,20 @@
-import type { RouteRecordStringComponent } from '@vben/types';
+import type { ActionAuth, RouteRecordStringComponent } from '@vben/types';
 
 import { requestClient } from '#/api/request';
+
+export namespace MenuApi {
+  export interface GetUserPermissionByTokenResult {
+    allAuth: ActionAuth[];
+    auth: ActionAuth[];
+    menu: RouteRecordStringComponent[];
+  }
+}
 
 /**
  * 获取用户所有菜单
  */
-export async function getAllMenusApi() {
-  return requestClient.get<RouteRecordStringComponent[]>('/menu/all');
+export async function getUserPermissionByTokenApi() {
+  return requestClient.get<MenuApi.GetUserPermissionByTokenResult>(
+    '/api/sys/permission/getUserPermissionByToken',
+  );
 }
