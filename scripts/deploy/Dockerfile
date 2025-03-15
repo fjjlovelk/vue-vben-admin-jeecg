@@ -6,8 +6,6 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV NODE_OPTIONS=--max-old-space-size=8192
 ENV TZ=Asia/Shanghai
 
-RUN corepack enable
-
 WORKDIR /app
 
 # copy package.json and pnpm-lock.yaml to workspace

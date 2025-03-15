@@ -117,10 +117,6 @@
       "path": "packages/icons",
     },
     {
-      "name": "@vben/locales",
-      "path": "packages/locales",
-    },
-    {
       "name": "@vben/preferences",
       "path": "packages/preferences",
     },

@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 
 import { Settings } from '@vben/icons';
-import { loadLocaleMessages } from '@vben/locales';
 import { preferences, updatePreferences } from '@vben/preferences';
 import { capitalizeFirstLetter } from '@vben/utils';
 
@@ -42,9 +41,6 @@ const listen = computed(() => {
           val: any,
         ) => {
           updatePreferences({ [key]: { [subKey]: val } });
-          if (key === 'app' && subKey === 'locale') {
-            loadLocaleMessages(val);
-          }
         };
       }
     } else {

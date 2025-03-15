@@ -16,7 +16,6 @@ import type { SegmentedItem } from '@vben-core/shadcn-ui';
 import { computed, ref } from 'vue';
 
 import { Copy, RotateCw } from '@vben/icons';
-import { loadLocaleMessages } from '@vben/locales';
 import {
   clearPreferencesCache,
   preferences,
@@ -227,7 +226,6 @@ async function handleReset() {
     return;
   }
   resetPreferences();
-  await loadLocaleMessages(preferences.app.locale);
 }
 </script>
 
@@ -386,10 +384,7 @@ async function handleReset() {
                 v-model:footer-fixed="footerFixed"
               />
             </Block>
-            <Block
-              v-if="copyrightSettingShow"
-              title="版权"
-            >
+            <Block v-if="copyrightSettingShow" title="版权">
               <Copyright
                 v-model:copyright-company-name="copyrightCompanyName"
                 v-model:copyright-company-site-link="copyrightCompanySiteLink"
