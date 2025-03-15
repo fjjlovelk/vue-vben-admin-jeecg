@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { $t } from '@vben/locales';
-
 import SwitchItem from '../switch-item.vue';
 
 defineOptions({
@@ -18,9 +16,9 @@ const appColorGrayMode = defineModel<boolean>('appColorGrayMode', {
 
 <template>
   <SwitchItem v-model="appColorWeakMode">
-    {{ $t('preferences.theme.weakMode') }}
+    色弱模式
   </SwitchItem>
   <SwitchItem v-model="appColorGrayMode">
-    {{ $t('preferences.theme.grayMode') }}
+    灰色模式
   </SwitchItem>
 </template>

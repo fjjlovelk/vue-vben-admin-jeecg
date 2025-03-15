@@ -6,7 +6,6 @@ import type { SystemDeptApi } from '#/api/system/dept';
 
 import { z } from '#/adapter/form';
 import { getDeptList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 /**
  * 获取编辑表单的字段配置。如果没有使用多语言，可以直接export一个数组常量
@@ -16,14 +15,11 @@ export function useSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.dept.deptName'),
+      label: '部门名称',
       rules: z
         .string()
-        .min(2, $t('ui.formRules.minLength', [$t('system.dept.deptName'), 2]))
-        .max(
-          20,
-          $t('ui.formRules.maxLength', [$t('system.dept.deptName'), 20]),
-        ),
+        .min(2, '部门名称至少2个字符')
+        .max(20,'部门名称最多20个字符'),
     },
     {
       component: 'ApiTreeSelect',
@@ -36,21 +32,21 @@ export function useSchema(): VbenFormSchema[] {
         childrenField: 'children',
       },
       fieldName: 'pid',
-      label: $t('system.dept.parentDept'),
+      label: '上级部门',
     },
     {
       component: 'RadioGroup',
       componentProps: {
         buttonStyle: 'solid',
         options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 0 },
         ],
         optionType: 'button',
       },
       defaultValue: 1,
       fieldName: 'status',
-      label: $t('system.dept.status'),
+      label: '状态',
     },
     {
       component: 'Textarea',
@@ -60,10 +56,10 @@ export function useSchema(): VbenFormSchema[] {
         showCount: true,
       },
       fieldName: 'remark',
-      label: $t('system.dept.remark'),
+      label: '备注',
       rules: z
         .string()
-        .max(50, $t('ui.formRules.maxLength', [$t('system.dept.remark'), 50]))
+        .max(50,'备注}最多50个字符')
         .optional(),
     },
   ];
@@ -82,31 +78,31 @@ export function useColumns(
       align: 'left',
       field: 'name',
       fixed: 'left',
-      title: $t('system.dept.deptName'),
+      title: '部门名称',
       treeNode: true,
       width: 150,
     },
     {
       cellRender: { name: 'CellTag' },
       field: 'status',
-      title: $t('system.dept.status'),
+      title: '状态',
       width: 100,
     },
     {
       field: 'createTime',
-      title: $t('system.dept.createTime'),
+      title: '创建时间',
       width: 180,
     },
     {
       field: 'remark',
-      title: $t('system.dept.remark'),
+      title: '备注',
     },
     {
       align: 'right',
       cellRender: {
         attrs: {
           nameField: 'name',
-          nameTitle: $t('system.dept.name'),
+          nameTitle: '部门',
           onClick: onActionClick,
         },
         name: 'CellOperation',
@@ -128,7 +124,7 @@ export function useColumns(
       fixed: 'right',
       headerAlign: 'center',
       showOverflow: false,
-      title: $t('system.dept.operation'),
+      title: '操作',
       width: 200,
     },
   ];

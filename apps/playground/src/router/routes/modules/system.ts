@@ -1,13 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { $t } from '#/locales';
-
 const routes: RouteRecordRaw[] = [
   {
     meta: {
       icon: 'ion:settings-outline',
       order: 9997,
-      title: $t('system.title'),
+      title: '系统管理',
     },
     name: 'System',
     path: '/system',
@@ -17,7 +15,7 @@ const routes: RouteRecordRaw[] = [
         name: 'SystemRole',
         meta: {
           icon: 'mdi:account-group',
-          title: $t('system.role.title'),
+          title: '角色管理',
         },
         component: () => import('#/views/system/role/list.vue'),
       },
@@ -26,7 +24,7 @@ const routes: RouteRecordRaw[] = [
         name: 'SystemMenu',
         meta: {
           icon: 'mdi:menu',
-          title: $t('system.menu.title'),
+          title: '菜单管理',
         },
         component: () => import('#/views/system/menu/list.vue'),
       },
@@ -35,7 +33,7 @@ const routes: RouteRecordRaw[] = [
         name: 'SystemDept',
         meta: {
           icon: 'charm:organisation',
-          title: $t('system.dept.title'),
+          title: '部门管理',
         },
         component: () => import('#/views/system/dept/list.vue'),
       },

@@ -17,7 +17,6 @@ const defaultPreferences: Preferences = {
     enableRefreshToken: false,
     isMobile: false,
     layout: 'sidebar-nav',
-    locale: 'zh-CN',
     loginExpiredMode: 'page',
     name: 'Vben Admin',
     preferencesButtonPosition: 'auto',
@@ -109,7 +108,6 @@ const defaultPreferences: Preferences = {
   widget: {
     fullscreen: true,
     globalSearch: true,
-    languageToggle: true,
     lockScreen: true,
     notification: true,
     refresh: true,

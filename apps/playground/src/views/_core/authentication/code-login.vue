@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import type { VbenFormSchema } from '@vben/common-ui';
-import type { Recordable } from '@vben/types';
+import type {VbenFormSchema} from '@vben/common-ui';
+import {AuthenticationCodeLogin, z} from '@vben/common-ui';
+import type {Recordable} from '@vben/types';
 
-import { computed, ref, useTemplateRef } from 'vue';
+import {computed, ref, useTemplateRef} from 'vue';
 
-import { AuthenticationCodeLogin, z } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { message } from 'ant-design-vue';
+import {message} from 'ant-design-vue';
 
 defineOptions({ name: 'CodeLogin' });
 
@@ -17,14 +15,14 @@ const loginRef =
   useTemplateRef<InstanceType<typeof AuthenticationCodeLogin>>('loginRef');
 function sendCodeApi(phoneNumber: string) {
   message.loading({
-    content: $t('page.auth.sendingCode'),
+    content: '正在发送验证码',
     duration: 0,
     key: 'sending-code',
   });
   return new Promise((resolve) => {
     setTimeout(() => {
       message.success({
-        content: $t('page.auth.codeSentTo', [phoneNumber]),
+        content: `验证码已发送至${phoneNumber}`,
         duration: 3,
         key: 'sending-code',
       });
@@ -37,15 +35,15 @@ const formSchema = computed((): VbenFormSchema[] => {
     {
       component: 'VbenInput',
       componentProps: {
-        placeholder: $t('authentication.mobile'),
+        placeholder: '手机号码',
       },
       fieldName: 'phoneNumber',
-      label: $t('authentication.mobile'),
+      label: '手机号码',
       rules: z
         .string()
-        .min(1, { message: $t('authentication.mobileTip') })
+        .min(1, { message: '请输入手机号' })
         .refine((v) => /^\d{11}$/.test(v), {
-          message: $t('authentication.mobileErrortip'),
+          message: '手机号码格式错误',
         }),
     },
     {
@@ -53,11 +51,9 @@ const formSchema = computed((): VbenFormSchema[] => {
       componentProps: {
         codeLength: CODE_LENGTH,
         createText: (countdown: number) => {
-          const text =
-            countdown > 0
-              ? $t('authentication.sendText', [countdown])
-              : $t('authentication.sendCode');
-          return text;
+          return countdown > 0
+            ? `${countdown}秒后重新获取`
+            : '获取验证码';
         },
         handleSendCode: async () => {
           // 模拟发送验证码
@@ -78,12 +74,12 @@ const formSchema = computed((): VbenFormSchema[] => {
           await sendCodeApi(phoneNumber);
           loading.value = false;
         },
-        placeholder: $t('authentication.code'),
+        placeholder: '验证码',
       },
       fieldName: 'code',
-      label: $t('authentication.code'),
+      label: '验证码',
       rules: z.string().length(CODE_LENGTH, {
-        message: $t('authentication.codeTip', [CODE_LENGTH]),
+        message: `请输入${CODE_LENGTH}位验证码`,
       }),
     },
   ];

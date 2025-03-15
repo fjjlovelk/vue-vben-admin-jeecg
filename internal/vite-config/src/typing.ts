@@ -99,8 +99,6 @@ interface ApplicationPluginOptions extends CommonPluginOptions {
   extraAppConfig?: boolean;
   /** 是否开启html插件  */
   html?: boolean;
-  /** 是否开启i18n */
-  i18n?: boolean;
   /** 是否开启 importmap CDN  */
   importmap?: boolean;
   /** importmap 插件配置 */

@@ -14,7 +14,6 @@ import { Button, message, Modal } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteRole, getRoleList, updateRole } from '#/api';
-import { $t } from '#/locales';
 
 import { useColumns, useGridFormSchema } from './data';
 import Form from './modules/form.vue';
@@ -124,14 +123,14 @@ function onEdit(row: SystemRoleApi.SystemRole) {
 
 function onDelete(row: SystemRoleApi.SystemRole) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: `正在删除${row.name}...`,
     duration: 0,
     key: 'action_process_msg',
   });
   deleteRole(row.id)
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: `${row.name}删除成功`,
         key: 'action_process_msg',
       });
       onRefresh();
@@ -152,11 +151,11 @@ function onCreate() {
 <template>
   <Page auto-content-height>
     <FormDrawer />
-    <Grid :table-title="$t('system.role.list')">
+    <Grid table-title="角色列表">
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.role.name')]) }}
+          新增角色
         </Button>
       </template>
     </Grid>

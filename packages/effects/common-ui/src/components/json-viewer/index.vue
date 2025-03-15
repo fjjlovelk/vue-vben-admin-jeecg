@@ -14,8 +14,6 @@ import { computed, useAttrs } from 'vue';
 // @ts-ignore
 import VueJsonViewer from 'vue-json-viewer';
 
-import { $t } from '@vben/locales';
-
 import { isBoolean } from '@vben-core/shared/utils';
 
 defineOptions({ name: 'JsonViewer' });
@@ -70,8 +68,8 @@ function handleClick(event: MouseEvent) {
 
 const bindProps = computed<Recordable<any>>(() => {
   const copyable = {
-    copyText: $t('ui.jsonViewer.copy'),
-    copiedText: $t('ui.jsonViewer.copied'),
+    copyText: '复制',
+    copiedText: '已复制',
     timeout: 2000,
     ...(isBoolean(props.copyable) ? {} : props.copyable),
   };

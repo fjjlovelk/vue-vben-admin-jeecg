@@ -6,7 +6,6 @@ import type { MenuRecordRaw } from '@vben/types';
 import { computed, useSlots, watch } from 'vue';
 
 import { useRefresh } from '@vben/hooks';
-import { $t, i18n } from '@vben/locales';
 import {
   preferences,
   updatePreferences,
@@ -130,10 +129,10 @@ const {
 function wrapperMenus(menus: MenuRecordRaw[], deep: boolean = true) {
   return deep
     ? mapTree(menus, (item) => {
-        return { ...cloneDeep(item), name: $t(item.name) };
+        return { ...cloneDeep(item) };
       })
     : menus.map((item) => {
-        return { ...cloneDeep(item), name: $t(item.name) };
+        return { ...cloneDeep(item) };
       });
 }
 
@@ -161,10 +160,6 @@ watch(
     }
   },
 );
-
-// 语言更新后，刷新页面
-// i18n.global.locale会在preference.app.locale变更之后才会更新，因此watchpreference.app.locale是不合适的，刷新页面时可能语言配置尚未完全加载完成
-watch(i18n.global.locale, refresh, { flush: 'post' });
 
 const slots: SetupContext['slots'] = useSlots();
 const headerSlots = computed(() => {

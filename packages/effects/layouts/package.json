@@ -31,7 +31,6 @@
     "@vben/constants": "workspace:*",
     "@vben/hooks": "workspace:*",
     "@vben/icons": "workspace:*",
-    "@vben/locales": "workspace:*",
     "@vben/preferences": "workspace:*",
     "@vben/stores": "workspace:*",
     "@vben/types": "workspace:*",

@@ -11,7 +11,6 @@ import type { Recordable } from '@vben/types';
 import { defineComponent, getCurrentInstance, h, ref } from 'vue';
 
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
-import { $t } from '@vben/locales';
 
 import {
   AutoComplete,
@@ -49,7 +48,7 @@ const withDefaultPlaceholder = <T extends Component>(
       const placeholder =
         props?.placeholder ||
         attrs?.placeholder ||
-        $t(`ui.placeholder.${type}`);
+        type === 'input' ? '请输入' : '请选择';
       // 透传组件暴露的方法
       const innerRef = ref();
       const publicApi: Recordable<any> = {};
@@ -107,7 +106,7 @@ async function initComponentAdapter() {
       return h(
         ApiComponent,
         {
-          placeholder: $t('ui.placeholder.select'),
+          placeholder: '请选择',
           ...props,
           ...attrs,
           component: Select,
@@ -122,7 +121,7 @@ async function initComponentAdapter() {
       return h(
         ApiComponent,
         {
-          placeholder: $t('ui.placeholder.select'),
+          placeholder: '请选择',
           ...props,
           ...attrs,
           component: TreeSelect,

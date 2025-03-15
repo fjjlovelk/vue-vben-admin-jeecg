@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 import { Settings } from '@vben/icons';
-import { $t, loadLocaleMessages } from '@vben/locales';
+import { loadLocaleMessages } from '@vben/locales';
 import { preferences, updatePreferences } from '@vben/preferences';
 import { capitalizeFirstLetter } from '@vben/utils';
 
@@ -61,7 +61,7 @@ const listen = computed(() => {
     <div @click="() => drawerApi.open()">
       <slot>
         <VbenButton
-          :title="$t('preferences.title')"
+          title="偏好设置"
           class="bg-primary flex-col-center size-10 cursor-pointer rounded-l-lg rounded-r-none border-none"
         >
           <Settings class="size-5" />

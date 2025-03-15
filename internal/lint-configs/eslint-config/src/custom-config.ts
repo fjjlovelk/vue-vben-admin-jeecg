@@ -20,7 +20,6 @@ const customConfig: Linter.Config[] = [
       'packages/effects/**/**',
       'packages/utils/**/**',
       'packages/types/**/**',
-      'packages/locales/**/**',
     ],
     ignores: restrictedImportIgnores,
     rules: {
@@ -46,11 +45,6 @@ const customConfig: Linter.Config[] = [
               group: ['#/layouts/*'],
               message:
                 'The #/layouts package cannot be imported, please use the @core package itself',
-            },
-            {
-              group: ['#/locales/*'],
-              message:
-                'The #/locales package cannot be imported, please use the @core package itself',
             },
             {
               group: ['#/stores/*'],
@@ -112,7 +106,6 @@ const customConfig: Linter.Config[] = [
       'packages/styles/**/**',
       'packages/stores/**/**',
       'packages/preferences/**/**',
-      'packages/locales/**/**',
     ],
     ignores: restrictedImportIgnores,
     rules: {

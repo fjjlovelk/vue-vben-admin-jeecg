@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { LayoutType } from '@vben/types';
 
-import { $t } from '@vben/locales';
-
 import NumberFieldItem from '../number-field-item.vue';
 import SwitchItem from '../switch-item.vue';
 
@@ -22,23 +20,23 @@ const sidebarExpandOnHover = defineModel<boolean>('sidebarExpandOnHover');
 
 <template>
   <SwitchItem v-model="sidebarEnable" :disabled="disabled">
-    {{ $t('preferences.sidebar.visible') }}
+    显示侧边栏
   </SwitchItem>
   <SwitchItem v-model="sidebarCollapsed" :disabled="!sidebarEnable || disabled">
-    {{ $t('preferences.sidebar.collapsed') }}
+    折叠菜单
   </SwitchItem>
   <SwitchItem
     v-model="sidebarExpandOnHover"
     :disabled="!sidebarEnable || disabled || !sidebarCollapsed"
-    :tip="$t('preferences.sidebar.expandOnHoverTip')"
+    tip="鼠标在折叠区域悬浮时，`启用`则展开当前子菜单，`禁用`则展开整个侧边栏"
   >
-    {{ $t('preferences.sidebar.expandOnHover') }}
+    鼠标悬停展开
   </SwitchItem>
   <SwitchItem
     v-model="sidebarCollapsedShowTitle"
     :disabled="!sidebarEnable || disabled || !sidebarCollapsed"
   >
-    {{ $t('preferences.sidebar.collapsedShowTitle') }}
+    折叠显示菜单名
   </SwitchItem>
   <SwitchItem
     v-model="sidebarAutoActivateChild"
@@ -49,9 +47,9 @@ const sidebarExpandOnHover = defineModel<boolean>('sidebarExpandOnHover');
       ) ||
       disabled
     "
-    :tip="$t('preferences.sidebar.autoActivateChildTip')"
+    tip="点击顶层菜单时,自动激活第一个子菜单或者上一次激活的子菜单"
   >
-    {{ $t('preferences.sidebar.autoActivateChild') }}
+    自动激活子菜单
   </SwitchItem>
   <NumberFieldItem
     v-model="sidebarWidth"
@@ -60,6 +58,6 @@ const sidebarExpandOnHover = defineModel<boolean>('sidebarExpandOnHover');
     :min="160"
     :step="10"
   >
-    {{ $t('preferences.sidebar.width') }}
+    宽度
   </NumberFieldItem>
 </template>

@@ -16,8 +16,6 @@ import type {
   ThemeModeType,
 } from '@vben-core/typings';
 
-type SupportedLanguagesType = 'en-US' | 'zh-CN';
-
 interface AppPreferences {
   /** 权限模式 */
   accessMode: AccessModeType;
@@ -49,8 +47,6 @@ interface AppPreferences {
   isMobile: boolean;
   /** 布局方式 */
   layout: LayoutType;
-  /** 支持的语言 */
-  locale: SupportedLanguagesType;
   /** 登录过期模式 */
   loginExpiredMode: LoginExpiredModeType;
   /** 应用名 */
@@ -223,8 +219,6 @@ interface WidgetPreferences {
   fullscreen: boolean;
   /** 是否启用全局搜索部件 */
   globalSearch: boolean;
-  /** 是否启用语言切换部件 */
-  languageToggle: boolean;
   /** 是否开启锁屏功能 */
   lockScreen: boolean;
   /** 是否显示通知部件 */
@@ -284,7 +278,6 @@ export type {
   PreferencesKeys,
   ShortcutKeyPreferences,
   SidebarPreferences,
-  SupportedLanguagesType,
   TabbarPreferences,
   ThemePreferences,
   TransitionPreferences,

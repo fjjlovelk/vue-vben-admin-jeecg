@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { MdiGithub, MdiGoogle, MdiQqchat, MdiWechat } from '@vben/icons';
-import { $t } from '@vben/locales';
 
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
@@ -14,7 +13,7 @@ defineOptions({
     <div class="mt-4 flex items-center justify-between">
       <span class="border-input w-[35%] border-b dark:border-gray-600"></span>
       <span class="text-muted-foreground text-center text-xs uppercase">
-        {{ $t('authentication.thirdPartyLogin') }}
+        其他登录方式
       </span>
       <span class="border-input w-[35%] border-b dark:border-gray-600"></span>
     </div>

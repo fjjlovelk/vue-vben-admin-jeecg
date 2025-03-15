@@ -6,7 +6,6 @@ import { computed, nextTick, provide, ref, useId, watch } from 'vue';
 import {
   useIsMobile,
   usePriorityValues,
-  useSimpleLocale,
 } from '@vben-core/composables';
 import { Expand, Shrink } from '@vben-core/icons';
 import {
@@ -49,7 +48,6 @@ const id = useId();
 
 provide('DISMISSABLE_MODAL_ID', id);
 
-const { $t } = useSimpleLocale();
 const { isMobile } = useIsMobile();
 const state = props.modalApi?.useStore?.();
 
@@ -299,7 +297,7 @@ const getAppendTo = computed(() => {
             @click="() => modalApi?.onCancel()"
           >
             <slot name="cancelText">
-              {{ cancelText || $t('cancel') }}
+              {{ cancelText || '取消' }}
             </slot>
           </component>
 
@@ -311,7 +309,7 @@ const getAppendTo = computed(() => {
             @click="() => modalApi?.onConfirm()"
           >
             <slot name="confirmText">
-              {{ confirmText || $t('confirm') }}
+              {{ confirmText || '确认' }}
             </slot>
           </component>
         </slot>

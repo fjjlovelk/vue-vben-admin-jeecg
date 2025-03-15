@@ -12,7 +12,6 @@ import { Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteDept, getDeptList } from '#/api/system/dept';
-import { $t } from '#/locales';
 
 import { useColumns } from './data';
 import Form from './modules/form.vue';
@@ -51,14 +50,14 @@ function onCreate() {
  */
 function onDelete(row: SystemDeptApi.SystemDept) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: `正在删除${row.name}...`,
     duration: 0,
     key: 'action_process_msg',
   });
   deleteDept(row.id)
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: `${row.name}删除成功`,
         key: 'action_process_msg',
       });
       refreshGrid();
@@ -135,7 +134,7 @@ function refreshGrid() {
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.dept.name')]) }}
+          新增部门
         </Button>
       </template>
     </Grid>

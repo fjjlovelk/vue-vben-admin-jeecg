@@ -17,7 +17,6 @@ import { defaultPreferences } from './config';
 import { updateCSSVariables } from './update-css-variables';
 
 const STORAGE_KEY = 'preferences';
-const STORAGE_KEY_LOCALE = `${STORAGE_KEY}-locale`;
 const STORAGE_KEY_THEME = `${STORAGE_KEY}-theme`;
 
 class PreferenceManager {
@@ -40,7 +39,7 @@ class PreferenceManager {
   }
 
   clearCache() {
-    [STORAGE_KEY, STORAGE_KEY_LOCALE, STORAGE_KEY_THEME].forEach((key) => {
+    [STORAGE_KEY, STORAGE_KEY_THEME].forEach((key) => {
       this.cache?.removeItem(key);
     });
   }
@@ -91,10 +90,10 @@ class PreferenceManager {
    * 偏好设置将被重置为初始值，并从 localStorage 中移除。
    *
    * @example
-   * 假设 initialPreferences 为 { theme: 'light', language: 'en' }
-   * 当前 state 为 { theme: 'dark', language: 'fr' }
+   * 假设 initialPreferences 为 { theme: 'light' }
+   * 当前 state 为 { theme: 'dark' }
    * this.resetPreferences();
-   * 调用后，state 将被重置为 { theme: 'light', language: 'en' }
+   * 调用后，state 将被重置为 { theme: 'light' }
    * 并且 localStorage 中的对应项将被移除
    */
   resetPreferences() {
@@ -103,7 +102,7 @@ class PreferenceManager {
     // 保存重置后的偏好设置
     this.savePreferences(this.state);
     // 从存储中移除偏好设置项
-    [STORAGE_KEY, STORAGE_KEY_THEME, STORAGE_KEY_LOCALE].forEach((key) => {
+    [STORAGE_KEY, STORAGE_KEY_THEME].forEach((key) => {
       this.cache?.removeItem(key);
     });
     this.updatePreferences(this.state);
@@ -129,7 +128,6 @@ class PreferenceManager {
    */
   private _savePreferences(preference: Preferences) {
     this.cache?.setItem(STORAGE_KEY, preference);
-    this.cache?.setItem(STORAGE_KEY_LOCALE, preference.app.locale);
     this.cache?.setItem(STORAGE_KEY_THEME, preference.theme.mode);
   }
 

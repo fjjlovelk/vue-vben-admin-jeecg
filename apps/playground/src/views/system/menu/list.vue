@@ -6,7 +6,6 @@ import type {
 
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon, Plus } from '@vben/icons';
-import { $t } from '@vben/locales';
 
 import { MenuBadge } from '@vben-core/menu-ui';
 
@@ -93,14 +92,14 @@ function onAppend(row: SystemMenuApi.SystemMenu) {
 
 function onDelete(row: SystemMenuApi.SystemMenu) {
   const hideLoading = message.loading({
-    content: $t('ui.actionMessage.deleting', [row.name]),
+    content: `正在删除${row.name}...`,
     duration: 0,
     key: 'action_process_msg',
   });
   deleteMenu(row.id)
     .then(() => {
       message.success({
-        content: $t('ui.actionMessage.deleteSuccess', [row.name]),
+        content: `${row.name}删除成功`,
         key: 'action_process_msg',
       });
       onRefresh();
@@ -117,7 +116,7 @@ function onDelete(row: SystemMenuApi.SystemMenu) {
       <template #toolbar-tools>
         <Button type="primary" @click="onCreate">
           <Plus class="size-5" />
-          {{ $t('ui.actionTitle.create', [$t('system.menu.name')]) }}
+          新增菜单
         </Button>
       </template>
       <template #title="{ row }">
@@ -134,7 +133,7 @@ function onDelete(row: SystemMenuApi.SystemMenu) {
               class="size-full"
             />
           </div>
-          <span class="flex-auto">{{ $t(row.meta?.title) }}</span>
+          <span class="flex-auto">{{ row.meta?.title }}</span>
           <div class="items-center justify-end"></div>
         </div>
         <MenuBadge

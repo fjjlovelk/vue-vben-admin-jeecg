@@ -69,8 +69,8 @@ function calcZIndex() {
         :show-forget-password="false"
         :show-register="false"
         :show-remember-me="false"
-        :sub-title="$t('authentication.loginAgainSubTitle')"
-        :title="$t('authentication.loginAgainTitle')"
+        sub-title="您的登录状态已过期，请重新登录以继续。"
+        title="重新登录"
       >
         <slot> </slot>
       </Slot>

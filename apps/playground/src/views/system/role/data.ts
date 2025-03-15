@@ -2,14 +2,12 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { SystemRoleApi } from '#/api';
 
-import { $t } from '#/locales';
-
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.role.roleName'),
+      label: '角色名称',
       rules: 'required',
     },
     {
@@ -17,25 +15,25 @@ export function useFormSchema(): VbenFormSchema[] {
       componentProps: {
         buttonStyle: 'solid',
         options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 0 },
         ],
         optionType: 'button',
       },
       defaultValue: 1,
       fieldName: 'status',
-      label: $t('system.role.status'),
+      label: '状态',
     },
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: $t('system.role.remark'),
+      label: '备注',
     },
     {
       component: 'Input',
       fieldName: 'permissions',
       formItemClass: 'items-start',
-      label: $t('system.role.setPermissions'),
+      label: '授权',
       modelPropName: 'modelValue',
     },
   ];
@@ -46,30 +44,30 @@ export function useGridFormSchema(): VbenFormSchema[] {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('system.role.roleName'),
+      label: '角色名称',
     },
-    { component: 'Input', fieldName: 'id', label: $t('system.role.id') },
+    { component: 'Input', fieldName: 'id', label: '角色ID' },
     {
       component: 'Select',
       componentProps: {
         allowClear: true,
         options: [
-          { label: $t('common.enabled'), value: 1 },
-          { label: $t('common.disabled'), value: 0 },
+          { label: '已启用', value: 1 },
+          { label: '已禁用', value: 0 },
         ],
       },
       fieldName: 'status',
-      label: $t('system.role.status'),
+      label: '状态',
     },
     {
       component: 'Input',
       fieldName: 'remark',
-      label: $t('system.role.remark'),
+      label: '备注',
     },
     {
       component: 'RangePicker',
       fieldName: 'createTime',
-      label: $t('system.role.createTime'),
+      label: '创建时间',
     },
   ];
 }
@@ -81,12 +79,12 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
   return [
     {
       field: 'name',
-      title: $t('system.role.roleName'),
+      title: '角色名称',
       width: 200,
     },
     {
       field: 'id',
-      title: $t('system.role.id'),
+      title: '角色ID',
       width: 200,
     },
     {
@@ -95,17 +93,17 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
         name: onStatusChange ? 'CellSwitch' : 'CellTag',
       },
       field: 'status',
-      title: $t('system.role.status'),
+      title: '状态',
       width: 100,
     },
     {
       field: 'remark',
       minWidth: 100,
-      title: $t('system.role.remark'),
+      title: '备注',
     },
     {
       field: 'createTime',
-      title: $t('system.role.createTime'),
+      title: '创建时间',
       width: 200,
     },
     {
@@ -113,14 +111,14 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       cellRender: {
         attrs: {
           nameField: 'name',
-          nameTitle: $t('system.role.name'),
+          nameTitle: '角色',
           onClick: onActionClick,
         },
         name: 'CellOperation',
       },
       field: 'operation',
       fixed: 'right',
-      title: $t('system.role.operation'),
+      title: '操作',
       width: 130,
     },
   ];

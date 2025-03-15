@@ -1,23 +1,21 @@
 import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { SystemMenuApi } from '#/api/system/menu';
 
-import { $t } from '#/locales';
-
 export function getMenuTypeOptions() {
   return [
     {
       color: 'processing',
-      label: $t('system.menu.typeCatalog'),
+      label: '目录',
       value: 'catalog',
     },
-    { color: 'default', label: $t('system.menu.typeMenu'), value: 'menu' },
-    { color: 'error', label: $t('system.menu.typeButton'), value: 'button' },
+    { color: 'default', label: '菜单', value: 'menu' },
+    { color: 'error', label: '按钮', value: 'button' },
     {
       color: 'success',
-      label: $t('system.menu.typeEmbedded'),
+      label: '内嵌',
       value: 'embedded',
     },
-    { color: 'warning', label: $t('system.menu.typeLink'), value: 'link' },
+    { color: 'warning', label: '外链', value: 'link' },
   ];
 }
 
@@ -30,7 +28,7 @@ export function useColumns(
       field: 'meta.title',
       fixed: 'left',
       slots: { default: 'title' },
-      title: $t('system.menu.menuTitle'),
+      title: '标题',
       treeNode: true,
       width: 250,
     },
@@ -38,18 +36,18 @@ export function useColumns(
       align: 'center',
       cellRender: { name: 'CellTag', options: getMenuTypeOptions() },
       field: 'type',
-      title: $t('system.menu.type'),
+      title: '类型',
       width: 100,
     },
     {
       field: 'authCode',
-      title: $t('system.menu.authCode'),
+      title: '权限标识',
       width: 200,
     },
     {
       align: 'left',
       field: 'path',
-      title: $t('system.menu.path'),
+      title: '路由地址',
       width: 200,
     },
 
@@ -72,12 +70,12 @@ export function useColumns(
         return '';
       },
       minWidth: 200,
-      title: $t('system.menu.component'),
+      title: '页面组件',
     },
     {
       cellRender: { name: 'CellTag' },
       field: 'status',
-      title: $t('system.menu.status'),
+      title: '状态',
       width: 100,
     },
 
@@ -102,7 +100,7 @@ export function useColumns(
       fixed: 'right',
       headerAlign: 'center',
       showOverflow: false,
-      title: $t('system.menu.operation'),
+      title: '操作',
       width: 200,
     },
   ];

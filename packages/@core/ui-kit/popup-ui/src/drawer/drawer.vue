@@ -6,7 +6,6 @@ import { computed, provide, ref, useId, watch } from 'vue';
 import {
   useIsMobile,
   usePriorityValues,
-  useSimpleLocale,
 } from '@vben-core/composables';
 import { X } from '@vben-core/icons';
 import {
@@ -46,7 +45,6 @@ const id = useId();
 provide('DISMISSABLE_DRAWER_ID', id);
 
 const wrapperRef = ref<HTMLElement>();
-const { $t } = useSimpleLocale();
 const { isMobile } = useIsMobile();
 
 const state = props.drawerApi?.useStore?.();
@@ -271,7 +269,7 @@ const getAppendTo = computed(() => {
             @click="() => drawerApi?.onCancel()"
           >
             <slot name="cancelText">
-              {{ cancelText || $t('cancel') }}
+              {{ cancelText || '取消' }}
             </slot>
           </component>
 
@@ -282,7 +280,7 @@ const getAppendTo = computed(() => {
             @click="() => drawerApi?.onConfirm()"
           >
             <slot name="confirmText">
-              {{ confirmText || $t('confirm') }}
+              {{ confirmText || '确认' }}
             </slot>
           </component>
         </slot>

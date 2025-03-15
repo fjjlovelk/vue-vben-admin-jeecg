@@ -34,7 +34,6 @@ import {
   // VxeSwitch,
   // VxeTextarea,
 } from 'vxe-pc-ui';
-import enUS from 'vxe-pc-ui/lib/language/en-US';
 // 导入默认的语言
 import zhCN from 'vxe-pc-ui/lib/language/zh-CN';
 import {
@@ -96,6 +95,8 @@ export function initVxeTable() {
   // VxeUI.component(VxeTextarea);
   VxeUI.component(VxeTooltip);
   VxeUI.component(VxeUpload);
+  VxeUI.setI18n('zh-CN', zhCN);
+  VxeUI.setLanguage('zh-CN');
 
   isInit = true;
 }
@@ -108,17 +109,10 @@ export function setupVbenVxeTable(setupOptions: SetupVxeTable) {
 
   const preference = usePreferences();
 
-  const localMap = {
-    'zh-CN': zhCN,
-    'en-US': enUS,
-  };
-
   watch(
-    [() => preference.theme.value, () => preference.locale.value],
-    ([theme, locale]) => {
+    [() => preference.theme.value],
+    ([theme]) => {
       VxeUI.setTheme(theme === 'dark' ? 'dark' : 'light');
-      VxeUI.setI18n(locale, localMap[locale]);
-      VxeUI.setLanguage(locale);
     },
     {
       immediate: true,
