@@ -41,6 +41,7 @@
     "ant-design-vue": "catalog:",
     "crypto-js": "catalog:",
     "dayjs": "catalog:",
+    "lodash.clonedeep": "catalog:",
     "md5": "catalog:",
     "pinia": "catalog:",
     "print-js": "catalog:",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "catalog:",
+    "@types/lodash.clonedeep": "catalog:",
     "@types/qs": "catalog:"
   }
 }

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { SystemMenuApi } from '#/api';
 import type { PermissionMenuItem } from '#/views/system/menu/menu.types';
 
 import { computed, ref } from 'vue';
 
 import { useAntdForm, useVbenDrawer } from '@vben/common-ui';
+import { getViewType, ViewType } from '@vben/constants';
 
 import { message } from 'ant-design-vue';
 
@@ -20,8 +20,9 @@ const emit = defineEmits<{
 }>();
 
 const formId = ref<string>();
+const viewType = ref<ViewType>(ViewType.Add);
 
-const drawerTitle = computed(() => (formId.value ? '编辑角色' : '新增角色'));
+const drawerTitle = computed(() => `${getViewType(viewType.value)}角色`);
 
 const [Form, formApi] = useAntdForm(roleDrawerFormConfig);
 const [Drawer, drawerApi] = useVbenDrawer({
@@ -30,8 +31,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (!isOpen) {
       return;
     }
-    const values = drawerApi.getData<SystemMenuApi.GetPermissionListResult>();
-    if (values) {
+    const values = drawerApi.getData();
+    viewType.value = values.viewType;
+    if (viewType.value === ViewType.Edit) {
       formApi.setValues(values);
       formId.value = values.id;
     }
@@ -45,12 +47,9 @@ async function handleSubmit() {
     return;
   }
   try {
-    drawerApi.setState({
-      confirmLoading: true,
-      loading: true,
-    });
+    drawerApi.lock();
     const values = await formApi.getValues<Partial<PermissionMenuItem>>();
-    if (formId.value) {
+    if (viewType.value === ViewType.Edit) {
       values.id = formId.value;
       await editPermissionApi(values);
     } else {
@@ -60,10 +59,7 @@ async function handleSubmit() {
     emit('success');
     drawerApi.close();
   } finally {
-    drawerApi.setState({
-      confirmLoading: false,
-      loading: false,
-    });
+    drawerApi.unlock();
   }
 }
 </script>

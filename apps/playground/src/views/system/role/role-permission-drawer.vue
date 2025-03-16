@@ -50,10 +50,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 // 初始化数据
 async function initData() {
   try {
-    drawerApi.setState({
-      confirmLoading: true,
-      loading: true,
-    });
+    drawerApi.lock();
     const { treeList } = await getRoleTreeListApi();
     treeData.value = treeList || [];
     const keys = await getRolePermissionApi({
@@ -62,20 +59,14 @@ async function initData() {
     originKeys.value = [...keys];
     checkedKeys.value.checked = [...keys];
   } finally {
-    drawerApi.setState({
-      confirmLoading: false,
-      loading: false,
-    });
+    drawerApi.unlock();
   }
 }
 
 // 表单提交
 async function handleSubmit() {
   try {
-    drawerApi.setState({
-      confirmLoading: true,
-      loading: true,
-    });
+    drawerApi.lock();
     await saveRolePermissionApi({
       lastpermissionIds: originKeys.value.join(','),
       permissionIds: checkedKeys.value.checked.join(','),
@@ -85,10 +76,7 @@ async function handleSubmit() {
     emit('success');
     drawerApi.close();
   } finally {
-    drawerApi.setState({
-      confirmLoading: false,
-      loading: false,
-    });
+    drawerApi.unlock();
   }
 }
 </script>

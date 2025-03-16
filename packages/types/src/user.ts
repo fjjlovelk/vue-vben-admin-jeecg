@@ -1,31 +1,41 @@
-/** 用户信息 */
-type UserInfo = {
+/** 基础用户信息 */
+interface BasicUserInfo {
   // 同步工作流引擎1同步0不同步
   activitiSync: 0 | 1;
   avatar: string;
+  birthday: null | string;
+  departIds: string;
+  email: string;
+  id: string;
+  phone: string;
+  post: string;
+  realname: string;
+  sex: 1 | 2;
+  telephone: string;
+  // 身份（1 普通成员 2 上级）
+  userIdentity: 1 | 2;
+  username: string;
+  workNo: string;
+}
+
+/** 用户信息 */
+interface UserInfo extends BasicUserInfo {
+  relTenantIds: string;
   createBy: string;
   createTime: string;
   // 删除状态（0，正常，1已删除）
   delFlag: 0 | 1;
   departName: string;
-  email?: string;
   homePath?: string;
-  id: string;
   orgCode: string;
   orgCodeTxt: string;
-  phone: string;
-  realname: string;
-  relTenantIds: string;
+  sex_dictText: string;
   // 状态(1：正常  2：冻结 ）
   status: 1 | 2;
-  // 座机号
-  telephone: string;
+  status_dictText: string;
   updateBy: string;
   updateTime: string;
-  // 身份（0 普通成员 1 上级）
-  userIdentity: 0 | 1;
-  username: string;
-};
+}
 
 // 操作权限
 type ActionAuth = {
@@ -35,4 +45,4 @@ type ActionAuth = {
   type: string;
 };
 
-export type { ActionAuth, UserInfo };
+export type { ActionAuth, BasicUserInfo, UserInfo };

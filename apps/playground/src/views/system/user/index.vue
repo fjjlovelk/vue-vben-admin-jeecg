@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { ActionItem, VxeGridProps } from '@vben/common-ui';
-
-import type { SystemRoleApi } from '#/api';
+import type { UserInfo } from '@vben/types';
 
 import {
   MoreAction,
@@ -13,17 +12,16 @@ import { ViewType } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deleteRoleApi, getRoleListApi } from '#/api';
+import { deleteUserApi, getUserListApi } from '#/api';
 
-import RoleDrawer from './role-drawer.vue';
-import RolePermissionDrawer from './role-permission-drawer.vue';
-import { roleColumns, roleQueryFormConfig } from './role.data';
+import UserDrawer from './user-drawer.vue';
+import { userColumns, userQueryFormConfig } from './user.data';
 
 defineOptions({
-  name: 'SystemRole',
+  name: 'SystemUser',
 });
 
-const gridOptions: VxeGridProps<SystemRoleApi.GetRoleListResult> = {
+const gridOptions: VxeGridProps<UserInfo> = {
   keepSource: true,
   toolbarConfig: {
     slots: {
@@ -33,39 +31,33 @@ const gridOptions: VxeGridProps<SystemRoleApi.GetRoleListResult> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) =>
-        await getRoleListApi({
+        await getUserListApi({
           pageNo: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
         }),
     },
   },
-  columns: roleColumns,
+  columns: userColumns,
 };
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: roleQueryFormConfig,
+  formOptions: userQueryFormConfig,
   gridOptions,
 });
 
-// 新增、编辑角色
-const [RoleDrawerCom, roleDrawerApi] = useVbenDrawer({
-  connectedComponent: RoleDrawer,
-  destroyOnClose: true,
-});
-
-// 授权
-const [RolePermissionDrawerCom, rolePermissionDrawerApi] = useVbenDrawer({
-  connectedComponent: RolePermissionDrawer,
+// 新增、编辑用户
+const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
+  connectedComponent: UserDrawer,
   destroyOnClose: true,
 });
 
 // 表格内部更多按钮
-function getActions(row: SystemRoleApi.GetRoleListResult): ActionItem[] {
+function getActions(row: UserInfo): ActionItem[] {
   return [
     {
-      label: '编辑',
-      onClick: handleEdit.bind(null, row),
+      label: '详情',
+      onClick: handleView.bind(null, row),
     },
     {
       label: '删除',
@@ -80,33 +72,33 @@ function handleRefresh() {
   gridApi.query();
 }
 
-// 新增角色
+// 新增用户
 function handleAdd() {
-  roleDrawerApi.setData({ viewType: ViewType.Add }).open();
+  userDrawerApi.setData({ viewType: ViewType.Add }).open();
 }
 
-// 授权
-function handlePermission(row: SystemRoleApi.GetRoleListResult) {
-  rolePermissionDrawerApi.setData(row).open();
+// 编辑用户
+function handleEdit(row: UserInfo) {
+  userDrawerApi.setData({ ...row, viewType: ViewType.Edit }).open();
 }
 
-// 编辑角色
-function handleEdit(row: SystemRoleApi.GetRoleListResult) {
-  roleDrawerApi.setData({ ...row, viewType: ViewType.Edit }).open();
+// 查看用户
+function handleView(row: UserInfo) {
+  userDrawerApi.setData({ ...row, viewType: ViewType.View }).open();
 }
 
 // 删除
-function handleDelete(row: SystemRoleApi.GetRoleListResult) {
+function handleDelete(row: UserInfo) {
   Modal.confirm({
     title: '提示',
-    content: '确认删除该角色吗？',
+    content: '确认删除该用户吗？',
     onOk() {
       const hideLoading = message.loading({
         content: '正在删除',
         duration: 0,
         key: 'action_process_msg',
       });
-      deleteRoleApi({ id: row.id as string })
+      deleteUserApi({ id: row.id as string })
         .then(() => {
           message.success({
             content: '删除成功',
@@ -126,20 +118,19 @@ function handleDelete(row: SystemRoleApi.GetRoleListResult) {
   <Page auto-content-height>
     <Grid>
       <template #toolbar_buttons>
-        <a-button type="primary" @click="handleAdd">新增角色</a-button>
+        <a-button type="primary" @click="handleAdd">新增用户</a-button>
+      </template>
+      <template #avatar="{ row }">
+        <a-avatar v-if="row.avatar" :src="row.avatar" />
       </template>
       <template #action="{ row }">
         <a-button type="link" @click="handleEdit(row)" size="small">
-          用户
-        </a-button>
-        <a-button type="link" @click="handlePermission(row)" size="small">
-          授权
+          编辑
         </a-button>
         <MoreAction :actions="getActions(row)" />
       </template>
     </Grid>
-    <RoleDrawerCom @success="handleRefresh" />
-    <RolePermissionDrawerCom />
+    <UserDrawerCom @success="handleRefresh" />
   </Page>
 </template>
 

@@ -48,8 +48,8 @@ const defaultPreferences: Preferences = {
     mode: 'fixed',
   },
   logo: {
-    enable: false,
-    source: '',
+    enable: true,
+    source: '/favicon.ico',
   },
   navigation: {
     accordion: true,

@@ -63,6 +63,13 @@ export async function getRoleTreeListApi() {
   );
 }
 
+// 根据租户获取角色列表
+export async function getRoleListByTenantApi() {
+  return requestClient.get<SystemRoleApi.GetRoleListResult[]>(
+    '/api/sys/role/queryallNoByTenant',
+  );
+}
+
 // 获取角色权限
 export async function getRolePermissionApi(params: { roleId: string }) {
   return requestClient.get<string[]>(

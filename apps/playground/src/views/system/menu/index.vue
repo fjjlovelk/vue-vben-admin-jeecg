@@ -9,6 +9,7 @@ import {
   useVbenDrawer,
   useVbenVxeGrid,
 } from '@vben/common-ui';
+import { ViewType } from '@vben/constants';
 import { IconifyIcon } from '@vben/icons';
 
 import { message, Modal } from 'ant-design-vue';
@@ -86,12 +87,12 @@ function handleRefresh() {
 
 // 新增菜单
 function handleAdd() {
-  menuDrawerApi.open();
+  menuDrawerApi.setData({ viewType: ViewType.Add }).open();
 }
 
 // 编辑菜单
 function handleEdit(row: SystemMenuApi.GetPermissionListResult) {
-  menuDrawerApi.setData<SystemMenuApi.GetPermissionListResult>(row).open();
+  menuDrawerApi.setData({ ...row, viewType: ViewType.View }).open();
 }
 
 // 添加下级

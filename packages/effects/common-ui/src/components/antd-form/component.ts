@@ -67,7 +67,11 @@ const withDefaultPlaceholder = <T extends Component>(
         }
       });
       return () =>
-        h(component, { ...props, ...attrs, placeholder, ref: innerRef }, slots);
+        h(
+          component,
+          { allowClear: true, ...props, ...attrs, placeholder, ref: innerRef },
+          slots,
+        );
     },
   });
 };
@@ -118,6 +122,7 @@ async function initComponentAdapter() {
         ApiComponent,
         {
           placeholder: '请选择',
+          allowClear: true,
           ...props,
           ...attrs,
           component: Select,
@@ -133,6 +138,7 @@ async function initComponentAdapter() {
         ApiComponent,
         {
           placeholder: '请选择',
+          allowClear: true,
           ...props,
           ...attrs,
           component: TreeSelect,
