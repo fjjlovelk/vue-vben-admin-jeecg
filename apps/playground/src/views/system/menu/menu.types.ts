@@ -9,7 +9,7 @@ export interface PermissionMenuItem {
   id?: string;
   internalOrExternal: boolean;
   keepAlive: boolean;
-  menuType: number;
+  menuType: 0 | 1 | 2;
   name: string;
   parentId: null | string;
   perms: null | string;

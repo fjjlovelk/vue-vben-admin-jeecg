@@ -4,6 +4,17 @@ import type { SystemMenuApi } from '#/api/system/menu';
 
 import { getPermissionListApi } from '#/api/system/menu';
 
+// 菜单列表查询表单
+export const menuQueryFormConfig: AntdFormProps = {
+  schema: [
+    {
+      component: 'Input',
+      label: '菜单名称',
+      fieldName: 'name',
+    },
+  ],
+};
+
 // 菜单列表column
 export const menuColumns: VxeTableGridOptions<SystemMenuApi.GetPermissionListResult>['columns'] =
   [
@@ -67,7 +78,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType === 1 || values.menuType === 2,
+        show: (values) => values.menuType === 1 || values.menuType === 2,
       },
     },
     {
@@ -78,7 +89,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       component: 'Input',
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -89,7 +100,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       component: 'Input',
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType === 2,
+        show: (values) => values.menuType === 2,
       },
     },
     {
@@ -106,7 +117,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType === 2,
+        show: (values) => values.menuType === 2,
       },
     },
     {
@@ -122,7 +133,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType === 2,
+        show: (values) => values.menuType === 2,
       },
     },
     {
@@ -133,7 +144,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       component: 'Input',
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -143,7 +154,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       component: 'Input',
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -153,7 +164,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       defaultValue: '',
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType === 0,
+        show: (values) => values.menuType === 0,
       },
     },
     {
@@ -163,10 +174,11 @@ export const menuDrawerFormConfig: AntdFormProps = {
       defaultValue: '',
       componentProps: {
         prefix: 'carbon',
+        class: 'w-full',
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -179,7 +191,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -193,7 +205,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -209,7 +221,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -225,7 +237,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -239,7 +251,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -253,7 +265,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
     {
@@ -267,7 +279,7 @@ export const menuDrawerFormConfig: AntdFormProps = {
       },
       dependencies: {
         triggerFields: ['menuType'],
-        if: (values) => values.menuType !== 2,
+        show: (values) => values.menuType !== 2,
       },
     },
   ],

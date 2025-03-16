@@ -49,7 +49,7 @@ function handleItemClick(item: ActionItem) {
 
 <template>
   <Dropdown arrow>
-    <Button type="link" @click.prevent>
+    <Button type="link" @click.prevent size="small">
       更多
       <IconifyIcon icon="ant-design:down-outlined" />
     </Button>

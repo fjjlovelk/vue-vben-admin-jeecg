@@ -10,10 +10,10 @@ import { message } from 'ant-design-vue';
 
 import { addPermissionApi, editPermissionApi } from '#/api';
 
-import { menuDrawerFormConfig } from './menu.data';
+import { roleDrawerFormConfig } from './role.data';
 
 defineOptions({
-  name: 'MenuDrawer',
+  name: 'RoleDrawer',
 });
 const emit = defineEmits<{
   success: [];
@@ -21,9 +21,9 @@ const emit = defineEmits<{
 
 const formId = ref<string>();
 
-const drawerTitle = computed(() => (formId.value ? '编辑菜单' : '新增菜单'));
+const drawerTitle = computed(() => (formId.value ? '编辑角色' : '新增角色'));
 
-const [Form, formApi] = useAntdForm(menuDrawerFormConfig);
+const [Form, formApi] = useAntdForm(roleDrawerFormConfig);
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,
   onOpenChange(isOpen) {
@@ -49,34 +49,7 @@ async function handleSubmit() {
       confirmLoading: true,
       loading: true,
     });
-    let values = await formApi.getValues<Partial<PermissionMenuItem>>();
-    switch (values.menuType) {
-      case 0: {
-        values.parentId = undefined;
-        values.perms = undefined;
-        values.permsType = undefined;
-        values.status = undefined;
-        break;
-      }
-      case 1: {
-        values.redirect = undefined;
-        values.perms = undefined;
-        values.permsType = undefined;
-        values.status = undefined;
-        break;
-      }
-      case 2: {
-        values = {
-          menuType: 2,
-          name: values.name,
-          parentId: values.parentId,
-          perms: values.perms,
-          permsType: values.permsType,
-          status: values.status,
-        };
-        break;
-      }
-    }
+    const values = await formApi.getValues<Partial<PermissionMenuItem>>();
     if (formId.value) {
       values.id = formId.value;
       await editPermissionApi(values);

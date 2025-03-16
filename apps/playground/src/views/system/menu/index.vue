@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem, AntdFormProps, VxeGridProps } from '@vben/common-ui';
+import type { ActionItem, VxeGridProps } from '@vben/common-ui';
 
 import type { SystemMenuApi } from '#/api/system/menu';
 
@@ -11,26 +11,16 @@ import {
 } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
-import { message } from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 
 import { deletePermissionApi, getPermissionListApi } from '#/api/system/menu';
-import { menuColumns } from '#/views/system/menu/data';
 
 import MenuDrawer from './menu-drawer.vue';
+import { menuColumns, menuQueryFormConfig } from './menu.data';
 
 defineOptions({
-  name: 'Menu',
+  name: 'SystemMenu',
 });
-
-const formOptions: AntdFormProps = {
-  schema: [
-    {
-      component: 'Input',
-      label: '菜单名称',
-      fieldName: 'name',
-    },
-  ],
-};
 
 const gridOptions: VxeGridProps<SystemMenuApi.GetPermissionListResult> = {
   keepSource: true,
@@ -55,15 +45,16 @@ const gridOptions: VxeGridProps<SystemMenuApi.GetPermissionListResult> = {
 };
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions,
+  formOptions: menuQueryFormConfig,
   gridOptions,
 });
 
-const [Drawer, drawerApi] = useVbenDrawer({
+const [MenuDrawerCom, menuDrawerApi] = useVbenDrawer({
   connectedComponent: MenuDrawer,
   destroyOnClose: true,
 });
 
+// 表格内部更多按钮
 function getActions(row: SystemMenuApi.GetPermissionListResult): ActionItem[] {
   return [
     {
@@ -78,23 +69,34 @@ function getActions(row: SystemMenuApi.GetPermissionListResult): ActionItem[] {
   ];
 }
 
+// 展开全部
+const handleExpandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+// 折叠全部
+const handleCollapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
+
+// 刷新表格
 function handleRefresh() {
   gridApi.query();
 }
 
 // 新增菜单
 function handleAdd() {
-  drawerApi.open();
+  menuDrawerApi.open();
 }
 
 // 编辑菜单
 function handleEdit(row: SystemMenuApi.GetPermissionListResult) {
-  drawerApi.setData<SystemMenuApi.GetPermissionListResult>(row).open();
+  menuDrawerApi.setData<SystemMenuApi.GetPermissionListResult>(row).open();
 }
 
 // 添加下级
 function handleAddSub(row: SystemMenuApi.GetPermissionListResult) {
-  drawerApi
+  menuDrawerApi
     .setData<
       Pick<SystemMenuApi.GetPermissionListResult, 'menuType' | 'parentId'>
     >({
@@ -106,22 +108,28 @@ function handleAddSub(row: SystemMenuApi.GetPermissionListResult) {
 
 // 删除
 function handleDelete(row: SystemMenuApi.GetPermissionListResult) {
-  const hideLoading = message.loading({
-    content: '正在删除',
-    duration: 0,
-    key: 'action_process_msg',
-  });
-  deletePermissionApi({ id: row.id as string })
-    .then(() => {
-      message.success({
-        content: '删除成功',
+  Modal.confirm({
+    title: '提示',
+    content: '确认删除该菜单吗？',
+    onOk() {
+      const hideLoading = message.loading({
+        content: '正在删除',
+        duration: 0,
         key: 'action_process_msg',
       });
-      handleRefresh();
-    })
-    .finally(() => {
-      hideLoading();
-    });
+      deletePermissionApi({ id: row.id as string })
+        .then(() => {
+          message.success({
+            content: '删除成功',
+            key: 'action_process_msg',
+          });
+          handleRefresh();
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    },
+  });
 }
 </script>
 
@@ -130,20 +138,22 @@ function handleDelete(row: SystemMenuApi.GetPermissionListResult) {
     <Grid>
       <template #toolbar_buttons>
         <a-button type="primary" @click="handleAdd">新增菜单</a-button>
-        <a-button type="primary">展开全部</a-button>
-        <a-button type="primary">折叠全部</a-button>
+        <a-button type="primary" @click="handleExpandAll">展开全部</a-button>
+        <a-button type="primary" @click="handleCollapseAll">折叠全部</a-button>
       </template>
       <template #icon="{ row }">
         <div class="flex-center">
-          <IconifyIcon :icon="row.icon" />
+          <IconifyIcon v-if="row.icon" :icon="row.icon" />
         </div>
       </template>
       <template #action="{ row }">
-        <a-button type="link" @click="handleEdit(row)">编辑</a-button>
+        <a-button type="link" @click="handleEdit(row)" size="small">
+          编辑
+        </a-button>
         <MoreAction :actions="getActions(row)" />
       </template>
     </Grid>
-    <Drawer @success="handleRefresh" />
+    <MenuDrawerCom @success="handleRefresh" />
   </Page>
 </template>
 

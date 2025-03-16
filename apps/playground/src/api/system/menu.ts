@@ -1,6 +1,6 @@
 import type { HttpResponse } from '@vben/request';
 
-import type { PermissionMenuItem } from '#/views/system/menu/types';
+import type { PermissionMenuItem } from '#/views/system/menu/menu.types';
 
 import { requestClient } from '#/api/request';
 
@@ -39,18 +39,18 @@ export async function getPermissionListApi(
 }
 
 // 新增菜单
-export async function addPermissionApi(data: PermissionMenuItem) {
+export async function addPermissionApi(data: Partial<PermissionMenuItem>) {
   return requestClient.post<string>('/api/sys/permission/add', data);
 }
 
 // 编辑菜单
-export async function editPermissionApi(data: PermissionMenuItem) {
+export async function editPermissionApi(data: Partial<PermissionMenuItem>) {
   return requestClient.post<string>('/api/sys/permission/edit', data);
 }
 
 // 删除菜单
 export async function deletePermissionApi(params: { id: string }) {
-  return requestClient.delete<string>(`/api/sys/permission/delete`, {
+  return requestClient.delete<string>('/api/sys/permission/delete', {
     params,
   });
 }
