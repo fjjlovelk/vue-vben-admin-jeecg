@@ -8,7 +8,7 @@ import {
   useVbenDrawer,
   useVbenVxeGrid,
 } from '@vben/common-ui';
-import { ViewType } from '@vben/constants';
+import { ViewTypeEnum } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
@@ -74,17 +74,17 @@ function handleRefresh() {
 
 // 新增用户
 function handleAdd() {
-  userDrawerApi.setData({ viewType: ViewType.Add }).open();
+  userDrawerApi.setData({ viewType: ViewTypeEnum.Add }).open();
 }
 
 // 编辑用户
 function handleEdit(row: UserInfo) {
-  userDrawerApi.setData({ ...row, viewType: ViewType.Edit }).open();
+  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.Edit }).open();
 }
 
 // 查看用户
 function handleView(row: UserInfo) {
-  userDrawerApi.setData({ ...row, viewType: ViewType.View }).open();
+  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.View }).open();
 }
 
 // 删除

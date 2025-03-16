@@ -2,7 +2,7 @@
 import { computed, ref, toRaw } from 'vue';
 
 import { useAntdForm, useVbenDrawer } from '@vben/common-ui';
-import { getViewType, ViewType } from '@vben/constants';
+import { getViewType, ViewTypeEnum } from '@vben/constants';
 
 import { message } from 'ant-design-vue';
 import cloneDeep from 'lodash.clonedeep';
@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>();
 
 const formId = ref<string>('');
-const viewType = ref<ViewType>(ViewType.Add);
+const viewType = ref<ViewTypeEnum>(ViewTypeEnum.Add);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}用户`);
 
@@ -38,7 +38,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 async function initData() {
   const values = drawerApi.getData();
   viewType.value = values.viewType;
-  if (viewType.value === ViewType.Add) {
+  if (viewType.value === ViewTypeEnum.Add) {
     return;
   }
   const newValues = cloneDeep(toRaw(values));
@@ -52,7 +52,7 @@ async function initData() {
       .map((element) => Number.parseInt(element));
     await formApi.setValues(newValues);
 
-    if (viewType.value === ViewType.View) {
+    if (viewType.value === ViewTypeEnum.View) {
       drawerApi.setState({ footer: false });
       formApi.setState({
         commonConfig: {
@@ -81,7 +81,7 @@ async function handleSubmit() {
     values.selecteddeparts = ((values.selecteddeparts || []) as string[]).join(
       ',',
     );
-    if (viewType.value === ViewType.Edit) {
+    if (viewType.value === ViewTypeEnum.Edit) {
       values.id = formId.value;
       await editUserApi(values);
     } else {

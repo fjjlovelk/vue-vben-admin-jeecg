@@ -4,7 +4,7 @@ import type { PermissionMenuItem } from '#/views/system/menu/menu.types';
 import { computed, ref } from 'vue';
 
 import { useAntdForm, useVbenDrawer } from '@vben/common-ui';
-import { getViewType, ViewType } from '@vben/constants';
+import { getViewType, ViewTypeEnum } from '@vben/constants';
 
 import { message } from 'ant-design-vue';
 
@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 const formId = ref<string>();
-const viewType = ref<ViewType>(ViewType.Add);
+const viewType = ref<ViewTypeEnum>(ViewTypeEnum.Add);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}菜单`);
 
@@ -33,7 +33,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
     const values = drawerApi.getData();
     viewType.value = values.viewType;
-    if (viewType.value === ViewType.Edit) {
+    if (viewType.value === ViewTypeEnum.Edit) {
       formApi.setValues(values);
       formId.value = values.id;
     }
@@ -76,7 +76,7 @@ async function handleSubmit() {
         break;
       }
     }
-    if (viewType.value === ViewType.Edit) {
+    if (viewType.value === ViewTypeEnum.Edit) {
       values.id = formId.value;
       await editPermissionApi(values);
     } else {

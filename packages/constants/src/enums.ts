@@ -1,18 +1,18 @@
-export enum ViewType {
+export enum ViewTypeEnum {
   Add = 'Add',
   Edit = 'Edit',
   View = 'View',
 }
 
-export function getViewType(viewType: ViewType) {
+export function getViewType(viewType: ViewTypeEnum) {
   switch (viewType) {
-    case ViewType.Add: {
+    case ViewTypeEnum.Add: {
       return '新增';
     }
-    case ViewType.Edit: {
+    case ViewTypeEnum.Edit: {
       return '编辑';
     }
-    case ViewType.View: {
+    case ViewTypeEnum.View: {
       return '查看';
     }
     default: {
