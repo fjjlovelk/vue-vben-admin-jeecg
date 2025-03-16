@@ -85,7 +85,7 @@ const computedSchema = computed(
     formFieldProps: Record<string, any>;
   })[] => {
     const {
-      colon = false,
+      colon = true,
       componentProps = {},
       controlClass = '',
       disabled,
@@ -97,7 +97,7 @@ const computedSchema = computed(
       hideLabel = false,
       hideRequiredMark = false,
       labelClass = '',
-      labelWidth = 100,
+      labelWidth,
       modelPropName = '',
       wrapperClass = '',
     } = mergeWithArrayOverride(props.commonConfig, props.globalCommonConfig);

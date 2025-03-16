@@ -1,107 +1,274 @@
-import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { AntdFormProps, VxeTableGridOptions } from '@vben/common-ui';
+
 import type { SystemMenuApi } from '#/api/system/menu';
 
-export function getMenuTypeOptions() {
-  return [
-    {
-      color: 'processing',
-      label: '目录',
-      value: 'catalog',
-    },
-    { color: 'default', label: '菜单', value: 'menu' },
-    { color: 'error', label: '按钮', value: 'button' },
-    {
-      color: 'success',
-      label: '内嵌',
-      value: 'embedded',
-    },
-    { color: 'warning', label: '外链', value: 'link' },
-  ];
-}
+import { getPermissionListApi } from '#/api/system/menu';
 
-export function useColumns(
-  onActionClick: OnActionClickFn<SystemMenuApi.SystemMenu>,
-): VxeTableGridOptions<SystemMenuApi.SystemMenu>['columns'] {
-  return [
+// 菜单列表column
+export const menuColumns: VxeTableGridOptions<SystemMenuApi.GetPermissionListResult>['columns'] =
+  [
     {
-      align: 'left',
-      field: 'meta.title',
-      fixed: 'left',
-      slots: { default: 'title' },
-      title: '标题',
+      title: '菜单名称',
+      field: 'name',
       treeNode: true,
-      width: 250,
-    },
-    {
-      align: 'center',
-      cellRender: { name: 'CellTag', options: getMenuTypeOptions() },
-      field: 'type',
-      title: '类型',
-      width: 100,
-    },
-    {
-      field: 'authCode',
-      title: '权限标识',
-      width: 200,
-    },
-    {
       align: 'left',
-      field: 'path',
-      title: '路由地址',
-      width: 200,
+      headerAlign: 'center',
     },
+    { title: '图标', field: 'icon', width: 50, slots: { default: 'icon' } },
+    { title: '组件', field: 'component' },
+    { title: '路径', field: 'url' },
+    { title: '排序', field: 'sortNo', width: 50 },
+    { title: '操作', width: 160, fixed: 'right', slots: { default: 'action' } },
+  ];
 
+// 新增/编辑菜单 表单
+export const menuDrawerFormConfig: AntdFormProps = {
+  commonConfig: {
+    labelWidth: 100,
+  },
+  showDefaultActions: false,
+  schema: [
     {
-      align: 'left',
-      field: 'component',
-      formatter: ({ row }) => {
-        switch (row.type) {
-          case 'catalog':
-          case 'menu': {
-            return row.component ?? '';
-          }
-          case 'embedded': {
-            return row.meta?.iframeSrc ?? '';
-          }
-          case 'link': {
-            return row.meta?.link ?? '';
-          }
-        }
-        return '';
-      },
-      minWidth: 200,
-      title: '页面组件',
-    },
-    {
-      cellRender: { name: 'CellTag' },
-      field: 'status',
-      title: '状态',
-      width: 100,
-    },
-
-    {
-      align: 'right',
-      cellRender: {
-        attrs: {
-          nameField: 'name',
-          onClick: onActionClick,
-        },
-        name: 'CellOperation',
+      label: '菜单类型',
+      fieldName: 'menuType',
+      component: 'RadioGroup',
+      defaultValue: 0,
+      rules: 'required',
+      componentProps: {
+        buttonStyle: 'solid',
+        optionType: 'button',
         options: [
-          {
-            code: 'append',
-            text: '新增下级',
-          },
-          'edit', // 默认的编辑按钮
-          'delete', // 默认的删除按钮
+          { label: '一级菜单', value: 0 },
+          { label: '二级菜单', value: 1 },
+          { label: '按钮/权限', value: 2 },
         ],
       },
-      field: 'operation',
-      fixed: 'right',
-      headerAlign: 'center',
-      showOverflow: false,
-      title: '操作',
-      width: 200,
     },
-  ];
-}
+    {
+      label: '菜单名称',
+      fieldName: 'name',
+      rules: 'required',
+      component: 'Input',
+    },
+    {
+      label: '上级菜单',
+      fieldName: 'parentId',
+      rules: 'required',
+      component: 'ApiTreeSelect',
+      componentProps: {
+        api: async () => {
+          const { result } = await getPermissionListApi();
+          return result;
+        },
+        class: 'w-full',
+        labelField: 'title',
+        valueField: 'id',
+        childrenField: 'children',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType === 1 || values.menuType === 2,
+      },
+    },
+    {
+      label: '访问路径',
+      fieldName: 'url',
+      rules: 'required',
+      defaultValue: '',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '授权标识',
+      fieldName: 'perms',
+      rules: 'required',
+      defaultValue: '',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType === 2,
+      },
+    },
+    {
+      label: '授权策略',
+      fieldName: 'permsType',
+      component: 'RadioGroup',
+      help: `可见/可访问(授权后可见/可访问)\n可编辑(未授权时禁用)`,
+      defaultValue: '1',
+      componentProps: {
+        options: [
+          { label: '可见/可访问', value: '1' },
+          { label: '可编辑', value: '2' },
+        ],
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType === 2,
+      },
+    },
+    {
+      label: '状态',
+      fieldName: 'status',
+      component: 'RadioGroup',
+      defaultValue: '1',
+      componentProps: {
+        options: [
+          { label: '有效', value: '1' },
+          { label: '无效', value: '0' },
+        ],
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType === 2,
+      },
+    },
+    {
+      label: '前端组件',
+      fieldName: 'component',
+      rules: 'required',
+      defaultValue: '',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '组件名称',
+      fieldName: 'componentName',
+      defaultValue: '',
+      component: 'Input',
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '默认跳转地址',
+      fieldName: 'redirect',
+      component: 'Input',
+      defaultValue: '',
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType === 0,
+      },
+    },
+    {
+      label: '菜单图标',
+      fieldName: 'icon',
+      component: 'IconPicker',
+      defaultValue: '',
+      componentProps: {
+        prefix: 'carbon',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '排序',
+      fieldName: 'sortNo',
+      component: 'InputNumber',
+      defaultValue: 1,
+      componentProps: {
+        min: 0,
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '是否路由菜单',
+      fieldName: 'route',
+      component: 'Switch',
+      defaultValue: true,
+      componentProps: {
+        checkedChildren: '是',
+        unCheckedChildren: '否',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '隐藏路由',
+      fieldName: 'hidden',
+      component: 'Switch',
+      defaultValue: 0,
+      componentProps: {
+        checkedChildren: '是',
+        checkedValue: 1,
+        unCheckedChildren: '否',
+        unCheckedValue: 0,
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '隐藏Tab',
+      fieldName: 'hideTab',
+      component: 'Switch',
+      defaultValue: 0,
+      componentProps: {
+        checkedChildren: '是',
+        checkedValue: 1,
+        unCheckedChildren: '否',
+        unCheckedValue: 0,
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '是否缓存路由',
+      fieldName: 'keepAlive',
+      component: 'Switch',
+      defaultValue: true,
+      componentProps: {
+        checkedChildren: '是',
+        unCheckedChildren: '否',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '聚合路由',
+      fieldName: 'alwaysShow',
+      component: 'Switch',
+      defaultValue: false,
+      componentProps: {
+        checkedChildren: '是',
+        unCheckedChildren: '否',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+    {
+      label: '打开方式',
+      fieldName: 'internalOrExternal',
+      component: 'Switch',
+      defaultValue: false,
+      componentProps: {
+        checkedChildren: '外部',
+        unCheckedChildren: '内部',
+      },
+      dependencies: {
+        triggerFields: ['menuType'],
+        if: (values) => values.menuType !== 2,
+      },
+    },
+  ],
+};

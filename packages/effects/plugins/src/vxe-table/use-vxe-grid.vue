@@ -90,9 +90,10 @@ const [Form, formApi] = useTableForm({
       class: 'w-full',
     },
   },
-  showCollapseButton: true,
+  showCollapseButton: false,
+  actionButtonsReverse: true,
   submitButtonOptions: {
-    content: '搜索',
+    content: '查询',
   },
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
 });

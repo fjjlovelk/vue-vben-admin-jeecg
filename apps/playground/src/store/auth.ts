@@ -20,9 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loginLoading = ref(false);
 
-  /**
-   * 异步处理登录操作
-   */
+  // 异步处理登录操作
   async function authLogin(
     params: AuthApi.LoginParams,
     onSuccess?: () => Promise<void> | void,
@@ -58,7 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
             : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
         }
 
-        if (userInfo?.realName) {
+        if (userInfo?.realname) {
           notification.success({
             description: `欢迎回来:${userInfo?.realname}`,
             duration: 3,
@@ -77,6 +75,7 @@ export const useAuthStore = defineStore('auth', () => {
     };
   }
 
+  // 退出登录
   async function logout(redirect: boolean = true) {
     try {
       await logoutApi();
@@ -98,6 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
+  // 获取用户信息
   async function fetchUserInfo() {
     const { userInfo, sysAllDictItems } = await getUserInfoApi();
     userStore.setUserInfo(userInfo);

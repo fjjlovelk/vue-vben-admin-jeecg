@@ -95,8 +95,7 @@ watch(
       <UserDropdown
         :avatar
         :text="userStore.userInfo?.realname"
-        description="ann.vben@gmail.com"
-        tag-text="Pro"
+        :description="userStore.userInfo?.email"
         trigger="both"
         @logout="handleLogout"
       />

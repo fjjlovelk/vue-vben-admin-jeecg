@@ -5,6 +5,7 @@ import type {
 
 import { generateAccessible } from '@vben/access';
 import { preferences } from '@vben/preferences';
+import { useAccessStore } from '@vben/stores';
 
 import { message } from 'ant-design-vue';
 
@@ -14,6 +15,7 @@ import { BasicLayout, IFrameView } from '#/layouts';
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
+  const accessStore = useAccessStore();
   const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
 
   const layoutMap: ComponentRecordType = {
@@ -28,7 +30,8 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         content: '加载菜单中...',
         duration: 1.5,
       });
-      const { menu } = await getUserPermissionByTokenApi();
+      const { menu, codeList } = await getUserPermissionByTokenApi();
+      accessStore.setAccessCodes(codeList);
       return menu;
     },
     // 可以指定没有权限跳转403页面

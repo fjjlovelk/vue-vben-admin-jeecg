@@ -24,7 +24,7 @@ import { router } from '#/router';
 
 import App from './app.vue';
 
-import 'ant-design-vue/dist/reset.css';
+// import 'ant-design-vue/dist/reset.css';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器

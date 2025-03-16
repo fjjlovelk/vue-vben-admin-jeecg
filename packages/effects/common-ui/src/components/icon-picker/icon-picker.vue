@@ -48,12 +48,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  prefix: 'ant-design',
+  prefix: 'carbon',
   pageSize: 36,
   icons: () => [],
   iconSlot: 'default',
   iconClass: 'size-4',
-  autoFetchApi: true,
+  autoFetchApi: false,
   modelValueProp: 'modelValue',
   inputComponent: undefined,
   type: 'input',

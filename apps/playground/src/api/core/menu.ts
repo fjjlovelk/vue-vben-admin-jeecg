@@ -6,6 +6,7 @@ export namespace MenuApi {
   export interface GetUserPermissionByTokenResult {
     allAuth: ActionAuth[];
     auth: ActionAuth[];
+    codeList: string[];
     menu: RouteRecordStringComponent[];
   }
 }
