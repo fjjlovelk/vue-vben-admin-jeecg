@@ -6,6 +6,8 @@ import type {
 } from 'axios';
 
 type ExtendOptions = {
+  // 是否添加时间戳
+  joinTime?: boolean;
   /** 响应数据的返回方式。
    * raw: 原始的AxiosResponse，包括headers、status等，不做是否成功请求的检查。
    * body: 返回响应数据的BODY部分（只会根据status检查请求是否成功，忽略对code的判断，这种情况下应由调用方检查请求是否成功）。

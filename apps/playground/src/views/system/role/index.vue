@@ -82,7 +82,7 @@ function handleRefresh() {
 
 // 新增角色
 function handleAdd() {
-  roleDrawerApi.setData({ viewType: ViewTypeEnum.Add }).open();
+  roleDrawerApi.setData({ viewType: ViewTypeEnum.ADD }).open();
 }
 
 // 授权
@@ -92,7 +92,7 @@ function handlePermission(row: SystemRoleApi.GetRoleListResult) {
 
 // 编辑角色
 function handleEdit(row: SystemRoleApi.GetRoleListResult) {
-  roleDrawerApi.setData({ ...row, viewType: ViewTypeEnum.Edit }).open();
+  roleDrawerApi.setData({ ...row, viewType: ViewTypeEnum.EDIT }).open();
 }
 
 // 删除

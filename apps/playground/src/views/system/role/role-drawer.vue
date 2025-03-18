@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 const formId = ref<string>();
-const viewType = ref<ViewTypeEnum>(ViewTypeEnum.Add);
+const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}角色`);
 
@@ -33,7 +33,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
     const values = drawerApi.getData();
     viewType.value = values.viewType;
-    if (viewType.value === ViewTypeEnum.Edit) {
+    if (viewType.value === ViewTypeEnum.EDIT) {
       formApi.setValues(values);
       formId.value = values.id;
     }
@@ -49,7 +49,7 @@ async function handleSubmit() {
   try {
     drawerApi.lock();
     const values = await formApi.getValues<Partial<PermissionMenuItem>>();
-    if (viewType.value === ViewTypeEnum.Edit) {
+    if (viewType.value === ViewTypeEnum.EDIT) {
       values.id = formId.value;
       await editPermissionApi(values);
     } else {

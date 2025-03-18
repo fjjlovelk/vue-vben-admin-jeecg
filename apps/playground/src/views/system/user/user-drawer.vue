@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>();
 
 const formId = ref<string>('');
-const viewType = ref<ViewTypeEnum>(ViewTypeEnum.Add);
+const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}用户`);
 
@@ -38,7 +38,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 async function initData() {
   const values = drawerApi.getData();
   viewType.value = values.viewType;
-  if (viewType.value === ViewTypeEnum.Add) {
+  if (viewType.value === ViewTypeEnum.ADD) {
     return;
   }
   const newValues = cloneDeep(toRaw(values));
@@ -52,7 +52,7 @@ async function initData() {
       .map((element) => Number.parseInt(element));
     await formApi.setValues(newValues);
 
-    if (viewType.value === ViewTypeEnum.View) {
+    if (viewType.value === ViewTypeEnum.VIEW) {
       drawerApi.setState({ footer: false });
       formApi.setState({
         commonConfig: {
@@ -81,7 +81,7 @@ async function handleSubmit() {
     values.selecteddeparts = ((values.selecteddeparts || []) as string[]).join(
       ',',
     );
-    if (viewType.value === ViewTypeEnum.Edit) {
+    if (viewType.value === ViewTypeEnum.EDIT) {
       values.id = formId.value;
       await editUserApi(values);
     } else {

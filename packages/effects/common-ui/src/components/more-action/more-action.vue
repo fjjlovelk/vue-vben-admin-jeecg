@@ -11,10 +11,12 @@ import { Button, Dropdown, Menu, MenuDivider, MenuItem } from 'ant-design-vue';
 
 interface Props {
   actions: ActionItem[];
+  content?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   actions: () => [],
+  content: '更多',
 });
 
 const actionItems = computed(() =>
@@ -49,8 +51,8 @@ function handleItemClick(item: ActionItem) {
 
 <template>
   <Dropdown arrow>
-    <Button type="link" @click.prevent size="small">
-      更多
+    <Button type="link" @click.prevent size="small" v-bind="$attrs">
+      {{ content }}
       <IconifyIcon icon="ant-design:down-outlined" />
     </Button>
     <template #overlay>

@@ -7,7 +7,7 @@ export interface BasicDepartInfo {
   description: null | string;
   directorUserIds: string;
   fax: null | string;
-  id: string;
+  id?: string;
   memo: null | string;
   mobile: null | string;
   orgCategory: string;

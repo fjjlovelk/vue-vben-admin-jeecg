@@ -7,6 +7,7 @@ import { useAppConfig } from '@vben/hooks';
 import { preferences } from '@vben/preferences';
 import {
   authenticateResponseInterceptor,
+  defaultRequestInterceptor,
   defaultResponseInterceptor,
   errorMessageResponseInterceptor,
   RequestClient,
@@ -60,6 +61,9 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     // return token ? `Bearer ${token}` : null;
     return token;
   }
+
+  // 对get请求添加时间戳
+  client.addRequestInterceptor(defaultRequestInterceptor());
 
   // 请求头处理
   client.addRequestInterceptor({

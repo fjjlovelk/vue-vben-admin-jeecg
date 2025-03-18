@@ -111,6 +111,10 @@ type EmitType = (name: Name, ...args: any[]) => void;
 
 type MaybePromise<T> = Promise<T> | T;
 
+type PickEnumKeys<T extends object, K extends keyof T> = K;
+
+type PickEnum<T extends object, K extends keyof T> = T[K];
+
 export type {
   AnyFunction,
   AnyNormalFunction,
@@ -126,6 +130,8 @@ export type {
   MergeAll,
   NonNullable,
   Nullable,
+  PickEnum,
+  PickEnumKeys,
   ReadonlyRecordable,
   Recordable,
   TimeoutHandle,

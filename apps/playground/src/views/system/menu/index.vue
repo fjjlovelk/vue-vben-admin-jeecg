@@ -87,12 +87,12 @@ function handleRefresh() {
 
 // 新增菜单
 function handleAdd() {
-  menuDrawerApi.setData({ viewType: ViewTypeEnum.Add }).open();
+  menuDrawerApi.setData({ viewType: ViewTypeEnum.ADD }).open();
 }
 
 // 编辑菜单
 function handleEdit(row: SystemMenuApi.GetPermissionListResult) {
-  menuDrawerApi.setData({ ...row, viewType: ViewTypeEnum.View }).open();
+  menuDrawerApi.setData({ ...row, viewType: ViewTypeEnum.VIEW }).open();
 }
 
 // 添加下级

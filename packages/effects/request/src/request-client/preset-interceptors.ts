@@ -1,9 +1,35 @@
 import type { RequestClient } from './request-client';
-import type { MakeErrorMessageFn, ResponseInterceptorConfig } from './types';
+import type {
+  MakeErrorMessageFn,
+  RequestInterceptorConfig,
+  ResponseInterceptorConfig,
+} from './types';
 
-import { isFunction } from '@vben/utils';
+import { RequestEnum } from '@vben/constants';
+import { isFunction, isString, joinTimestamp } from '@vben/utils';
 
 import axios from 'axios';
+
+export const defaultRequestInterceptor = (): RequestInterceptorConfig => ({
+  fulfilled: (config) => {
+    const { joinTime = true } = config;
+    if (config.method?.toUpperCase() === RequestEnum.GET) {
+      const params = config.params || {};
+      if (isString(params)) {
+        // 兼容restful风格
+        config.url = `${config.url + params}${joinTimestamp(joinTime, true)}`;
+        config.params = undefined;
+      } else {
+        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        config.params = Object.assign(
+          params || {},
+          joinTimestamp(joinTime, false),
+        );
+      }
+    }
+    return config;
+  },
+});
 
 export const defaultResponseInterceptor = ({
   codeField = 'code',

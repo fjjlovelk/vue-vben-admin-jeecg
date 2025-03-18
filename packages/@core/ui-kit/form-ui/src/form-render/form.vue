@@ -21,6 +21,10 @@ import { getBaseRules, getDefaultValueInZodStack } from './helper';
 
 interface Props extends FormRenderProps {}
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const props = withDefaults(
   defineProps<Props & { globalCommonConfig?: FormCommonConfig }>(),
   {

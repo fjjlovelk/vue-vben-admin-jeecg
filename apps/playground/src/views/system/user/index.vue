@@ -74,17 +74,17 @@ function handleRefresh() {
 
 // 新增用户
 function handleAdd() {
-  userDrawerApi.setData({ viewType: ViewTypeEnum.Add }).open();
+  userDrawerApi.setData({ viewType: ViewTypeEnum.ADD }).open();
 }
 
 // 编辑用户
 function handleEdit(row: UserInfo) {
-  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.Edit }).open();
+  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.EDIT }).open();
 }
 
 // 查看用户
 function handleView(row: UserInfo) {
-  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.View }).open();
+  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.VIEW }).open();
 }
 
 // 删除

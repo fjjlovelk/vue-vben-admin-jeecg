@@ -16,6 +16,11 @@ export namespace SystemRoleApi {
     permissionIds: string;
     roleId: string;
   }
+  export interface SaveDepartPermissionParams {
+    lastpermissionIds: string;
+    permissionIds: string;
+    departId: string;
+  }
   export interface GetRoleListResult extends RoleItem {
     createBy: null | string;
     createTime: string;
@@ -84,6 +89,24 @@ export async function saveRolePermissionApi(
 ) {
   return requestClient.post<string>(
     '/api/sys/permission/saveRolePermission',
+    data,
+  );
+}
+
+// 获取部门权限
+export async function getDepartPermissionApi(params: { departId: string }) {
+  return requestClient.get<string[]>(
+    '/api/sys/permission/queryDepartPermission',
+    { params },
+  );
+}
+
+// 保存部门权限
+export async function saveDepartPermissionApi(
+  data: SystemRoleApi.SaveDepartPermissionParams,
+) {
+  return requestClient.post<string>(
+    '/api/sys/permission/saveDepartPermission',
     data,
   );
 }
