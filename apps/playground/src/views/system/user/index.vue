@@ -23,13 +23,8 @@ defineOptions({
   name: 'SystemUser',
 });
 
-const {
-  checkedRows,
-  checkedRowsCount,
-  registerGridApi,
-  handleClearCheck,
-  onCheckboxChange,
-} = useTableCheckTip<UserInfo>();
+const { checkedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
+  useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: userQueryFormConfig,
@@ -49,7 +44,6 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
 
 // 刷新表格
 const handleRefresh = () => {
-  handleClearCheck();
   gridApi.query();
 };
 
@@ -212,6 +206,7 @@ const getActions = (row: UserInfo): ActionItem[] => {
   ];
 };
 
+// 批量按鈕
 const getBatchActions = (): ActionItem[] => {
   return [
     {
@@ -242,14 +237,14 @@ const getBatchActions = (): ActionItem[] => {
             导出
           </a-button>
           <MoreAction
-            v-if="checkedRowsCount > 0"
+            v-if="checkedRows.length > 0"
             type="default"
             size="normal"
             content="批量操作"
             :actions="getBatchActions()"
           />
         </div>
-        <TableCheckTip :count="checkedRowsCount" @clear="handleClearCheck" />
+        <TableCheckTip :count="checkedRows.length" @clear="handleClearCheck" />
       </template>
       <template #avatar="{ row }">
         <a-avatar v-if="row.avatar" :src="row.avatar" />
