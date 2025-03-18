@@ -1,10 +1,12 @@
 import type { ExtendedVxeGridApi } from '@vben/plugins/vxe-table';
 
-import { ref, toRaw } from 'vue';
+import { computed, ref, toRaw } from 'vue';
 
 export function useTableCheckTip<T = any>() {
   // 已选择的行
-  const selectedRows = ref<T[]>([]);
+  const checkedRows = ref<T[]>([]);
+
+  const checkedRowsCount = computed<number>(() => checkedRows.value.length);
 
   let gridApi: ExtendedVxeGridApi | null = null;
 
@@ -19,7 +21,7 @@ export function useTableCheckTip<T = any>() {
       console.error('gridApi未注册');
       return;
     }
-    selectedRows.value = gridApi?.grid
+    checkedRows.value = gridApi?.grid
       .getCheckboxRecords(true)
       .map((item) => toRaw(item));
   };
@@ -30,12 +32,13 @@ export function useTableCheckTip<T = any>() {
       console.error('gridApi未注册');
       return;
     }
-    selectedRows.value = [];
+    checkedRows.value = [];
     gridApi.grid.clearCheckboxRow();
   };
 
   return {
-    selectedRows,
+    checkedRows,
+    checkedRowsCount,
     registerGridApi,
     onCheckboxChange,
     handleClearCheck,

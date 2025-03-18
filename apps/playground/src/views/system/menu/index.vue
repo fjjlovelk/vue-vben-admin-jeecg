@@ -26,7 +26,7 @@ defineOptions({
   name: 'SystemMenu',
 });
 
-const { selectedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
+const { checkedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
   useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
@@ -137,7 +137,7 @@ const getActions = (
             折叠全部
           </a-button>
         </div>
-        <TableCheckTip :count="selectedRows.length" @clear="handleClearCheck" />
+        <TableCheckTip :count="checkedRows.length" @clear="handleClearCheck" />
       </template>
       <template #icon="{ row }">
         <div class="flex-center">

@@ -43,6 +43,13 @@ export async function deleteUserApi(params: { id: string }) {
   });
 }
 
+// 批量删除用户
+export async function deleteBatchUserApi(params: { ids: string }) {
+  return requestClient.delete<string>('/api/sys/user/deleteBatch', {
+    params,
+  });
+}
+
 // 冻结/解冻用户
 export async function freezeBatchUserApi(
   data: SystemUserApi.FreezeBatchUserParams,

@@ -14,7 +14,7 @@ import { ViewTypeEnum } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deleteUserApi, freezeBatchUserApi } from '#/api';
+import { deleteBatchUserApi, deleteUserApi, freezeBatchUserApi } from '#/api';
 
 import UserDrawer from './user-drawer.vue';
 import { userGridOptions, userQueryFormConfig } from './user.data';
@@ -23,8 +23,13 @@ defineOptions({
   name: 'SystemUser',
 });
 
-const { selectedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
-  useTableCheckTip<UserInfo>();
+const {
+  checkedRows,
+  checkedRowsCount,
+  registerGridApi,
+  handleClearCheck,
+  onCheckboxChange,
+} = useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: userQueryFormConfig,
@@ -44,6 +49,7 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
 
 // 刷新表格
 const handleRefresh = () => {
+  handleClearCheck();
   gridApi.query();
 };
 
@@ -90,6 +96,38 @@ const handleFreeze = (row: UserInfo, status: UserInfo['status']) => {
   });
 };
 
+// 批量冻结/解冻
+const handleFreezeBatch = (status: UserInfo['status']) => {
+  if (checkedRows.value.length === 0) {
+    return;
+  }
+  const ids = checkedRows.value.map((row) => row.id).join(',');
+  const tip = status === 1 ? '冻结' : '解冻';
+  const key = status === 1 ? 'freeze_batch_user' : 'unfreeze_batch_user';
+  Modal.confirm({
+    title: '提示',
+    content: `确认${tip}选中用户吗？`,
+    onOk() {
+      const hideLoading = message.loading({
+        content: `正在${tip}`,
+        duration: 0,
+        key,
+      });
+      freezeBatchUserApi({ ids, status })
+        .then(() => {
+          message.success({
+            content: `${tip}成功`,
+            key,
+          });
+          handleRefresh();
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    },
+  });
+};
+
 // 删除
 const handleDelete = (row: UserInfo) => {
   const key = 'delete_user';
@@ -117,6 +155,37 @@ const handleDelete = (row: UserInfo) => {
   });
 };
 
+// 批量删除
+const handleDeleteBatch = () => {
+  if (checkedRows.value.length === 0) {
+    return;
+  }
+  const ids = checkedRows.value.map((row) => row.id).join(',');
+  const key = 'delete_batch_user';
+  Modal.confirm({
+    title: '提示',
+    content: '确认删除选中用户吗？',
+    onOk() {
+      const hideLoading = message.loading({
+        content: '正在删除',
+        duration: 0,
+        key,
+      });
+      deleteBatchUserApi({ ids })
+        .then(() => {
+          message.success({
+            content: '删除成功',
+            key,
+          });
+          handleRefresh();
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    },
+  });
+};
+
 // 表格内部更多按钮
 const getActions = (row: UserInfo): ActionItem[] => {
   return [
@@ -125,20 +194,39 @@ const getActions = (row: UserInfo): ActionItem[] => {
       onClick: handleView.bind(null, row),
     },
     {
+      label: '解冻',
+      ifShow: row.status === 2,
+      onClick: handleFreeze.bind(null, row, 2),
+    },
+    {
       label: '冻结',
       danger: true,
       ifShow: row.status === 1,
       onClick: handleFreeze.bind(null, row, 1),
     },
     {
+      label: '删除',
+      danger: true,
+      onClick: handleDelete.bind(null, row),
+    },
+  ];
+};
+
+const getBatchActions = (): ActionItem[] => {
+  return [
+    {
       label: '解冻',
-      ifShow: row.status === 2,
-      onClick: handleFreeze.bind(null, row, 2),
+      onClick: handleFreezeBatch.bind(null, 2),
+    },
+    {
+      label: '冻结',
+      danger: true,
+      onClick: handleFreezeBatch.bind(null, 1),
     },
     {
       label: '删除',
       danger: true,
-      onClick: handleDelete.bind(null, row),
+      onClick: handleDeleteBatch.bind(null),
     },
   ];
 };
@@ -153,8 +241,15 @@ const getActions = (row: UserInfo): ActionItem[] => {
           <a-button type="primary" v-access="['system:user:export']">
             导出
           </a-button>
+          <MoreAction
+            v-if="checkedRowsCount > 0"
+            type="default"
+            size="normal"
+            content="批量操作"
+            :actions="getBatchActions()"
+          />
         </div>
-        <TableCheckTip :count="selectedRows.length" @clear="handleClearCheck" />
+        <TableCheckTip :count="checkedRowsCount" @clear="handleClearCheck" />
       </template>
       <template #avatar="{ row }">
         <a-avatar v-if="row.avatar" :src="row.avatar" />
