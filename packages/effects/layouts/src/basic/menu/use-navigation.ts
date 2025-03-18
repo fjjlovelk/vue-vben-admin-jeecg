@@ -16,11 +16,15 @@ function useNavigation() {
 
   const navigation = async (path: string) => {
     const route = routeMetaMap.get(path);
-    const { openInNewWindow = false, query = {} } = route?.meta ?? {};
+    const {
+      internalOrExternal = false,
+      query = {},
+      url = '',
+    } = route?.meta ?? {};
     if (isHttpUrl(path)) {
       openWindow(path, { target: '_blank' });
-    } else if (openInNewWindow) {
-      openRouteInNewWindow(path);
+    } else if (internalOrExternal) {
+      openRouteInNewWindow(url || path);
     } else {
       await router.push({
         path,

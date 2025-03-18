@@ -10,8 +10,8 @@ const fallbackNotFoundRoute: RouteRecordRaw = {
   component: () => import('#/views/_core/fallback/not-found.vue'),
   meta: {
     hideInBreadcrumb: true,
-    hideInMenu: true,
-    hideInTab: true,
+    hideMenu: true,
+    hideTab: true,
     title: '404',
   },
   name: 'FallbackNotFound',
@@ -39,7 +39,7 @@ const coreRoutes: RouteRecordRaw[] = [
   {
     component: BlankPageLayout,
     meta: {
-      hideInTab: true,
+      hideTab: true,
       title: 'Authentication',
     },
     name: 'Authentication',

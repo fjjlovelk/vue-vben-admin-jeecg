@@ -92,7 +92,7 @@ function handleAdd() {
 
 // 编辑菜单
 function handleEdit(row: SystemMenuApi.GetPermissionListResult) {
-  menuDrawerApi.setData({ ...row, viewType: ViewTypeEnum.VIEW }).open();
+  menuDrawerApi.setData({ ...row, viewType: ViewTypeEnum.EDIT }).open();
 }
 
 // 添加下级

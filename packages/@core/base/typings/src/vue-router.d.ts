@@ -57,12 +57,12 @@ interface RouteMeta {
    * 当前路由在菜单中不展现
    * @default false
    */
-  hideInMenu?: boolean;
+  hideMenu?: boolean;
   /**
    * 当前路由在标签页不展现
    * @default false
    */
-  hideInTab?: boolean;
+  hideTab?: boolean;
   /**
    * 图标（菜单/tab）
    */
@@ -77,13 +77,13 @@ interface RouteMeta {
    */
   ignoreAccess?: boolean;
   /**
+   * 在新窗口打开
+   */
+  internalOrExternal?: boolean;
+  /**
    * 开启KeepAlive缓存
    */
   keepAlive?: boolean;
-  /**
-   * 外链-跳转路径
-   */
-  link?: string;
   /**
    * 路由是否已经加载过
    */
@@ -102,10 +102,6 @@ interface RouteMeta {
    */
   noBasicLayout?: boolean;
   /**
-   * 在新窗口打开
-   */
-  openInNewWindow?: boolean;
-  /**
    * 用于路由->菜单排序
    */
   order?: number;
@@ -117,6 +113,10 @@ interface RouteMeta {
    * 标题名称
    */
   title: string;
+  /**
+   * 外链-跳转路径
+   */
+  url?: string;
 }
 
 // 定义递归类型以将 RouteRecordRaw 的 component 属性更改为 string

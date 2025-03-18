@@ -32,7 +32,7 @@ async function generateMenus(
       badgeVariants,
       hideChildrenInMenu = false,
       icon,
-      link,
+      url,
       order,
       title = '',
     } = meta || {};
@@ -52,7 +52,7 @@ async function generateMenus(
       });
     }
     // 隐藏子菜单
-    const resultPath = hideChildrenInMenu ? redirect || path : link || path;
+    const resultPath = hideChildrenInMenu ? redirect || path : url || path;
     return {
       activeIcon,
       badge,
@@ -64,7 +64,7 @@ async function generateMenus(
       parent: route.parent,
       parents: route.parents,
       path: resultPath as string,
-      show: !route?.meta?.hideInMenu,
+      show: !route?.meta?.hideMenu,
       children: resultChildren || [],
     };
   });

@@ -40,12 +40,12 @@ const breadcrumbs = computed((): IBreadcrumb[] => {
     resultBreadcrumb.push({
       icon,
       path: path || route.path,
-      title: title ? (title || name) as string : '',
+      title: title ? ((title || name) as string) : '',
     });
   }
   if (props.showHome) {
     resultBreadcrumb.unshift({
-      icon: 'mdi:home-outline',
+      icon: 'carbon:home',
       isHome: true,
       path: '/',
     });
