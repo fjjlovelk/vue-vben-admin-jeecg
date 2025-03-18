@@ -1,9 +1,17 @@
-import type { AntdFormProps, VxeTableGridOptions } from '@vben/common-ui';
+import type {
+  AntdFormProps,
+  VxeGridProps,
+  VxeTableGridOptions,
+} from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
 import { useAccessStore } from '@vben/stores';
 
-import { getRoleListByTenantApi, getTenantListApi } from '#/api';
+import {
+  getRoleListByTenantApi,
+  getTenantListApi,
+  getUserListApi,
+} from '#/api';
 
 const accessStore = useAccessStore();
 
@@ -41,13 +49,16 @@ export const userQueryFormConfig: AntdFormProps = {
 
 // 用户列表column
 export const userColumns: VxeTableGridOptions<UserInfo>['columns'] = [
+  { type: 'checkbox', width: 50 },
   {
     title: '用户账号',
     field: 'username',
+    minWidth: 150,
   },
   {
     title: '用户姓名',
     field: 'realname',
+    minWidth: 150,
   },
   {
     title: '头像',
@@ -68,19 +79,42 @@ export const userColumns: VxeTableGridOptions<UserInfo>['columns'] = [
   {
     title: '手机号码',
     field: 'phone',
-    width: 100,
+    width: 120,
   },
   {
     title: '部门',
     field: 'orgCodeTxt',
+    minWidth: 150,
   },
   {
     title: '状态',
     field: 'status_dictText',
     width: 70,
   },
-  { title: '操作', width: 200, fixed: 'right', slots: { default: 'action' } },
+  { title: '操作', width: 150, fixed: 'right', slots: { default: 'action' } },
 ];
+
+export const userGridOptions: VxeGridProps<UserInfo> = {
+  toolbarConfig: {
+    slots: {
+      buttons: 'toolbar_buttons',
+    },
+  },
+  checkboxConfig: {
+    reserve: true,
+  },
+  proxyConfig: {
+    ajax: {
+      query: async ({ page }, formValues) =>
+        await getUserListApi({
+          pageNo: page.currentPage,
+          pageSize: page.pageSize,
+          ...formValues,
+        }),
+    },
+  },
+  columns: userColumns,
+};
 
 // 新增/编辑用户 表单
 export const userDrawerFormConfig: AntdFormProps = {

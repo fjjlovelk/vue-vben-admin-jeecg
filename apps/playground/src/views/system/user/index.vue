@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { ActionItem, VxeGridProps } from '@vben/common-ui';
+import type { ActionItem } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
 import {
   MoreAction,
   Page,
+  TableCheckTip,
+  useTableCheckTip,
   useVbenDrawer,
   useVbenVxeGrid,
 } from '@vben/common-ui';
@@ -12,39 +14,27 @@ import { ViewTypeEnum } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deleteUserApi, getUserListApi } from '#/api';
+import { deleteUserApi, freezeBatchUserApi } from '#/api';
 
 import UserDrawer from './user-drawer.vue';
-import { userColumns, userQueryFormConfig } from './user.data';
+import { userGridOptions, userQueryFormConfig } from './user.data';
 
 defineOptions({
   name: 'SystemUser',
 });
 
-const gridOptions: VxeGridProps<UserInfo> = {
-  keepSource: true,
-  toolbarConfig: {
-    slots: {
-      buttons: 'toolbar_buttons',
-    },
-  },
-  proxyConfig: {
-    ajax: {
-      query: async ({ page }, formValues) =>
-        await getUserListApi({
-          pageNo: page.currentPage,
-          pageSize: page.pageSize,
-          ...formValues,
-        }),
-    },
-  },
-  columns: userColumns,
-};
+const { selectedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
+  useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
   formOptions: userQueryFormConfig,
-  gridOptions,
+  gridOptions: userGridOptions,
+  gridEvents: {
+    checkboxChange: onCheckboxChange,
+    checkboxAll: onCheckboxChange,
+  },
 });
+registerGridApi(gridApi);
 
 // 新增、编辑用户
 const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
@@ -52,57 +42,44 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
-// 表格内部更多按钮
-function getActions(row: UserInfo): ActionItem[] {
-  return [
-    {
-      label: '详情',
-      onClick: handleView.bind(null, row),
-    },
-    {
-      label: '删除',
-      danger: true,
-      onClick: handleDelete.bind(null, row),
-    },
-  ];
-}
-
 // 刷新表格
-function handleRefresh() {
+const handleRefresh = () => {
   gridApi.query();
-}
+};
 
 // 新增用户
-function handleAdd() {
+const handleAdd = () => {
   userDrawerApi.setData({ viewType: ViewTypeEnum.ADD }).open();
-}
+};
 
 // 编辑用户
-function handleEdit(row: UserInfo) {
+const handleEdit = (row: UserInfo) => {
   userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.EDIT }).open();
-}
+};
 
 // 查看用户
-function handleView(row: UserInfo) {
+const handleView = (row: UserInfo) => {
   userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.VIEW }).open();
-}
+};
 
-// 删除
-function handleDelete(row: UserInfo) {
+// 冻结/解冻
+const handleFreeze = (row: UserInfo, status: UserInfo['status']) => {
+  const tip = status === 1 ? '冻结' : '解冻';
+  const key = status === 1 ? 'freeze_user' : 'unfreeze_user';
   Modal.confirm({
     title: '提示',
-    content: '确认删除该用户吗？',
+    content: `确认${tip}该用户吗？`,
     onOk() {
       const hideLoading = message.loading({
-        content: '正在删除',
+        content: `正在${tip}`,
         duration: 0,
-        key: 'action_process_msg',
+        key,
       });
-      deleteUserApi({ id: row.id as string })
+      freezeBatchUserApi({ ids: row.id as string, status })
         .then(() => {
           message.success({
-            content: '删除成功',
-            key: 'action_process_msg',
+            content: `${tip}成功`,
+            key,
           });
           handleRefresh();
         })
@@ -111,14 +88,73 @@ function handleDelete(row: UserInfo) {
         });
     },
   });
-}
+};
+
+// 删除
+const handleDelete = (row: UserInfo) => {
+  const key = 'delete_user';
+  Modal.confirm({
+    title: '提示',
+    content: '确认删除该用户吗？',
+    onOk() {
+      const hideLoading = message.loading({
+        content: '正在删除',
+        duration: 0,
+        key,
+      });
+      deleteUserApi({ id: row.id as string })
+        .then(() => {
+          message.success({
+            content: '删除成功',
+            key,
+          });
+          handleRefresh();
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    },
+  });
+};
+
+// 表格内部更多按钮
+const getActions = (row: UserInfo): ActionItem[] => {
+  return [
+    {
+      label: '详情',
+      onClick: handleView.bind(null, row),
+    },
+    {
+      label: '冻结',
+      danger: true,
+      ifShow: row.status === 1,
+      onClick: handleFreeze.bind(null, row, 1),
+    },
+    {
+      label: '解冻',
+      ifShow: row.status === 2,
+      onClick: handleFreeze.bind(null, row, 2),
+    },
+    {
+      label: '删除',
+      danger: true,
+      onClick: handleDelete.bind(null, row),
+    },
+  ];
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid>
       <template #toolbar_buttons>
-        <a-button type="primary" @click="handleAdd">新增用户</a-button>
+        <div class="mb-[5px] w-full">
+          <a-button type="primary" @click="handleAdd">新增用户</a-button>
+          <a-button type="primary" v-access="['system:user:export']">
+            导出
+          </a-button>
+        </div>
+        <TableCheckTip :count="selectedRows.length" @clear="handleClearCheck" />
       </template>
       <template #avatar="{ row }">
         <a-avatar v-if="row.avatar" :src="row.avatar" />

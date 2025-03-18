@@ -10,6 +10,7 @@ export * from './loading';
 export * from './more-action';
 export * from './page';
 export * from './resize';
+export * from './table-check-tip';
 export * from './tippy';
 export * from './vxe-table';
 export * from '@vben-core/form-ui';

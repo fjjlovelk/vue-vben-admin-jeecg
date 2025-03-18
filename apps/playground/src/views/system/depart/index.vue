@@ -26,7 +26,7 @@ const onRootTreeData = (data: SystemDepartApi.GetDepartTreeSyncResult[]) => {
   rootTreeData.value = data;
 };
 
-const toogleLoading = (value: boolean) => {
+const toggleLoading = (value: boolean) => {
   isLoading.value = value;
 };
 
@@ -45,7 +45,7 @@ const onSuccess = () => {
             :is-loading="isLoading"
             @select="onTreeSelect"
             @root-tree-data="onRootTreeData"
-            @loading="toogleLoading"
+            @loading="toggleLoading"
           />
         </a-col>
         <a-col :xl="12" :lg="24" :md="24" class="mb-[10px]">
@@ -62,14 +62,14 @@ const onSuccess = () => {
                   :data="departData"
                   :root-tree-data="rootTreeData"
                   @success="onSuccess"
-                  @loading="toogleLoading"
+                  @loading="toggleLoading"
                 />
               </a-tab-pane>
               <a-tab-pane tab="部门权限" key="role-info">
                 <DepartRuleTab
                   :is-loading="isLoading"
                   :data="departData"
-                  @loading="toogleLoading"
+                  @loading="toggleLoading"
                 />
               </a-tab-pane>
             </a-tabs>

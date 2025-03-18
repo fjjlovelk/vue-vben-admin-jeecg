@@ -1,11 +1,12 @@
 import type { HttpResponse } from '@vben/request';
 
+import type { PageFetchParams } from '#/api/request';
 import type { RoleItem, RoleTreeItem } from '#/views/system/role/role.types';
 
 import { requestClient } from '#/api/request';
 
 export namespace SystemRoleApi {
-  export interface GetRoleListParams {
+  export interface GetRoleListParams extends PageFetchParams {
     roleName: string;
     roleCode: string;
     pageNo: number;

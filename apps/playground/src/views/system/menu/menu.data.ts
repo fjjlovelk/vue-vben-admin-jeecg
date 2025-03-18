@@ -1,4 +1,8 @@
-import type { AntdFormProps, VxeTableGridOptions } from '@vben/common-ui';
+import type {
+  AntdFormProps,
+  VxeGridProps,
+  VxeTableGridOptions,
+} from '@vben/common-ui';
 
 import type { SystemMenuApi } from '#/api/system/menu';
 
@@ -18,6 +22,7 @@ export const menuQueryFormConfig: AntdFormProps = {
 // 菜单列表column
 export const menuColumns: VxeTableGridOptions<SystemMenuApi.GetPermissionListResult>['columns'] =
   [
+    { type: 'checkbox', width: 50 },
     {
       title: '菜单名称',
       field: 'name',
@@ -31,6 +36,30 @@ export const menuColumns: VxeTableGridOptions<SystemMenuApi.GetPermissionListRes
     { title: '排序', field: 'sortNo', width: 50 },
     { title: '操作', width: 160, fixed: 'right', slots: { default: 'action' } },
   ];
+
+// 表格配置项
+export const menuGridOptions: VxeGridProps<SystemMenuApi.GetPermissionListResult> =
+  {
+    keepSource: true,
+    treeConfig: {},
+    pagerConfig: {
+      enabled: false,
+    },
+    toolbarConfig: {
+      slots: {
+        buttons: 'toolbar_buttons',
+      },
+    },
+    proxyConfig: {
+      ajax: {
+        query: async (_, formValues) => {
+          const { result } = await getPermissionListApi(formValues);
+          return result;
+        },
+      },
+    },
+    columns: menuColumns,
+  };
 
 // 新增/编辑菜单 表单
 export const menuDrawerFormConfig: AntdFormProps = {

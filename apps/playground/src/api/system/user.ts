@@ -1,15 +1,21 @@
 import type { HttpResponse } from '@vben/request';
 import type { UserInfo } from '@vben/types';
 
+import type { PageFetchParams } from '#/api/request';
+
 import { requestClient } from '#/api/request';
 
 export namespace SystemUserApi {
-  export interface GetUserListParams {
-    username: string;
-    realname: string;
-    sex: number;
-    phone: string;
-    status: number;
+  export interface GetUserListParams extends PageFetchParams {
+    username?: string;
+    realname?: string;
+    sex?: number;
+    phone?: string;
+    status?: UserInfo['status'];
+  }
+  export interface FreezeBatchUserParams {
+    ids: string;
+    status: UserInfo['status'];
   }
 }
 
@@ -35,4 +41,11 @@ export async function deleteUserApi(params: { id: string }) {
   return requestClient.delete<string>('/api/sys/user/delete', {
     params,
   });
+}
+
+// 冻结/解冻用户
+export async function freezeBatchUserApi(
+  data: SystemUserApi.FreezeBatchUserParams,
+) {
+  return requestClient.put<string>('/api/sys/user/frozenBatch', data);
 }
