@@ -9,6 +9,10 @@ import DepartFormTab from './depart-form-tab.vue';
 import DepartLeftTree from './depart-left-tree.vue';
 import DepartRuleTab from './depart-rule-tab.vue';
 
+defineOptions({
+  name: 'SystemDepart',
+});
+
 const leftTree = ref();
 const isLoading = ref(false);
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem } from '@vben/common-ui';
+import type { ActionItem, VxeGridProps } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
 import type { SystemMenuApi } from '#/api/system/menu';
@@ -17,10 +17,14 @@ import { IconifyIcon } from '@vben/icons';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deletePermissionApi } from '#/api/system/menu';
+import {
+  deleteBatchPermissionApi,
+  deletePermissionApi,
+  getPermissionListApi,
+} from '#/api/system/menu';
 
 import MenuDrawer from './menu-drawer.vue';
-import { menuGridOptions, menuQueryFormConfig } from './menu.data';
+import { menuColumns, menuQueryFormSchema } from './menu.data';
 
 defineOptions({
   name: 'SystemMenu',
@@ -30,8 +34,35 @@ const { checkedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
   useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: menuQueryFormConfig,
-  gridOptions: menuGridOptions,
+  formOptions: {
+    schema: menuQueryFormSchema,
+  },
+  gridOptions: {
+    keepSource: true,
+    treeConfig: {},
+    pagerConfig: {
+      enabled: false,
+    },
+    checkboxConfig: {
+      reserve: true,
+      checkStrictly: true,
+      showHeader: true,
+    },
+    toolbarConfig: {
+      slots: {
+        buttons: 'toolbar_buttons',
+      },
+    },
+    proxyConfig: {
+      ajax: {
+        query: async (_, formValues) => {
+          const { result } = await getPermissionListApi(formValues);
+          return result;
+        },
+      },
+    },
+    columns: menuColumns,
+  } as VxeGridProps<SystemMenuApi.GetPermissionListResult>,
   gridEvents: {
     checkboxChange: onCheckboxChange,
     checkboxAll: onCheckboxChange,
@@ -108,6 +139,37 @@ const handleDelete = (row: SystemMenuApi.GetPermissionListResult) => {
   });
 };
 
+// 删除
+const handleDeleteBatch = () => {
+  if (checkedRows.value.length === 0) {
+    return;
+  }
+  const key = 'delete_batch_menu';
+  Modal.confirm({
+    title: '提示',
+    content: '确认删除选中菜单吗？',
+    onOk() {
+      const hideLoading = message.loading({
+        content: '正在删除',
+        duration: 0,
+        key,
+      });
+      const ids = checkedRows.value.map((row) => row.id).join(',');
+      deleteBatchPermissionApi({ ids })
+        .then(() => {
+          message.success({
+            content: '删除成功',
+            key,
+          });
+          handleRefresh();
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    },
+  });
+};
+
 // 表格内部更多按钮
 const getActions = (
   row: SystemMenuApi.GetPermissionListResult,
@@ -124,6 +186,17 @@ const getActions = (
     },
   ];
 };
+
+// 批量按鈕
+const getBatchActions = (): ActionItem[] => {
+  return [
+    {
+      label: '删除',
+      danger: true,
+      onClick: handleDeleteBatch.bind(null),
+    },
+  ];
+};
 </script>
 
 <template>
@@ -136,6 +209,13 @@ const getActions = (
           <a-button type="primary" @click="handleCollapseAll">
             折叠全部
           </a-button>
+          <MoreAction
+            v-if="checkedRows.length > 0"
+            type="default"
+            size="normal"
+            content="批量操作"
+            :actions="getBatchActions()"
+          />
         </div>
         <TableCheckTip :count="checkedRows.length" @clear="handleClearCheck" />
       </template>

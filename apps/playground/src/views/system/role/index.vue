@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem } from '@vben/common-ui';
+import type { ActionItem, VxeGridProps } from '@vben/common-ui';
 
 import type { SystemRoleApi } from '#/api';
 
@@ -13,19 +13,41 @@ import { ViewTypeEnum } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deleteRoleApi } from '#/api';
+import { deleteRoleApi, getRoleListApi } from '#/api';
 
 import RoleDrawer from './role-drawer.vue';
 import RolePermissionDrawer from './role-permission-drawer.vue';
-import { roleGridOptions, roleQueryFormConfig } from './role.data';
+import { roleColumns, roleQueryFormSchema } from './role.data';
 
 defineOptions({
   name: 'SystemRole',
 });
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: roleQueryFormConfig,
-  gridOptions: roleGridOptions,
+  formOptions: {
+    commonConfig: {
+      labelWidth: 70,
+    },
+    schema: roleQueryFormSchema,
+  },
+  gridOptions: {
+    toolbarConfig: {
+      slots: {
+        buttons: 'toolbar_buttons',
+      },
+    },
+    proxyConfig: {
+      ajax: {
+        query: async ({ page }, formValues) =>
+          await getRoleListApi({
+            pageNo: page.currentPage,
+            pageSize: page.pageSize,
+            ...formValues,
+          }),
+      },
+    },
+    columns: roleColumns,
+  } as VxeGridProps<SystemRoleApi.GetRoleListResult>,
 });
 
 // 新增、编辑角色

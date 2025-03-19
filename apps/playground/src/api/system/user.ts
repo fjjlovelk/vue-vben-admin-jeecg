@@ -26,6 +26,16 @@ export async function getUserListApi(params?: SystemUserApi.GetUserListParams) {
   });
 }
 
+// 获取回收站用户列表
+export async function getRecycleUserListApi(params?: PageFetchParams) {
+  return requestClient.get<HttpResponse<UserInfo[]>>(
+    '/api/sys/user/recycleBin',
+    {
+      params,
+    },
+  );
+}
+
 // 新增用户
 export async function addUserApi(data: Partial<UserInfo>) {
   return requestClient.post<string>('/api/sys/user/add', data);
@@ -55,4 +65,9 @@ export async function freezeBatchUserApi(
   data: SystemUserApi.FreezeBatchUserParams,
 ) {
   return requestClient.put<string>('/api/sys/user/frozenBatch', data);
+}
+
+// 取回回收站用户
+export async function revertBatchUserApi(data: { userIds: string }) {
+  return requestClient.put<string>('/api/sys/user/putRecycleBin', data);
 }

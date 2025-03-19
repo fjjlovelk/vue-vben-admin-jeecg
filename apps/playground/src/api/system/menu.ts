@@ -54,3 +54,10 @@ export async function deletePermissionApi(params: { id: string }) {
     params,
   });
 }
+
+// 批量删除菜单
+export async function deleteBatchPermissionApi(params: { ids: string }) {
+  return requestClient.delete<string>('/api/sys/permission/deleteBatch', {
+    params,
+  });
+}

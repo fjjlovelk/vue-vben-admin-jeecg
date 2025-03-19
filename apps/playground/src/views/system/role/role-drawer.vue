@@ -10,7 +10,7 @@ import { message } from 'ant-design-vue';
 
 import { addPermissionApi, editPermissionApi } from '#/api';
 
-import { roleDrawerFormConfig } from './role.data';
+import { roleDrawerFormSchema } from './role.data';
 
 defineOptions({
   name: 'RoleDrawer',
@@ -24,7 +24,13 @@ const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}角色`);
 
-const [Form, formApi] = useAntdForm(roleDrawerFormConfig);
+const [Form, formApi] = useAntdForm({
+  commonConfig: {
+    labelWidth: 100,
+  },
+  showDefaultActions: false,
+  schema: roleDrawerFormSchema,
+});
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,
   onOpenChange(isOpen) {

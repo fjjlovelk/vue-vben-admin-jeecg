@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PermissionMenuItem } from '#/views/system/menu/menu.types';
+import type { PermissionMenuItem } from './menu.types';
 
 import { computed, ref } from 'vue';
 
@@ -10,7 +10,7 @@ import { message } from 'ant-design-vue';
 
 import { addPermissionApi, editPermissionApi } from '#/api';
 
-import { menuDrawerFormConfig } from './menu.data';
+import { menuDrawerFormSchema } from './menu.data';
 
 defineOptions({
   name: 'MenuDrawer',
@@ -24,7 +24,13 @@ const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}菜单`);
 
-const [Form, formApi] = useAntdForm(menuDrawerFormConfig);
+const [Form, formApi] = useAntdForm({
+  commonConfig: {
+    labelWidth: 100,
+  },
+  showDefaultActions: false,
+  schema: menuDrawerFormSchema,
+});
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,
   onOpenChange(isOpen) {

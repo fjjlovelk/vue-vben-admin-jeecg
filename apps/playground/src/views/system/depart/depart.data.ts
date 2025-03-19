@@ -1,6 +1,6 @@
-import type { AntdFormProps } from '@vben/common-ui';
+import type { AntdFormSchema } from '@vben/common-ui';
 
-export const departFormSchema: AntdFormProps['schema'] = [
+export const departFormSchema: AntdFormSchema[] = [
   {
     fieldName: 'departName',
     label: '机构名称',

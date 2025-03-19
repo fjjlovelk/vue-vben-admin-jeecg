@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActionItem } from '@vben/common-ui';
+import type { ActionItem, VxeGridProps } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
 import {
@@ -8,16 +8,24 @@ import {
   TableCheckTip,
   useTableCheckTip,
   useVbenDrawer,
+  useVbenModal,
   useVbenVxeGrid,
 } from '@vben/common-ui';
 import { ViewTypeEnum } from '@vben/constants';
 
 import { message, Modal } from 'ant-design-vue';
 
-import { deleteBatchUserApi, deleteUserApi, freezeBatchUserApi } from '#/api';
+import {
+  deleteBatchUserApi,
+  deleteUserApi,
+  freezeBatchUserApi,
+  getUserListApi,
+  SystemUserApi,
+} from '#/api';
 
 import UserDrawer from './user-drawer.vue';
-import { userGridOptions, userQueryFormConfig } from './user.data';
+import UserRecycleBinModal from './user-recycle-bin-modal.vue';
+import { userColumns, userQueryFormSchema } from './user.data';
 
 defineOptions({
   name: 'SystemUser',
@@ -27,8 +35,30 @@ const { checkedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
   useTableCheckTip<UserInfo>();
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions: userQueryFormConfig,
-  gridOptions: userGridOptions,
+  formOptions: {
+    commonConfig: {
+      labelWidth: 70,
+    },
+    schema: userQueryFormSchema,
+  },
+  gridOptions: {
+    toolbarConfig: {
+      slots: {
+        buttons: 'toolbar_buttons',
+      },
+    },
+    proxyConfig: {
+      ajax: {
+        query: async ({ page }, formValues) =>
+          await getUserListApi({
+            pageNo: page.currentPage,
+            pageSize: page.pageSize,
+            ...formValues,
+          }),
+      },
+    },
+    columns: userColumns,
+  } as VxeGridProps<SystemUserApi.GetUserListParams>,
   gridEvents: {
     checkboxChange: onCheckboxChange,
     checkboxAll: onCheckboxChange,
@@ -42,9 +72,19 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
+// 回收站
+const [UserRecycleBinModalCom, userRecycleBinModalApi] = useVbenModal({
+  connectedComponent: UserRecycleBinModal,
+});
+
 // 刷新表格
 const handleRefresh = () => {
   gridApi.query();
+};
+
+// 打开回收站
+const handleOpenRecycleBinModal = () => {
+  userRecycleBinModalApi.open();
 };
 
 // 新增用户
@@ -95,7 +135,6 @@ const handleFreezeBatch = (status: UserInfo['status']) => {
   if (checkedRows.value.length === 0) {
     return;
   }
-  const ids = checkedRows.value.map((row) => row.id).join(',');
   const tip = status === 1 ? '冻结' : '解冻';
   const key = status === 1 ? 'freeze_batch_user' : 'unfreeze_batch_user';
   Modal.confirm({
@@ -107,6 +146,7 @@ const handleFreezeBatch = (status: UserInfo['status']) => {
         duration: 0,
         key,
       });
+      const ids = checkedRows.value.map((row) => row.id).join(',');
       freezeBatchUserApi({ ids, status })
         .then(() => {
           message.success({
@@ -154,7 +194,6 @@ const handleDeleteBatch = () => {
   if (checkedRows.value.length === 0) {
     return;
   }
-  const ids = checkedRows.value.map((row) => row.id).join(',');
   const key = 'delete_batch_user';
   Modal.confirm({
     title: '提示',
@@ -165,6 +204,7 @@ const handleDeleteBatch = () => {
         duration: 0,
         key,
       });
+      const ids = checkedRows.value.map((row) => row.id).join(',');
       deleteBatchUserApi({ ids })
         .then(() => {
           message.success({
@@ -233,6 +273,9 @@ const getBatchActions = (): ActionItem[] => {
       <template #toolbar_buttons>
         <div class="mb-[5px] w-full">
           <a-button type="primary" @click="handleAdd">新增用户</a-button>
+          <a-button type="primary" @click="handleOpenRecycleBinModal">
+            回收站
+          </a-button>
           <a-button type="primary" v-access="['system:user:export']">
             导出
           </a-button>
@@ -256,7 +299,10 @@ const getBatchActions = (): ActionItem[] => {
         <MoreAction :actions="getActions(row)" />
       </template>
     </Grid>
+    <!-- 用户 -->
     <UserDrawerCom @success="handleRefresh" />
+    <!-- 回收站 -->
+    <UserRecycleBinModalCom @success="handleRefresh" />
   </Page>
 </template>
 

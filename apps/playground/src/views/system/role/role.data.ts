@@ -1,31 +1,20 @@
-import type {
-  AntdFormProps,
-  VxeGridProps,
-  VxeTableGridOptions,
-} from '@vben/common-ui';
+import type { AntdFormSchema, VxeTableGridOptions } from '@vben/common-ui';
 
 import type { SystemRoleApi } from '#/api';
 
-import { getRoleListApi } from '#/api';
-
 // 角色列表查询表单
-export const roleQueryFormConfig: AntdFormProps = {
-  commonConfig: {
-    labelWidth: 70,
+export const roleQueryFormSchema: AntdFormSchema[] = [
+  {
+    component: 'Input',
+    label: '角色名称',
+    fieldName: 'roleName',
   },
-  schema: [
-    {
-      component: 'Input',
-      label: '角色名称',
-      fieldName: 'roleName',
-    },
-    {
-      component: 'Input',
-      label: '角色编码',
-      fieldName: 'roleCode',
-    },
-  ],
-};
+  {
+    component: 'Input',
+    label: '角色编码',
+    fieldName: 'roleCode',
+  },
+];
 
 // 角色列表column
 export const roleColumns: VxeTableGridOptions<SystemRoleApi.GetRoleListResult>['columns'] =
@@ -53,49 +42,23 @@ export const roleColumns: VxeTableGridOptions<SystemRoleApi.GetRoleListResult>['
     { title: '操作', width: 200, fixed: 'right', slots: { default: 'action' } },
   ];
 
-// 表格配置项
-export const roleGridOptions: VxeGridProps<SystemRoleApi.GetRoleListResult> = {
-  toolbarConfig: {
-    slots: {
-      buttons: 'toolbar_buttons',
-    },
-  },
-  proxyConfig: {
-    ajax: {
-      query: async ({ page }, formValues) =>
-        await getRoleListApi({
-          pageNo: page.currentPage,
-          pageSize: page.pageSize,
-          ...formValues,
-        }),
-    },
-  },
-  columns: roleColumns,
-};
-
 // 新增/编辑角色 表单
-export const roleDrawerFormConfig: AntdFormProps = {
-  commonConfig: {
-    labelWidth: 100,
+export const roleDrawerFormSchema: AntdFormSchema[] = [
+  {
+    label: '角色名称',
+    fieldName: 'roleName',
+    rules: 'required',
+    component: 'Input',
   },
-  showDefaultActions: false,
-  schema: [
-    {
-      label: '角色名称',
-      fieldName: 'roleName',
-      rules: 'required',
-      component: 'Input',
-    },
-    {
-      label: '角色编码',
-      fieldName: 'roleCode',
-      rules: 'required',
-      component: 'Input',
-    },
-    {
-      label: '备注',
-      fieldName: 'description',
-      component: 'Textarea',
-    },
-  ],
-};
+  {
+    label: '角色编码',
+    fieldName: 'roleCode',
+    rules: 'required',
+    component: 'Input',
+  },
+  {
+    label: '备注',
+    fieldName: 'description',
+    component: 'Textarea',
+  },
+];

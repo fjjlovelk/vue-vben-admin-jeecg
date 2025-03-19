@@ -21,6 +21,12 @@ setupVbenVxeTable({
         columnConfig: {
           resizable: false,
         },
+        rowConfig: {
+          keyField: '_X_ROW_KEY',
+        },
+        checkboxConfig: {
+          reserve: true,
+        },
         formConfig: {
           // 全局禁用vxe-table的表单配置，使用formOptions
           enabled: false,

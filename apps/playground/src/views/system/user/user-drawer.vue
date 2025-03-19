@@ -9,21 +9,25 @@ import cloneDeep from 'lodash.clonedeep';
 
 import { addUserApi, editUserApi, getUserRoleApi } from '#/api';
 
-import { userDrawerFormConfig } from './user.data';
+import { userDrawerFormSchema } from './user.data';
 
 defineOptions({
   name: 'UserDrawer',
 });
-const emit = defineEmits<{
-  success: [];
-}>();
+const emit = defineEmits(['success']);
 
 const formId = ref<string>('');
 const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
 const drawerTitle = computed(() => `${getViewType(viewType.value)}用户`);
 
-const [Form, formApi] = useAntdForm(userDrawerFormConfig);
+const [Form, formApi] = useAntdForm({
+  commonConfig: {
+    labelWidth: 100,
+  },
+  showDefaultActions: false,
+  schema: userDrawerFormSchema,
+});
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,
   onOpenChange(isOpen) {
@@ -50,6 +54,7 @@ async function initData() {
     newValues.relTenantIds = ((values.relTenantIds || '') as string)
       .split(',')
       .map((element) => Number.parseInt(element));
+    newValues.sex = `${values.sex || ''}`;
     await formApi.setValues(newValues);
 
     if (viewType.value === ViewTypeEnum.VIEW) {
