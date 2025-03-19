@@ -2,6 +2,8 @@
 import type { ActionItem, VxeGridProps } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
+import type { SystemUserApi } from '#/api';
+
 import {
   MoreAction,
   Page,
@@ -20,7 +22,6 @@ import {
   deleteUserApi,
   freezeBatchUserApi,
   getUserListApi,
-  SystemUserApi,
 } from '#/api';
 
 import UserDrawer from './user-drawer.vue';
