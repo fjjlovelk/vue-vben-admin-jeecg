@@ -146,11 +146,21 @@ export const userDrawerFormSchema: AntdFormSchema[] = [
       class: 'w-full',
     },
   },
-  // {
-  //   label: '头像',
-  //   fieldName: 'avatar',
-  //   component: 'Upload',
-  // },
+  {
+    label: '头像',
+    fieldName: 'avatar',
+    component: 'ImageUpload',
+    componentProps: {
+      action: '/upload-api/sys/common/upload',
+      headers: {
+        'X-Access-Token': accessStore.accessToken,
+      },
+      data: (file: File) => ({
+        biz: 'temp',
+        file,
+      }),
+    },
+  },
   {
     label: '生日',
     fieldName: 'birthday',

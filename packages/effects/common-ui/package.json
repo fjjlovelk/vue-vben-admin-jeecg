@@ -34,6 +34,7 @@
     "@vueuse/core": "catalog:",
     "@vueuse/integrations": "catalog:",
     "ant-design-vue": "catalog:",
+    "nanoid": "catalog:",
     "qrcode": "catalog:",
     "tippy.js": "catalog:",
     "vue": "catalog:",

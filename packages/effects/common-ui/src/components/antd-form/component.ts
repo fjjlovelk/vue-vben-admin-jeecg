@@ -42,6 +42,7 @@ import {
 import { ApiComponent } from '../api-component';
 import { AsyncTreeSelect } from '../async-tree-select';
 import { IconPicker } from '../icon-picker';
+import { ImageUpload } from '../image-upload';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -89,6 +90,7 @@ export type AntdComponentType =
   | 'DefaultButton'
   | 'Divider'
   | 'IconPicker'
+  | 'ImageUpload'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
@@ -176,6 +178,7 @@ async function initComponentAdapter() {
         slots,
       );
     },
+    ImageUpload,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),

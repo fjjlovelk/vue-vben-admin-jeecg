@@ -9,9 +9,13 @@ export default defineConfig(async () => {
           '/api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
-            // mock代理目标地址
-            // target: 'http://localhost:5320/api',
             target: 'https://boot3.jeecg.com/jeecgboot',
+            ws: true,
+          },
+          '/upload-api': {
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/upload-api/, ''),
+            target: 'https://api3.boot.jeecg.com',
             ws: true,
           },
         },
