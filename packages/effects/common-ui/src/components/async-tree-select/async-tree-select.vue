@@ -9,6 +9,8 @@ import { IconifyIcon } from '@vben/icons';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
+import { Button, Input, Select } from 'ant-design-vue';
+
 import DeptSelectModal from './async-tree-select-modal.vue';
 
 defineOptions({
@@ -113,7 +115,7 @@ const selectValue = computed({
 <template>
   <div class="flex w-full">
     <!--  eslint-disable vue/attribute-hyphenation  -->
-    <a-input
+    <Input
       v-show="isLoading"
       class="mr-[4px] flex-1"
       readOnly
@@ -123,8 +125,8 @@ const selectValue = computed({
       <template #prefix>
         <IconifyIcon icon="ant-design:loading-outlined" />
       </template>
-    </a-input>
-    <a-select
+    </Input>
+    <Select
       v-show="!isLoading"
       v-model:value="selectValue"
       class="mr-[4px] flex-1"
@@ -141,14 +143,14 @@ const selectValue = computed({
       @click="openModal"
       @change="handleChange"
     />
-    <a-button
+    <Button
       type="primary"
       :size="size"
       :disabled="disabled || isLoading"
       @click="openModal"
     >
       选择
-    </a-button>
+    </Button>
     <DeptSelectModalCom v-bind="modalProps" @success="handleSuccess" />
   </div>
 </template>

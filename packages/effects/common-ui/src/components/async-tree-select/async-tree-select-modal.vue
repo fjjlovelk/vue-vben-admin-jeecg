@@ -10,6 +10,8 @@ import { computed, ref, toRaw } from 'vue';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
+import { Tree } from 'ant-design-vue';
+
 defineOptions({
   name: 'AsyncTreeSelectModal',
   inheritAttrs: false,
@@ -30,7 +32,7 @@ const loadedKeys = ref<Key[]>([]);
 // 已展开的key，用来保持展开状态
 const expandedKeys = ref<Key[]>([]);
 // 树数据
-const treeData = ref<Recordable<any>[]>([]);
+const treeData = ref<DataNode[]>([]);
 // 是否已经获取过数据
 const hasFetchedData = ref(false);
 
@@ -122,7 +124,7 @@ const handleCheckTree: TreeProps['onCheck'] = (e, info) => {
     class="w-[600px]"
     :content-class="`h-[${maxHeight}px]`"
   >
-    <a-tree
+    <Tree
       :checked-keys="checkedKeys"
       checkable
       :selectable="false"
