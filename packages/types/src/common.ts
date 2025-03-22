@@ -7,3 +7,10 @@ export interface DictItem {
 }
 
 export type SysAllDictItems = Record<string, DictItem[]>;
+
+export interface BaseTreeItem {
+  children: BaseTreeItem[];
+  key: string;
+  title: string;
+  value: string;
+}

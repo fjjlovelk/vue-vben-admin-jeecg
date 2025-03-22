@@ -1,5 +1,5 @@
 import type { HttpResponse } from '@vben/request';
-import type { UserInfo } from '@vben/types';
+import type { BaseTreeItem, UserInfo } from '@vben/types';
 
 import type { PageFetchParams } from '#/api/request';
 
@@ -70,4 +70,11 @@ export async function freezeBatchUserApi(
 // 取回回收站用户
 export async function revertBatchUserApi(data: { userIds: string }) {
   return requestClient.put<string>('/api/sys/user/putRecycleBin', data);
+}
+
+// 获取用户所属部门
+export async function getUserDepartListApi(params: { userId: string }) {
+  return requestClient.get<BaseTreeItem[]>('/api/sys/user/userDepartList', {
+    params,
+  });
 }

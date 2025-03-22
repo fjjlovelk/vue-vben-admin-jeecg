@@ -125,6 +125,7 @@ export const userDrawerFormSchema: AntdFormSchema[] = [
     fieldName: 'selecteddeparts',
     component: 'AsyncTreeSelect',
     componentProps: {
+      modalTitle: '所属部门',
       fetchLabelApi: async (ids: Key[]) =>
         await getDepartTreeApi({ ids: ids.join(',') }),
       fetchTreeApi: getDepartTreeSyncApi,

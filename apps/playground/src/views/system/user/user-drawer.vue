@@ -7,7 +7,12 @@ import { getViewType, ViewTypeEnum } from '@vben/constants';
 import { message } from 'ant-design-vue';
 import cloneDeep from 'lodash.clonedeep';
 
-import { addUserApi, editUserApi, getUserRoleApi } from '#/api';
+import {
+  addUserApi,
+  editUserApi,
+  getUserDepartListApi,
+  getUserRoleApi,
+} from '#/api';
 
 import { userDrawerFormSchema } from './user.data';
 
@@ -55,10 +60,12 @@ async function initData() {
       .split(',')
       .map((element) => Number.parseInt(element));
     newValues.sex = `${values.sex || ''}`;
-    newValues.selecteddeparts = values.orgCode ? values.orgCode.split(',') : [];
+    const userDepart = await getUserDepartListApi({ userId: formId.value });
+    if (userDepart && userDepart.length > 0) {
+      newValues.selecteddeparts = userDepart.map((item) => item.key);
+    }
     await formApi.setValues(newValues);
     if (viewType.value === ViewTypeEnum.VIEW) {
-      drawerApi.setState({ footer: false });
       formApi.setState({
         commonConfig: {
           disabled: true,

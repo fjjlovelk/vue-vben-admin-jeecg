@@ -100,7 +100,10 @@ const handleEdit = (row: UserInfo) => {
 
 // 查看用户
 const handleView = (row: UserInfo) => {
-  userDrawerApi.setData({ ...row, viewType: ViewTypeEnum.VIEW }).open();
+  userDrawerApi
+    .setState({ footer: false })
+    .setData({ ...row, viewType: ViewTypeEnum.VIEW })
+    .open();
 };
 
 // 冻结/解冻
