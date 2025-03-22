@@ -55,8 +55,8 @@ async function initData() {
       .split(',')
       .map((element) => Number.parseInt(element));
     newValues.sex = `${values.sex || ''}`;
+    newValues.selecteddeparts = values.orgCode ? values.orgCode.split(',') : [];
     await formApi.setValues(newValues);
-
     if (viewType.value === ViewTypeEnum.VIEW) {
       drawerApi.setState({ footer: false });
       formApi.setState({

@@ -1,9 +1,16 @@
+import type { DataNode, Key } from 'ant-design-vue/es/vc-tree/interface';
+
 import type { AntdFormSchema, VxeTableGridOptions } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
 import { useAccessStore } from '@vben/stores';
 
-import { getRoleListByTenantApi, getTenantListApi } from '#/api';
+import {
+  getDepartTreeApi,
+  getDepartTreeSyncApi,
+  getRoleListByTenantApi,
+  getTenantListApi,
+} from '#/api';
 
 const accessStore = useAccessStore();
 
@@ -116,13 +123,14 @@ export const userDrawerFormSchema: AntdFormSchema[] = [
   {
     label: '所属部门',
     fieldName: 'selecteddeparts',
-    component: 'ApiSelect',
+    component: 'AsyncTreeSelect',
     componentProps: {
-      api: getRoleListByTenantApi,
-      labelField: 'roleName',
-      valueField: 'id',
-      mode: 'multiple',
-      class: 'w-full',
+      fetchLabelApi: async (ids: Key[]) =>
+        await getDepartTreeApi({ ids: ids.join(',') }),
+      fetchTreeApi: getDepartTreeSyncApi,
+      params: (data: DataNode) => ({
+        pid: data?.key || undefined,
+      }),
     },
   },
   {

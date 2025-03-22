@@ -1,3 +1,5 @@
+import type { Recordable } from '@vben/types';
+
 import type { BasicDepartInfo } from '#/views/system/depart/depart.types';
 
 import { requestClient } from '#/api/request';
@@ -54,6 +56,16 @@ export async function deleteBatchDepartApi(params: { ids: string }) {
 export async function searchDepartApi(params: { keyWord: string }) {
   return requestClient.get<SystemDepartApi.GetDepartTreeSyncResult[]>(
     '/api/sys/sysDepart/searchBy',
+    {
+      params,
+    },
+  );
+}
+
+// 获取部门树
+export async function getDepartTreeApi(params: Recordable<any>) {
+  return requestClient.get<SystemDepartApi.GetDepartTreeSyncResult[]>(
+    '/api/sys/sysDepart/queryTreeList',
     {
       params,
     },

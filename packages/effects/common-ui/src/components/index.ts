@@ -1,5 +1,6 @@
 export * from './antd-form';
 export * from './api-component';
+export * from './async-tree-select';
 export * from './captcha';
 export * from './col-page';
 export * from './count-to';

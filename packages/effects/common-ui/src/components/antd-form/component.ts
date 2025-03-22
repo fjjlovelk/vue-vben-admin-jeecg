@@ -40,6 +40,7 @@ import {
 } from 'ant-design-vue';
 
 import { ApiComponent } from '../api-component';
+import { AsyncTreeSelect } from '../async-tree-select';
 import { IconPicker } from '../icon-picker';
 
 const withDefaultPlaceholder = <T extends Component>(
@@ -80,6 +81,7 @@ const withDefaultPlaceholder = <T extends Component>(
 export type AntdComponentType =
   | 'ApiSelect'
   | 'ApiTreeSelect'
+  | 'AsyncTreeSelect'
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
@@ -159,6 +161,7 @@ async function initComponentAdapter() {
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
+    AsyncTreeSelect,
     Divider,
     IconPicker: (props, { attrs, slots }) => {
       return h(

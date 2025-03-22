@@ -3,10 +3,7 @@ import type { ExtendedModalApi, ModalProps } from './modal';
 
 import { computed, nextTick, provide, ref, useId, watch } from 'vue';
 
-import {
-  useIsMobile,
-  usePriorityValues,
-} from '@vben-core/composables';
+import { useIsMobile, usePriorityValues } from '@vben-core/composables';
 import { Expand, Shrink } from '@vben-core/icons';
 import {
   Dialog,
