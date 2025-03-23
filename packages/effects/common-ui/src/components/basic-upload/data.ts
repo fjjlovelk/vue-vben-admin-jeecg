@@ -28,7 +28,7 @@ export const basicUploadModalColumn: VxeTableGridOptions<UserInfo>['columns'] =
       width: 80,
       slots: { default: 'status' },
     },
-    { title: '操作', width: 70, fixed: 'right', slots: { default: 'action' } },
+    { title: '操作', width: 80, fixed: 'right', slots: { default: 'action' } },
   ];
 
 export const basicUploadPreviewModalColumn: VxeTableGridOptions<UserInfo>['columns'] =

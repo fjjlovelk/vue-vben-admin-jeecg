@@ -21,7 +21,7 @@ import {
   deleteBatchUserApi,
   deleteUserApi,
   freezeBatchUserApi,
-  getUserListApi,
+  getUserListAllApi,
 } from '#/api';
 
 import UserDrawer from './user-drawer.vue';
@@ -51,7 +51,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) =>
-          await getUserListApi({
+          await getUserListAllApi({
             pageNo: page.currentPage,
             pageSize: page.pageSize,
             ...formValues,
@@ -76,6 +76,7 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
 // 回收站
 const [UserRecycleBinModalCom, userRecycleBinModalApi] = useVbenModal({
   connectedComponent: UserRecycleBinModal,
+  destroyOnClose: true,
 });
 
 // 刷新表格

@@ -62,3 +62,34 @@ export const roleDrawerFormSchema: AntdFormSchema[] = [
     component: 'Textarea',
   },
 ];
+
+// 角色用户列表查询表单
+export const roleUserQueryFormSchema: AntdFormSchema[] = [
+  {
+    component: 'Input',
+    label: '用户账号',
+    fieldName: 'username',
+  },
+];
+
+// 角色用户列表column
+export const roleUserColumns: VxeTableGridOptions<SystemRoleApi.GetRoleListResult>['columns'] =
+  [
+    { type: 'checkbox', width: 50 },
+    {
+      title: '用户账号',
+      field: 'username',
+      minWidth: 150,
+    },
+    {
+      title: '用户姓名',
+      field: 'realname',
+      minWidth: 150,
+    },
+    {
+      title: '状态',
+      field: 'status_dictText',
+      width: 80,
+    },
+    { title: '操作', width: 100, fixed: 'right', slots: { default: 'action' } },
+  ];

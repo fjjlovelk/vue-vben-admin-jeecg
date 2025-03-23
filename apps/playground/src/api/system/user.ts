@@ -17,11 +17,35 @@ export namespace SystemUserApi {
     ids: string;
     status: UserInfo['status'];
   }
+  export interface GetUserRoleListParams extends PageFetchParams {
+    roleId: string;
+  }
+  export interface AddUserRoleParams {
+    roleId: string;
+    userIdList: string[];
+  }
+  export interface DeleteUserRoleParams {
+    userId: string;
+    roleId: string;
+  }
+  export interface DeleteUserRoleBatchParams {
+    userIds: string;
+    roleId: string;
+  }
+}
+
+// 获取所有用户列表
+export async function getUserListAllApi(
+  params?: SystemUserApi.GetUserListParams,
+) {
+  return requestClient.get<HttpResponse<UserInfo[]>>('/api/sys/user/listAll', {
+    params,
+  });
 }
 
 // 获取用户列表
 export async function getUserListApi(params?: SystemUserApi.GetUserListParams) {
-  return requestClient.get<HttpResponse<UserInfo[]>>('/api/sys/user/listAll', {
+  return requestClient.get<HttpResponse<UserInfo[]>>('/api/sys/user/list', {
     params,
   });
 }
@@ -77,4 +101,45 @@ export async function getUserDepartListApi(params: { userId: string }) {
   return requestClient.get<BaseTreeItem[]>('/api/sys/user/userDepartList', {
     params,
   });
+}
+
+// 根据角色id获取用户
+export async function getUserRoleListApi(
+  params: SystemUserApi.GetUserRoleListParams,
+) {
+  return requestClient.get<HttpResponse<UserInfo[]>>(
+    '/api/sys/user/userRoleList',
+    {
+      params,
+    },
+  );
+}
+
+// 添加用户角色绑定关系
+export async function addUserRoleApi(data: SystemUserApi.AddUserRoleParams) {
+  return requestClient.post<string>('/api/sys/user/addSysUserRole', data);
+}
+
+// 删除用户角色绑定关系
+export async function deleteUserRoleApi(
+  params: SystemUserApi.DeleteUserRoleParams,
+) {
+  return requestClient.delete<HttpResponse<UserInfo[]>>(
+    '/api/sys/user/deleteUserRole',
+    {
+      params,
+    },
+  );
+}
+
+// 批量删除用户角色绑定关系
+export async function deleteUserRoleBatchApi(
+  params: SystemUserApi.DeleteUserRoleBatchParams,
+) {
+  return requestClient.delete<HttpResponse<UserInfo[]>>(
+    '/api/sys/user/deleteUserRoleBatch',
+    {
+      params,
+    },
+  );
 }

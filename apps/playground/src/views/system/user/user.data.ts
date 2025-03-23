@@ -3,6 +3,8 @@ import type { DataNode, Key } from 'ant-design-vue/es/vc-tree/interface';
 import type { AntdFormSchema, VxeTableGridOptions } from '@vben/common-ui';
 import type { UserInfo } from '@vben/types';
 
+import type { SystemRoleApi } from '#/api';
+
 import { useAccessStore } from '@vben/stores';
 
 import {
@@ -228,3 +230,33 @@ export const userRecycleBinColumns: VxeTableGridOptions<UserInfo>['columns'] = [
   },
   { title: '操作', width: 80, fixed: 'right', slots: { default: 'action' } },
 ];
+
+// 用户选择查询条件
+export const userSelectQueryFormSchema: AntdFormSchema[] = [
+  {
+    component: 'Input',
+    label: '用户账号',
+    fieldName: 'username',
+  },
+];
+
+// 用户选择列表column
+export const userSelectColumns: VxeTableGridOptions<SystemRoleApi.GetRoleListResult>['columns'] =
+  [
+    { type: 'checkbox', width: 50 },
+    {
+      title: '用户账号',
+      field: 'username',
+      minWidth: 150,
+    },
+    {
+      title: '用户姓名',
+      field: 'realname',
+      minWidth: 150,
+    },
+    {
+      title: '状态',
+      field: 'status_dictText',
+      width: 80,
+    },
+  ];

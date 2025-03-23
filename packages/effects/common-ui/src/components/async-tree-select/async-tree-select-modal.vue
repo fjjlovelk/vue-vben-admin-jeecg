@@ -42,7 +42,7 @@ const fieldNames = computed(() => ({
   key: props.valueField,
 }));
 
-const [Modal, modalApi] = useVbenModal({
+const [ModalCom, modalApi] = useVbenModal({
   onOpenChange,
   onConfirm() {
     modalApi.close();
@@ -118,10 +118,10 @@ const handleCheckTree: TreeProps['onCheck'] = (e, info) => {
 </script>
 
 <template>
-  <Modal
+  <ModalCom
     :title="modalTitle"
     :draggable="true"
-    class="w-[600px]"
+    class="w-[700px]"
     :content-class="`h-[${maxHeight}px]`"
   >
     <Tree
@@ -136,5 +136,5 @@ const handleCheckTree: TreeProps['onCheck'] = (e, info) => {
       v-model:expanded-keys="expandedKeys"
       @check="handleCheckTree"
     />
-  </Modal>
+  </ModalCom>
 </template>

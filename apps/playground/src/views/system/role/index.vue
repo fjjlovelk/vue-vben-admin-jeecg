@@ -14,6 +14,7 @@ import { ViewTypeEnum } from '@vben/constants';
 import { message, Modal } from 'ant-design-vue';
 
 import { deleteRoleApi, getRoleListApi } from '#/api';
+import RoleUserDrawer from '#/views/system/role/role-user-drawer.vue';
 
 import RoleDrawer from './role-drawer.vue';
 import RolePermissionDrawer from './role-permission-drawer.vue';
@@ -62,6 +63,12 @@ const [RolePermissionDrawerCom, rolePermissionDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
+// 角色用户
+const [RoleUserDrawerCom, roleUserDrawerApi] = useVbenDrawer({
+  connectedComponent: RoleUserDrawer,
+  destroyOnClose: true,
+});
+
 // 刷新表格
 const handleRefresh = () => {
   gridApi.query();
@@ -75,6 +82,11 @@ const handleAdd = () => {
 // 授权
 const handlePermission = (row: SystemRoleApi.GetRoleListResult) => {
   rolePermissionDrawerApi.setData(row).open();
+};
+
+// 用户
+const handleUser = (row: SystemRoleApi.GetRoleListResult) => {
+  roleUserDrawerApi.setData(row).open();
 };
 
 // 编辑角色
@@ -132,7 +144,7 @@ const getActions = (row: SystemRoleApi.GetRoleListResult): ActionItem[] => {
         <a-button type="primary" @click="handleAdd">新增角色</a-button>
       </template>
       <template #action="{ row }">
-        <a-button type="link" @click="handleEdit(row)" size="small">
+        <a-button type="link" @click="handleUser(row)" size="small">
           用户
         </a-button>
         <a-button type="link" @click="handlePermission(row)" size="small">
@@ -141,8 +153,12 @@ const getActions = (row: SystemRoleApi.GetRoleListResult): ActionItem[] => {
         <MoreAction :actions="getActions(row)" />
       </template>
     </Grid>
+    <!--新增、编辑角色-->
     <RoleDrawerCom @success="handleRefresh" />
+    <!--授权-->
     <RolePermissionDrawerCom />
+    <!--用户-->
+    <RoleUserDrawerCom />
   </Page>
 </template>
 
