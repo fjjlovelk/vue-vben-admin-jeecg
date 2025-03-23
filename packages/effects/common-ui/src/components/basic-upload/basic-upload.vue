@@ -9,7 +9,7 @@ import { IconifyIcon } from '@vben/icons';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
-import { Tooltip } from 'ant-design-vue';
+import { Button, ButtonGroup, Tooltip } from 'ant-design-vue';
 
 import BasicUploadModal from './basic-upload-modal.vue';
 import BasicUploadPreviewModal from './basic-upload-preivew-modal.vue';
@@ -102,24 +102,24 @@ watch(
 </script>
 
 <template>
-  <a-button-group>
-    <a-button type="primary" class="flex items-center" @click="openUploadModal">
+  <ButtonGroup>
+    <Button type="primary" class="flex items-center" @click="openUploadModal">
       <IconifyIcon icon="carbon:cloud-upload" />
       上传
-    </a-button>
+    </Button>
     <Tooltip v-if="showPreview">
       <template #title>
         已上传
         <template v-if="fileList.length > 0">{{ fileList.length }}</template>
       </template>
-      <a-button class="flex items-center" @click="openPreviewModal">
+      <Button class="flex items-center" @click="openPreviewModal">
         <IconifyIcon icon="ant-design:eye-outlined" width="18" height="18" />
         <template v-if="fileList.length > 0 && showPreviewNumber">
           {{ fileList.length }}
         </template>
-      </a-button>
+      </Button>
     </Tooltip>
-  </a-button-group>
+  </ButtonGroup>
   <!-- 上传 -->
   <BasicUploadModalCom
     v-bind="basicUploadModalProps"

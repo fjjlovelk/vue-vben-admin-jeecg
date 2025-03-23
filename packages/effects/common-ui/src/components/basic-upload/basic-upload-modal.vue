@@ -8,7 +8,7 @@ import { checkFileType, checkImgType, getBase64WithFile } from '@vben/utils';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
-import { Image, message, Tag } from 'ant-design-vue';
+import { Alert, Button, Image, message, Tag, Upload } from 'ant-design-vue';
 import { nanoid } from 'nanoid';
 
 import { basicUploadModalColumn } from './data';
@@ -292,36 +292,34 @@ watch(
     :close-on-press-escape="false"
   >
     <template #prepend-footer>
-      <a-button @click="handleCancel" :disabled="isUploadingRef">
-        取消
-      </a-button>
-      <a-button
+      <Button @click="handleCancel" :disabled="isUploadingRef"> 取消 </Button>
+      <Button
         @click="handleStartUpload"
         color="success"
         :disabled="!getIsSelectFile"
         :loading="isUploadingRef"
       >
         {{ getUploadBtnText }}
-      </a-button>
-      <a-button
+      </Button>
+      <Button
         @click="handleConfirm"
         type="primary"
         v-bind="getConfirmButtonProps"
       >
         确认
-      </a-button>
+      </Button>
     </template>
     <div class="flex items-center">
-      <a-alert :message="getHelpText" type="info" banner />
-      <a-upload
+      <Alert :message="getHelpText" type="info" banner />
+      <Upload
         :accept="getStringAccept"
         :multiple="multiple"
         :before-upload="beforeUpload"
         :show-upload-list="false"
         class="ml-[8px] flex-1 text-right"
       >
-        <a-button type="primary">选择文件</a-button>
-      </a-upload>
+        <Button type="primary">选择文件</Button>
+      </Upload>
     </div>
     <Grid>
       <template #thumbUrl="{ row }">
@@ -358,9 +356,9 @@ watch(
         </Tag>
       </template>
       <template #action="{ row }">
-        <a-button type="link" danger @click="handleRemove(row)" size="small">
+        <Button type="link" danger @click="handleRemove(row)" size="small">
           删除
-        </a-button>
+        </Button>
       </template>
     </Grid>
   </Modal>

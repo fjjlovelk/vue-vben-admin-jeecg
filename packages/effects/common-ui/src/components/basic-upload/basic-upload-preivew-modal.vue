@@ -10,7 +10,7 @@ import { downloadByUrl, isImgTypeByName } from '@vben/utils';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
-import { Image } from 'ant-design-vue';
+import { Button, Image } from 'ant-design-vue';
 
 import { basicUploadPreviewModalColumn } from './data';
 
@@ -102,12 +102,12 @@ watch(
         <Image v-if="row.url && isImgTypeByName(row.url)" :src="row.url" />
       </template>
       <template #action="{ row }">
-        <a-button type="link" danger @click="handleRemove(row)" size="small">
+        <Button type="link" danger @click="handleRemove(row)" size="small">
           删除
-        </a-button>
-        <a-button type="link" @click="handleDownload(row)" size="small">
+        </Button>
+        <Button type="link" @click="handleDownload(row)" size="small">
           下载
-        </a-button>
+        </Button>
       </template>
     </Grid>
   </Modal>
