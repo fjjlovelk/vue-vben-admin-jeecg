@@ -151,13 +151,13 @@ export const userDrawerFormSchema: AntdFormSchema[] = [
     fieldName: 'avatar',
     component: 'ImageUpload',
     componentProps: {
+      name: 'file',
       action: '/upload-api/sys/common/upload',
       headers: {
         'X-Access-Token': accessStore.accessToken,
       },
-      data: (file: File) => ({
+      data: () => ({
         biz: 'temp',
-        file,
       }),
     },
   },

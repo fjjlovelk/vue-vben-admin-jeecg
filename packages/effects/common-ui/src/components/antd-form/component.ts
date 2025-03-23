@@ -41,6 +41,7 @@ import {
 
 import { ApiComponent } from '../api-component';
 import { AsyncTreeSelect } from '../async-tree-select';
+import { BasicUpload } from '../basic-upload';
 import { IconPicker } from '../icon-picker';
 import { ImageUpload } from '../image-upload';
 
@@ -84,6 +85,7 @@ export type AntdComponentType =
   | 'ApiTreeSelect'
   | 'AsyncTreeSelect'
   | 'AutoComplete'
+  | 'BasicUpload'
   | 'Checkbox'
   | 'CheckboxGroup'
   | 'DatePicker'
@@ -156,6 +158,7 @@ async function initComponentAdapter() {
       );
     },
     AutoComplete,
+    BasicUpload,
     Checkbox,
     CheckboxGroup,
     DatePicker,
