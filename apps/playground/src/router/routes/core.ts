@@ -40,6 +40,28 @@ const coreRoutes: RouteRecordRaw[] = [
     component: BlankPageLayout,
     meta: {
       hideTab: true,
+      title: 'Fallback',
+    },
+    name: 'Fallback',
+    path: '/fallback',
+    children: [
+      {
+        component: () => import('#/views/_core/fallback/internal-error.vue'),
+        meta: {
+          hideInBreadcrumb: true,
+          hideMenu: true,
+          hideTab: true,
+          title: '出错了',
+        },
+        name: 'FallbackInternalError',
+        path: 'internal-error',
+      },
+    ],
+  },
+  {
+    component: BlankPageLayout,
+    meta: {
+      hideTab: true,
       title: 'Authentication',
     },
     name: 'Authentication',

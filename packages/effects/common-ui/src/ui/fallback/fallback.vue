@@ -4,7 +4,7 @@ import type { FallbackProps } from './fallback';
 import { computed, defineAsyncComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { ArrowLeft, RotateCw } from '@vben/icons';
+import { ArrowLeft } from '@vben/icons';
 
 import { VbenButton } from '@vben-core/shadcn-ui';
 
@@ -18,7 +18,6 @@ const props = withDefaults(defineProps<Props>(), {
   description: '',
   homePath: '/',
   image: '',
-  showBack: true,
   status: 'coming-soon',
   title: '',
 });
@@ -106,24 +105,24 @@ const fallbackIcon = computed(() => {
   }
 });
 
-const showBack = computed(() => {
-  return props.status === '403' || props.status === '404';
-});
+// const showBack = computed(() => {
+//   return props.status === '403' || props.status === '404';
+// });
+//
+// const showRefresh = computed(() => {
+//   return props.status === '500' || props.status === 'offline';
+// });
 
-const showRefresh = computed(() => {
-  return props.status === '500' || props.status === 'offline';
-});
-
-const { push } = useRouter();
+const { replace } = useRouter();
 
 // 返回首页
 function back() {
-  push(props.homePath);
+  replace(props.homePath);
 }
 
-function refresh() {
-  location.reload();
-}
+// function refresh() {
+//   location.reload();
+// }
 </script>
 
 <template>
@@ -150,14 +149,14 @@ function refresh() {
         {{ descText }}
       </p>
       <slot v-if="$slots.action" name="action"></slot>
-      <VbenButton v-else-if="showBack" size="lg" @click="back">
+      <VbenButton size="lg" @click="back">
         <ArrowLeft class="mr-2 size-4" />
         返回首页
       </VbenButton>
-      <VbenButton v-else-if="showRefresh" size="lg" @click="refresh">
-        <RotateCw class="mr-2 size-4" />
-        刷新
-      </VbenButton>
+      <!--      <VbenButton v-else-if="showRefresh" size="lg" @click="refresh">-->
+      <!--        <RotateCw class="mr-2 size-4" />-->
+      <!--        刷新-->
+      <!--      </VbenButton>-->
     </div>
   </div>
 </template>
