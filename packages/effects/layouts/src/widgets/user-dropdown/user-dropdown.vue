@@ -187,7 +187,8 @@ if (enableShortcutKey.value) {
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="hover:bg-accent ml-1 mr-2 cursor-pointer rounded-full p-1.5">
         <div class="hover:text-accent-foreground flex-center">
-          <VbenAvatar :alt="text" :src="avatar" class="size-8" />
+          <VbenAvatar :alt="text" :src="avatar" class="mr-1 size-8" />
+          {{ text }}
         </div>
       </div>
     </DropdownMenuTrigger>
