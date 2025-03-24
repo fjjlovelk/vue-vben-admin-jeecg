@@ -6,7 +6,7 @@ import type {
   RouteRecordStringComponent,
 } from '@vben-core/typings';
 
-import { mapTree } from '@vben-core/shared/utils';
+import { isHttpUrl, mapTree } from '@vben-core/shared/utils';
 
 /**
  * 动态生成路由 - 后端方式
@@ -54,6 +54,15 @@ function convertRoutes(
     if (component && layoutMap[component]) {
       route.component = layoutMap[component];
       // 页面组件转换
+    } else if (component && isHttpUrl(component)) {
+      route.component = layoutMap.IFrameView;
+      if (route.meta?.internalOrExternal === true) {
+        // 外链
+        route.meta.url = component;
+      } else if (route.meta?.internalOrExternal === false) {
+        // iframe
+        route.meta.iframeSrc = component;
+      }
     } else if (component) {
       const normalizePath = normalizeViewPath(component);
       const pageKey = normalizePath.endsWith('.vue')
