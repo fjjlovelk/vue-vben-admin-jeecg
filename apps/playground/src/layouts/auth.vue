@@ -6,6 +6,7 @@ import { preferences } from '@vben/preferences';
 
 const appName = computed(() => preferences.app.name);
 const logo = computed(() => preferences.logo.source);
+const clickLogo = () => {};
 </script>
 
 <template>

@@ -17,6 +17,7 @@ interface Props {
   toolbar?: boolean;
   copyright?: boolean;
   toolbarList?: ToolbarType[];
+  clickLogo?: () => void;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -61,7 +62,11 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
     </AuthenticationFormView>
 
     <!-- 头部 Logo 和应用名称 -->
-    <div v-if="logo || appName" class="absolute left-0 top-0 z-10 flex flex-1">
+    <div
+      v-if="logo || appName"
+      class="absolute left-0 top-0 z-10 flex flex-1"
+      @click="clickLogo"
+    >
       <div
         class="text-foreground lg:text-foreground ml-4 mt-4 flex flex-1 items-center sm:left-6 sm:top-6"
       >

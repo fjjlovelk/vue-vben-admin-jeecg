@@ -72,6 +72,8 @@ function handleMakeAll() {
   notifications.value.forEach((item) => (item.isRead = true));
 }
 
+function handleClickLogo() {}
+
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -90,7 +92,10 @@ watch(
 </script>
 
 <template>
-  <BasicLayout @clear-preferences-and-logout="handleLogout">
+  <BasicLayout
+    @clear-preferences-and-logout="handleLogout"
+    @click-logo="handleClickLogo"
+  >
     <template #user-dropdown>
       <UserDropdown
         :avatar
