@@ -23,6 +23,15 @@
         ".vitepress/dist/**"
       ]
     },
+    "build:stage": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        "dist.zip",
+        ".vitepress/dist.zip",
+        ".vitepress/dist/**"
+      ]
+    },
     "preview": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]

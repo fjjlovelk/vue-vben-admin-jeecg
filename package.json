@@ -26,9 +26,11 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
+    "build:stage": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build:stage",
     "build:analyze": "turbo build:analyze",
     "build:docker": "./scripts/deploy/build-local-docker-image.sh",
     "build:play": "pnpm run build --filter=playground",
+    "build:play-stage": "pnpm run build:stage --filter=playground",
     "changeset": "pnpm exec changeset",
     "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type && pnpm check:cspell",
     "check:circular": "vsh check-circular",
