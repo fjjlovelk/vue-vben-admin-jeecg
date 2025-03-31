@@ -65,6 +65,7 @@ export function getBase64WithFile(file: File) {
   });
 }
 
+// 根据url下载
 export function downloadByUrl({
   url,
   target = '_blank',
@@ -103,4 +104,31 @@ export function downloadByUrl({
   }
   openWindow(url, { target });
   return true;
+}
+
+// 根据blob下载
+export function downloadByData(
+  data: BlobPart,
+  filename: string,
+  mime?: string,
+  bom?: BlobPart,
+) {
+  const blobData = bom === undefined ? [data] : [bom, data];
+  const blob = new Blob(blobData, { type: mime || 'application/octet-stream' });
+  if (window.navigator.msSaveBlob) {
+    window.navigator.msSaveBlob(blob, filename);
+    return;
+  }
+  const blobURL = window.URL.createObjectURL(blob);
+  const tempLink = document.createElement('a');
+  tempLink.style.display = 'none';
+  tempLink.href = blobURL;
+  tempLink.setAttribute('download', filename);
+  if (tempLink.download === undefined) {
+    tempLink.setAttribute('target', '_blank');
+  }
+  document.body.append(tempLink);
+  tempLink.click();
+  tempLink.remove();
+  window.URL.revokeObjectURL(blobURL);
 }
