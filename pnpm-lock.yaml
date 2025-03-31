@@ -1333,6 +1333,9 @@ importers:
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../@core/base/shared
+      '@vben/access':
+        specifier: workspace:*
+        version: link:../access
       '@vben/constants':
         specifier: workspace:*
         version: link:../../constants

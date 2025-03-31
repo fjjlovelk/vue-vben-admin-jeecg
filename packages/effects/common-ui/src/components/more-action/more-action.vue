@@ -3,6 +3,7 @@ import type { ActionItem } from './types';
 
 import { computed } from 'vue';
 
+import { useAccess } from '@vben/access';
 import { IconifyIcon } from '@vben/icons';
 
 import { isBoolean, isFunction } from '@vben-core/shared/utils';
@@ -19,9 +20,17 @@ const props = withDefaults(defineProps<Props>(), {
   content: '更多',
 });
 
+const { hasAccessByCodes } = useAccess();
+
 const actionItems = computed(() =>
   props.actions
-    .filter((item) => isIfShow(item))
+    .filter((item) => {
+      let authResult = true;
+      if (Array.isArray(item.auth)) {
+        authResult = hasAccessByCodes(item.auth);
+      }
+      return authResult && isIfShow(item);
+    })
     .map((item) => {
       item.divider = item.divider !== false;
       return item;
