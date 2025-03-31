@@ -1529,7 +1529,13 @@ importers:
       axios:
         specifier: 'catalog:'
         version: 1.8.2
+      qs:
+        specifier: 'catalog:'
+        version: 6.14.0
     devDependencies:
+      '@types/qs':
+        specifier: 'catalog:'
+        version: 6.9.18
       axios-mock-adapter:
         specifier: 'catalog:'
         version: 2.1.0(axios@1.8.2)

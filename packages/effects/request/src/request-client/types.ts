@@ -15,7 +15,7 @@ type ExtendOptions = {
    */
   responseReturn?: 'body' | 'data' | 'raw';
 };
-type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions;
+type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions<T>;
 
 type RequestResponse<T = any> = AxiosResponse<T> & {
   config: RequestClientConfig<T>;

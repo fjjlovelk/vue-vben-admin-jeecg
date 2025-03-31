@@ -48,15 +48,9 @@ export function useTabbar() {
   });
 
   const currentTabs = ref<RouteLocationNormalizedGeneric[]>();
-  watch(
-    [
-      () => tabbarStore.getTabs,
-      () => tabbarStore.updateTime,
-    ],
-    ([tabs]) => {
-      currentTabs.value = tabs.map((item) => ({ ...item }));
-    },
-  );
+  watch([() => tabbarStore.getTabs, () => tabbarStore.updateTime], ([tabs]) => {
+    currentTabs.value = tabs.map((item) => ({ ...item }));
+  });
 
   /**
    * 初始化固定标签页
@@ -126,9 +120,7 @@ export function useTabbar() {
         },
         icon: affixTab ? PinOff : Pin,
         key: 'affix',
-        text: affixTab
-          ? '取消固定'
-          : '固定',
+        text: affixTab ? '取消固定' : '固定',
       },
       {
         handler: async () => {
@@ -139,9 +131,7 @@ export function useTabbar() {
         },
         icon: contentIsMaximize.value ? Minimize2 : Fullscreen,
         key: contentIsMaximize.value ? 'restore-maximize' : 'maximize',
-        text: contentIsMaximize.value
-          ? '还原'
-          : '最大化',
+        text: contentIsMaximize.value ? '还原' : '最大化',
       },
       {
         disabled: disabledRefresh,
@@ -196,7 +186,8 @@ export function useTabbar() {
         text: '关闭全部标签页',
       },
     ];
-    return menus;
+
+    return menus.filter((item) => tabbarStore.getMenuList.includes(item.key));
   };
 
   return {

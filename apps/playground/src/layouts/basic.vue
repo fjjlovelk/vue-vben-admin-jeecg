@@ -17,6 +17,19 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { useAuthStore } from '#/store';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
+const { setMenuList } = useTabbarStore();
+setMenuList([
+  'close',
+  'affix',
+  'maximize',
+  'reload',
+  'open-in-new-window',
+  'close-left',
+  'close-right',
+  'close-other',
+  'close-all',
+]);
+
 const notifications = ref<NotificationItem[]>([
   {
     avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',

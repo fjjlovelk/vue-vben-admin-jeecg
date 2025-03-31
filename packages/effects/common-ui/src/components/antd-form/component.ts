@@ -48,6 +48,7 @@ import { ImageUpload } from '../image-upload';
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
+  componentProps: Recordable<any> = {},
 ) => {
   return defineComponent({
     inheritAttrs: false,
@@ -72,7 +73,14 @@ const withDefaultPlaceholder = <T extends Component>(
       return () =>
         h(
           component,
-          { allowClear: true, ...props, ...attrs, placeholder, ref: innerRef },
+          {
+            allowClear: true,
+            ...componentProps,
+            placeholder,
+            ...props,
+            ...attrs,
+            ref: innerRef,
+          },
           slots,
         );
     },
@@ -123,40 +131,22 @@ async function initComponentAdapter() {
     // Button: () =>
     // import('xxx').then((res) => res.Button),
 
-    ApiSelect: (props, { attrs, slots }) => {
-      return h(
-        ApiComponent,
-        {
-          placeholder: '请选择',
-          allowClear: true,
-          ...props,
-          ...attrs,
-          component: Select,
-          loadingSlot: 'suffixIcon',
-          modelPropName: 'value',
-          visibleEvent: 'onVisibleChange',
-        },
-        slots,
-      );
-    },
-    ApiTreeSelect: (props, { attrs, slots }) => {
-      return h(
-        ApiComponent,
-        {
-          placeholder: '请选择',
-          allowClear: true,
-          ...props,
-          ...attrs,
-          component: TreeSelect,
-          fieldNames: { label: 'label', value: 'value', children: 'children' },
-          loadingSlot: 'suffixIcon',
-          modelPropName: 'value',
-          optionsPropName: 'treeData',
-          visibleEvent: 'onVisibleChange',
-        },
-        slots,
-      );
-    },
+    ApiSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      allowClear: true,
+      component: Select,
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      visibleEvent: 'onVisibleChange',
+    }),
+    ApiTreeSelect: withDefaultPlaceholder(ApiComponent, 'select', {
+      allowClear: true,
+      component: TreeSelect,
+      fieldNames: { label: 'label', value: 'value', children: 'children' },
+      loadingSlot: 'suffixIcon',
+      modelPropName: 'value',
+      optionsPropName: 'treeData',
+      visibleEvent: 'onVisibleChange',
+    }),
     AutoComplete,
     BasicUpload,
     Checkbox,
@@ -168,19 +158,12 @@ async function initComponentAdapter() {
     },
     AsyncTreeSelect,
     Divider,
-    IconPicker: (props, { attrs, slots }) => {
-      return h(
-        IconPicker,
-        {
-          iconSlot: 'addonAfter',
-          inputComponent: Input,
-          modelValueProp: 'value',
-          ...props,
-          ...attrs,
-        },
-        slots,
-      );
-    },
+    IconPicker: withDefaultPlaceholder(IconPicker, 'select', {
+      allowClear: true,
+      iconSlot: 'addonAfter',
+      inputComponent: Input,
+      modelValueProp: 'value',
+    }),
     ImageUpload,
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
