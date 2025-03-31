@@ -12,7 +12,7 @@ import {
   UserDropdown,
 } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
-import { useAccessStore, useUserStore } from '@vben/stores';
+import { useAccessStore, useTabbarStore, useUserStore } from '@vben/stores';
 
 import { useAuthStore } from '#/store';
 import LoginForm from '#/views/_core/authentication/login.vue';
