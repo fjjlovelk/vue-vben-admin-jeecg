@@ -20,6 +20,7 @@ import { message, Modal } from 'ant-design-vue';
 import { deleteBatchDictApi, deleteDictApi, getDictListApi } from '#/api';
 
 import DictDrawer from './dict-drawer.vue';
+import DictSettingDrawer from './dict-setting-drawer.vue';
 import { dictColumns, dictQueryFormSchema } from './dict.data';
 
 defineOptions({
@@ -72,6 +73,10 @@ const [DictDrawerCom, dictDrawerApi] = useVbenDrawer({
   connectedComponent: DictDrawer,
   destroyOnClose: true,
 });
+const [DictSettingCom, dictSettingDrawerApi] = useVbenDrawer({
+  connectedComponent: DictSettingDrawer,
+  destroyOnClose: true,
+});
 
 // 刷新表格
 const handleRefresh = () => {
@@ -86,6 +91,11 @@ const handleAdd = () => {
 // 编辑字典
 const handleEdit = (row: SystemDictApi.GetDictListResult) => {
   dictDrawerApi.setData({ ...row, viewType: ViewTypeEnum.EDIT }).open();
+};
+
+// 字典配置
+const handleSetting = (row: SystemDictApi.GetDictListResult) => {
+  dictSettingDrawerApi.setData({ ...row }).open();
 };
 
 // 删除
@@ -150,6 +160,10 @@ const handleDeleteBatch = () => {
 const getActions = (row: SystemDictApi.GetDictListResult): ActionItem[] => {
   return [
     {
+      label: '编辑',
+      onClick: handleEdit.bind(null, row),
+    },
+    {
       label: '删除',
       danger: true,
       onClick: handleDelete.bind(null, row),
@@ -191,13 +205,16 @@ const getBatchActions = (): ActionItem[] => {
         </div>
       </template>
       <template #action="{ row }">
-        <a-button type="link" @click="handleEdit(row)" size="small">
-          编辑
+        <a-button type="link" @click="handleSetting(row)" size="small">
+          字典配置
         </a-button>
         <MoreAction :actions="getActions(row)" />
       </template>
     </Grid>
+    <!-- 新增、编辑字典 -->
     <DictDrawerCom @success="handleRefresh" />
+    <!-- 字典配置 -->
+    <DictSettingCom />
   </Page>
 </template>
 
