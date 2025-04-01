@@ -1,6 +1,7 @@
 import type { HttpResponse } from '@vben/request';
+import type { BasicRecord } from '@vben/types';
 
-import type { PermissionMenuItem } from '#/views/system/menu/menu.types';
+import type { PermissionMenu } from '#/views/system/menu/menu.types';
 
 import { requestClient } from '#/api/request';
 
@@ -8,11 +9,8 @@ export namespace SystemMenuApi {
   export interface GetPermissionListParams {
     name: string;
   }
-  export interface GetPermissionListResult extends PermissionMenuItem {
+  export interface GetPermissionListResult extends BasicRecord, PermissionMenu {
     children: SystemMenuApi.GetPermissionListResult[];
-    createBy: string;
-    createTime: string;
-    delFlag: 0 | 1;
     description: null | string;
     isLeaf: boolean;
     key: string;
@@ -21,8 +19,6 @@ export namespace SystemMenuApi {
     moduleName: null;
     title: string;
     unitLevel: null;
-    updateBy: string;
-    updateTime: string;
   }
 }
 
@@ -39,12 +35,12 @@ export async function getPermissionListApi(
 }
 
 // 新增菜单
-export async function addPermissionApi(data: Partial<PermissionMenuItem>) {
+export async function addPermissionApi(data: Partial<PermissionMenu>) {
   return requestClient.post<string>('/api/sys/permission/add', data);
 }
 
 // 编辑菜单
-export async function editPermissionApi(data: Partial<PermissionMenuItem>) {
+export async function editPermissionApi(data: Partial<PermissionMenu>) {
   return requestClient.post<string>('/api/sys/permission/edit', data);
 }
 

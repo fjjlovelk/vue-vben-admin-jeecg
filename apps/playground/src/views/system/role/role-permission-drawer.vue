@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SystemMenuApi } from '#/api';
-import type { RoleTreeItem } from '#/views/system/role/role.types';
+import type { RoleTree } from '#/views/system/role/role.types';
 
 import { ref } from 'vue';
 
@@ -31,7 +31,7 @@ const checkedKeys = ref<{
   halfChecked: [],
 });
 
-const treeData = ref<RoleTreeItem[]>([]);
+const treeData = ref<RoleTree[]>([]);
 
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,

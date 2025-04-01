@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PermissionMenuItem } from './menu.types';
+import type { PermissionMenu } from './menu.types';
 
 import { computed, ref } from 'vue';
 
@@ -54,7 +54,7 @@ async function handleSubmit() {
   }
   try {
     drawerApi.lock();
-    let values = await formApi.getValues<Partial<PermissionMenuItem>>();
+    let values = await formApi.getValues<Partial<PermissionMenu>>();
     switch (values.menuType) {
       case 0: {
         values.parentId = undefined;

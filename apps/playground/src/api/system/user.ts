@@ -1,5 +1,5 @@
 import type { HttpResponse } from '@vben/request';
-import type { BaseTreeItem, UserInfo } from '@vben/types';
+import type { BasicTreeItem, UserInfo } from '@vben/types';
 
 import type { PageFetchParams } from '#/api/request';
 
@@ -98,7 +98,7 @@ export async function revertBatchUserApi(data: { userIds: string }) {
 
 // 获取用户所属部门
 export async function getUserDepartListApi(params: { userId: string }) {
-  return requestClient.get<BaseTreeItem[]>('/api/sys/user/userDepartList', {
+  return requestClient.get<BasicTreeItem[]>('/api/sys/user/userDepartList', {
     params,
   });
 }

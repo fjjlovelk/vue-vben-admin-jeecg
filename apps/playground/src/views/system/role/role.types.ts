@@ -1,12 +1,12 @@
-export interface RoleItem {
+export interface Role {
   description: string;
   id?: string;
   roleCode: string;
   roleName: string;
 }
 
-export interface RoleTreeItem {
-  children: RoleTreeItem[];
+export interface RoleTree {
+  children: RoleTree[];
   icon: null | string;
   isLeaf: boolean;
   key: string;

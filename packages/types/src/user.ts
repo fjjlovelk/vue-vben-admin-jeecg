@@ -21,10 +21,6 @@ interface BasicUserInfo {
 /** 用户信息 */
 interface UserInfo extends BasicUserInfo {
   relTenantIds: string;
-  createBy: string;
-  createTime: string;
-  // 删除状态（0，正常，1已删除）
-  delFlag: 0 | 1;
   departName: string;
   homePath?: string;
   orgCode: string;
@@ -33,8 +29,6 @@ interface UserInfo extends BasicUserInfo {
   // 状态(1：正常  2：冻结 ）
   status: 1 | 2;
   status_dictText: string;
-  updateBy: string;
-  updateTime: string;
 }
 
 // 操作权限

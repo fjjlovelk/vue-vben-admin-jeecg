@@ -1,7 +1,7 @@
 import type { HttpResponse } from '@vben/request';
 
 import type { PageFetchParams } from '#/api/request';
-import type { RoleItem, RoleTreeItem } from '#/views/system/role/role.types';
+import type { Role, RoleTree } from '#/views/system/role/role.types';
 
 import { requestClient } from '#/api/request';
 
@@ -22,7 +22,7 @@ export namespace SystemRoleApi {
     permissionIds: string;
     departId: string;
   }
-  export interface GetRoleListResult extends RoleItem {
+  export interface GetRoleListResult extends Role {
     createBy: null | string;
     createTime: string;
     tenantId: number;
@@ -31,7 +31,7 @@ export namespace SystemRoleApi {
   }
   export interface GetRoleTreeListResult {
     ids: string[];
-    treeList: RoleTreeItem[];
+    treeList: RoleTree[];
   }
 }
 
@@ -46,12 +46,12 @@ export async function getRoleListApi(params?: SystemRoleApi.GetRoleListParams) {
 }
 
 // 新增角色
-export async function addRoleApi(data: RoleItem) {
+export async function addRoleApi(data: Partial<Role>) {
   return requestClient.post<string>('/api/sys/role/add', data);
 }
 
 // 编辑角色
-export async function editRoleApi(data: RoleItem) {
+export async function editRoleApi(data: Partial<Role>) {
   return requestClient.post<string>('/api/sys/role/edit', data);
 }
 

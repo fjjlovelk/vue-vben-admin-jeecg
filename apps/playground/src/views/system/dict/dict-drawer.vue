@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Role } from '#/views/system/role/role.types';
+import type { Dict } from '#/views/system/dict/dict.types';
 
 import { computed, ref } from 'vue';
 
@@ -8,12 +8,12 @@ import { getViewType, ViewTypeEnum } from '@vben/constants';
 
 import { message } from 'ant-design-vue';
 
-import { addRoleApi, editRoleApi } from '#/api';
+import { addDictApi, editDictApi } from '#/api';
 
-import { roleDrawerFormSchema } from './role.data';
+import { dictDrawerFormSchema } from './dict.data';
 
 defineOptions({
-  name: 'RoleDrawer',
+  name: 'DictDrawer',
 });
 const emit = defineEmits<{
   success: [];
@@ -22,14 +22,14 @@ const emit = defineEmits<{
 const formId = ref<string>();
 const viewType = ref<ViewTypeEnum>(ViewTypeEnum.ADD);
 
-const drawerTitle = computed(() => `${getViewType(viewType.value)}角色`);
+const drawerTitle = computed(() => `${getViewType(viewType.value)}字典`);
 
 const [Form, formApi] = useAntdForm({
   commonConfig: {
     labelWidth: 100,
   },
   showDefaultActions: false,
-  schema: roleDrawerFormSchema,
+  schema: dictDrawerFormSchema,
 });
 const [Drawer, drawerApi] = useVbenDrawer({
   onConfirm: handleSubmit,
@@ -44,7 +44,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       formId.value = values.id;
       formApi.updateSchema([
         {
-          fieldName: 'roleCode',
+          fieldName: 'dictCode',
           disabled: true,
         },
       ]);
@@ -60,12 +60,12 @@ async function handleSubmit() {
   }
   try {
     drawerApi.lock();
-    const values = await formApi.getValues<Partial<Role>>();
+    const values = await formApi.getValues<Partial<Dict>>();
     if (viewType.value === ViewTypeEnum.EDIT) {
       values.id = formId.value;
-      await editRoleApi(values);
+      await editDictApi(values);
     } else {
-      await addRoleApi(values);
+      await addDictApi(values);
     }
     message.success('保存成功');
     emit('success');

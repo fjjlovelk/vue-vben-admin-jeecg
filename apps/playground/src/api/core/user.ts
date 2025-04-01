@@ -1,4 +1,4 @@
-import type { SysAllDictItems, UserInfo } from '@vben/types';
+import type { BasicRecord, SysAllDictItems, UserInfo } from '@vben/types';
 
 import { requestClient } from '#/api/request';
 
@@ -7,27 +7,21 @@ export namespace UserApi {
     sysAllDictItems: SysAllDictItems;
     userInfo: UserInfo;
   }
-  export interface GetTenantListResult {
+  export interface GetTenantListResult extends BasicRecord {
     applyStatus: 1 | 2;
     beginDate: string;
     companyAddress: null;
     companyLogo: null;
     companySize: null;
-    createBy: string;
-    createTime: string;
-    delFlag: 0 | 1;
     department: null | string;
     endDate: string;
     houseNumber: string;
-    id: number;
     loginBkgdImg: null | string;
     name: string;
     position: null | string;
     secondaryDomain: null | string;
     status: number;
     trade: null;
-    updateBy: null | string;
-    updateTime: null | string;
     workPlace: null | string;
   }
 }

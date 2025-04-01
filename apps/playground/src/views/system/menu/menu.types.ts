@@ -1,4 +1,4 @@
-export interface PermissionMenuItem {
+export interface PermissionMenu {
   alwaysShow: boolean;
   component: string;
   componentName: null | string;

@@ -1,21 +1,18 @@
-import type { Recordable } from '@vben/types';
+import type { BasicRecord, Recordable } from '@vben/types';
 
 import type { BasicDepartInfo } from '#/views/system/depart/depart.types';
 
 import { requestClient } from '#/api/request';
 
 export namespace SystemDepartApi {
-  export interface GetDepartTreeSyncResult extends BasicDepartInfo {
+  export interface GetDepartTreeSyncResult
+    extends BasicDepartInfo,
+      BasicRecord {
     children: SystemDepartApi.GetDepartTreeSyncResult[];
-    createBy: string;
-    createTime: string;
-    delFlag: string;
     isLeaf: boolean;
     key: string;
     parentId: string;
     title: string;
-    updateBy: string;
-    updateTime: string;
     value: string;
   }
 }
