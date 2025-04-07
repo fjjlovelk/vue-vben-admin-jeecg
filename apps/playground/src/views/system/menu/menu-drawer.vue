@@ -39,8 +39,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
     }
     const values = drawerApi.getData();
     viewType.value = values.viewType;
+    formApi.setValues(values);
     if (viewType.value === ViewTypeEnum.EDIT) {
-      formApi.setValues(values);
       formId.value = values.id;
     }
   },

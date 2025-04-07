@@ -15,7 +15,7 @@ type ExtendOptions = {
    */
   responseReturn?: 'body' | 'data' | 'raw';
 };
-type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions<T>;
+type RequestClientConfig<T = any> = AxiosRequestConfig<T> & ExtendOptions;
 
 type RequestResponse<T = any> = AxiosResponse<T> & {
   config: RequestClientConfig<T>;
@@ -58,7 +58,21 @@ interface HttpResponse<T = any> {
   success: boolean;
 }
 
+interface HttpPage<T = any> {
+  countId: null | number;
+  current: number;
+  maxLimit: null | number;
+  optimizeCountSql: boolean;
+  orders: string[];
+  pages: number;
+  records: T[];
+  searchCount: boolean;
+  size: number;
+  total: number;
+}
+
 export type {
+  HttpPage,
   HttpResponse,
   MakeErrorMessageFn,
   RequestClientConfig,
