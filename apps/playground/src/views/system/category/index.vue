@@ -45,8 +45,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     treeConfig: {
       lazy: true,
       hasChildField: 'hasChild',
-      loadMethod: ({ row }) =>
-        getCategoryChildListApi({ pid: row.id }) as Promise<any[]>,
+      loadMethod: ({ row }) => getCategoryChildListApi({ pid: row.id }),
     },
     pagerConfig: {
       enabled: false,

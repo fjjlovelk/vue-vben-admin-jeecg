@@ -40,7 +40,7 @@ export async function getCategoryRootListApi(
 
 // 根据pid获取子分类字典列表
 export async function getCategoryChildListApi(params: { pid: string }) {
-  return requestClient.get<SystemCategoryApi.GetCategoryListResult>(
+  return requestClient.get<SystemCategoryApi.GetCategoryListResult[]>(
     '/api/sys/category/childList',
     {
       params,
