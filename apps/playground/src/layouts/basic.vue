@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NotificationItem } from '@vben/layouts';
 
-import { computed, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { useWatermark } from '@vben/hooks';
@@ -102,6 +102,12 @@ watch(
     immediate: true,
   },
 );
+
+onBeforeMount(() => {
+  if (preferences.app.watermark) {
+    destroyWatermark();
+  }
+});
 </script>
 
 <template>
