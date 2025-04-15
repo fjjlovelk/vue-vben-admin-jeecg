@@ -68,11 +68,12 @@ function convertRoutes(
       const pageKey = normalizePath.endsWith('.vue')
         ? normalizePath
         : `${normalizePath}.vue`;
-      // if (pageMap[pageKey]) {
-      route.component = pageMap[pageKey];
-      // } else {
-      //   console.error(`route component is invalid: ${pageKey}`, route);
-      // }
+      if (pageMap[pageKey]) {
+        route.component = pageMap[pageKey];
+      } else {
+        console.error(`route component is invalid: ${pageKey}`, route);
+        route.component = pageMap['/_core/fallback/not-found.vue'];
+      }
     }
 
     return route;
