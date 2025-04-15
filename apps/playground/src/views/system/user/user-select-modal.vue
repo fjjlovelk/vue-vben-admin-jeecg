@@ -34,11 +34,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
   },
   gridOptions: {
     height: 500,
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) =>
@@ -73,7 +68,7 @@ const [ModalCom, { close }] = useVbenModal({
 <template>
   <ModalCom title="用户选择" class="w-[700px]">
     <Grid>
-      <template #toolbar_buttons>
+      <template #toolbar-actions>
         <TableCheckTip :count="checkedRows.length" @clear="handleClearCheck" />
       </template>
     </Grid>

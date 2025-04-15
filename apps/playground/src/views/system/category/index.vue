@@ -55,11 +55,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
       checkStrictly: true,
       showHeader: true,
     },
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async (_, formValues) => {
@@ -200,7 +195,7 @@ const getBatchActions = (): ActionItem[] => {
 <template>
   <Page auto-content-height>
     <Grid>
-      <template #toolbar_buttons>
+      <template #toolbar-actions>
         <div class="mb-[5px] w-full">
           <a-button type="primary" @click="handleAdd">新增分类字典</a-button>
           <MoreAction

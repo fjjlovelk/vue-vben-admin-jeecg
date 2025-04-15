@@ -43,11 +43,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     schema: userQueryFormSchema,
   },
   gridOptions: {
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) =>
@@ -275,7 +270,7 @@ const getBatchActions = (): ActionItem[] => {
 <template>
   <Page auto-content-height>
     <Grid>
-      <template #toolbar_buttons>
+      <template #toolbar-actions>
         <div class="mb-[5px] w-full">
           <a-button type="primary" @click="handleAdd">新增用户</a-button>
           <a-button type="primary" @click="handleOpenRecycleBinModal">

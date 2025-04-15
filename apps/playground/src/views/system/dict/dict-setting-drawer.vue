@@ -32,11 +32,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     wrapperClass: 'grid-cols-2',
   },
   gridOptions: {
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) =>
@@ -119,7 +114,7 @@ const handleDelete = (row: DictItem) => {
   <Drawer title="字典配置" class="w-[800px]" :footer="false">
     <Page auto-content-height>
       <Grid>
-        <template #toolbar_buttons>
+        <template #toolbar-actions>
           <a-button type="primary" @click="handleAdd">新增</a-button>
         </template>
         <template #action="{ row }">

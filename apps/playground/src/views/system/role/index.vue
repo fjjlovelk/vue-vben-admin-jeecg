@@ -32,11 +32,6 @@ const [Grid, gridApi] = useVbenVxeGrid({
     schema: roleQueryFormSchema,
   },
   gridOptions: {
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) =>
@@ -140,7 +135,7 @@ const getActions = (row: SystemRoleApi.GetRoleListResult): ActionItem[] => {
 <template>
   <Page auto-content-height>
     <Grid>
-      <template #toolbar_buttons>
+      <template #toolbar-actions>
         <a-button type="primary" @click="handleAdd">新增角色</a-button>
       </template>
       <template #action="{ row }">

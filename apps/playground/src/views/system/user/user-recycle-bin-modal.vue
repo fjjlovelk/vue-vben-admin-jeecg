@@ -29,11 +29,6 @@ const { checkedRows, registerGridApi, handleClearCheck, onCheckboxChange } =
 
 const [Grid, gridApi] = useVbenVxeGrid({
   gridOptions: {
-    toolbarConfig: {
-      slots: {
-        buttons: 'toolbar_buttons',
-      },
-    },
     proxyConfig: {
       ajax: {
         query: async ({ page }) =>
@@ -124,7 +119,7 @@ const getBatchActions = (): ActionItem[] => {
 <template>
   <ModalCom title="用户回收站" fullscreen :show-confirm-button="false">
     <Grid>
-      <template #toolbar_buttons>
+      <template #toolbar-actions>
         <div class="mb-[5px] w-full">
           <MoreAction
             v-if="checkedRows.length > 0"
