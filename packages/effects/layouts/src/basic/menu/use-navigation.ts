@@ -33,7 +33,13 @@ function useNavigation() {
     }
   };
 
-  return { navigation };
+  const willOpenedByWindow = (path: string) => {
+    const route = routeMetaMap.get(path);
+    const { internalOrExternal = false } = route?.meta ?? {};
+    return isHttpUrl(path) ? true : internalOrExternal;
+  };
+
+  return { navigation, willOpenedByWindow };
 }
 
 export { useNavigation };
