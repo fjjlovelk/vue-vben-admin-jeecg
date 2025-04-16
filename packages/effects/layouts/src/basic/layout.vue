@@ -5,7 +5,6 @@ import type { MenuRecordRaw } from '@vben/types';
 
 import { computed, useSlots, watch } from 'vue';
 
-import { useRefresh } from '@vben/hooks';
 import {
   preferences,
   updatePreferences,
@@ -49,7 +48,6 @@ const {
   theme,
 } = usePreferences();
 const lockStore = useLockStore();
-const { refresh } = useRefresh();
 
 const sidebarTheme = computed(() => {
   const dark = isDark.value || preferences.theme.semiDarkSidebar;
@@ -221,7 +219,11 @@ const headerSlots = computed(() => {
         :text="preferences.app.name"
         :theme="showHeaderNav ? headerTheme : theme"
         @click="clickLogo"
-      />
+      >
+        <template v-if="$slots['logo-text']" #text>
+          <slot name="logo-text"></slot>
+        </template>
+      </VbenLogo>
     </template>
     <!-- 头部区域 -->
     <template #header>
@@ -303,7 +305,11 @@ const headerSlots = computed(() => {
         v-if="preferences.logo.enable"
         :text="preferences.app.name"
         :theme="theme"
-      />
+      >
+        <template v-if="$slots['logo-text']" #text>
+          <slot name="logo-text"></slot>
+        </template>
+      </VbenLogo>
     </template>
 
     <template #tabbar>
