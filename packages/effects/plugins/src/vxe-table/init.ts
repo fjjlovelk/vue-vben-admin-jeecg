@@ -107,12 +107,12 @@ export function setupVbenVxeTable(setupOptions: SetupVxeTable) {
   initVxeTable();
   useTableForm = useVbenForm;
 
-  const preference = usePreferences();
+  const { isDark } = usePreferences();
 
   watch(
-    [() => preference.theme.value],
-    ([theme]) => {
-      VxeUI.setTheme(theme === 'dark' ? 'dark' : 'light');
+    [() => isDark.value],
+    ([isDarkValue]) => {
+      VxeUI.setTheme(isDarkValue ? 'dark' : 'light');
     },
     {
       immediate: true,
