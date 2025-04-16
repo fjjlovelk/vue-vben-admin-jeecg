@@ -6,17 +6,14 @@ import { registerAccessDirective } from '@vben/access';
 import {
   antdFormConfig,
   initComponentAdapter,
-  initTippy,
   registerLoadingDirective,
   setupAntdForm,
 } from '@vben/common-ui';
-import { MotionPlugin } from '@vben/plugins/motion';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/antd';
 
-import { VueQueryPlugin } from '@tanstack/vue-query';
 import { useTitle } from '@vueuse/core';
 import Antd from 'ant-design-vue';
 
@@ -55,6 +52,7 @@ async function bootstrap(namespace: string) {
   registerAccessDirective(app);
 
   // 初始化 tippy
+  const { initTippy } = await import('@vben/common-ui/es/tippy');
   initTippy(app);
 
   // 配置路由及路由守卫
@@ -63,9 +61,11 @@ async function bootstrap(namespace: string) {
   app.use(Antd);
 
   // 配置@tanstack/vue-query
+  const { VueQueryPlugin } = await import('@tanstack/vue-query');
   app.use(VueQueryPlugin);
 
   // 配置Motion插件
+  const { MotionPlugin } = await import('@vben/plugins/motion');
   app.use(MotionPlugin);
 
   // 动态更新标题
