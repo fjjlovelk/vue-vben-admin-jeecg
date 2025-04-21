@@ -3,10 +3,7 @@ import type { DrawerProps, ExtendedDrawerApi } from './drawer';
 
 import { computed, provide, ref, useId, watch } from 'vue';
 
-import {
-  useIsMobile,
-  usePriorityValues,
-} from '@vben-core/composables';
+import { useIsMobile, usePriorityValues } from '@vben-core/composables';
 import { X } from '@vben-core/icons';
 import {
   Separator,
@@ -272,7 +269,7 @@ const getAppendTo = computed(() => {
               {{ cancelText || '取消' }}
             </slot>
           </component>
-
+          <slot name="center-footer"></slot>
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"

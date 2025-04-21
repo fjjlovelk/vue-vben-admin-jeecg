@@ -316,7 +316,7 @@ function handleClosed() {
               {{ cancelText || '取消' }}
             </slot>
           </component>
-
+          <slot name="center-footer"></slot>
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"
