@@ -232,6 +232,12 @@ export type FieldMappingTime = [
   )?,
 ][];
 
+export type ArrayToStringFields = Array<
+  | [string[], string?] // 嵌套数组格式，可选分隔符
+  | string // 单个字段，使用默认分隔符
+  | string[] // 简单数组格式，最后一个元素可以是分隔符
+>;
+
 export interface FormSchema<
   T extends BaseFormComponentType = BaseFormComponentType,
 > extends FormCommonConfig {
@@ -267,6 +273,10 @@ export interface FormRenderProps<
   T extends BaseFormComponentType = BaseFormComponentType,
 > {
   /**
+   * 表单字段数组映射字符串配置 默认使用","
+   */
+  arrayToStringFields?: ArrayToStringFields;
+  /**
    * 是否展开，在showCollapseButton=true下生效
    */
   collapsed?: boolean;
@@ -296,6 +306,10 @@ export interface FormRenderProps<
    * 组件集合
    */
   componentMap: Record<BaseFormComponentType, Component>;
+  /**
+   * 表单字段映射到时间格式
+   */
+  fieldMappingTime?: FieldMappingTime;
   /**
    * 表单实例
    */
@@ -339,6 +353,10 @@ export interface VbenFormProps<
    * 表单操作区域class
    */
   actionWrapperClass?: ClassType;
+  /**
+   * 表单字段数组映射字符串配置 默认使用","
+   */
+  arrayToStringFields?: ArrayToStringFields;
   /**
    * 表单字段映射
    */
