@@ -16,6 +16,7 @@ import { useAccessStore, useTabbarStore, useUserStore } from '@vben/stores';
 
 import { useAuthStore } from '#/store';
 import LoginForm from '#/views/_core/authentication/login.vue';
+import UpdatePasswordModal from '#/views/shortcuts/update-password-modal/index.vue';
 
 const { setMenuList } = useTabbarStore();
 setMenuList([
@@ -29,6 +30,20 @@ setMenuList([
   'close-other',
   'close-all',
 ]);
+
+// 修改密码弹框
+const updatePasswordModalShow = ref(false);
+
+// 用户下拉菜单
+const userDropdownMenus = [
+  {
+    text: '修改密码',
+    icon: 'carbon:edit',
+    handler: () => {
+      updatePasswordModalShow.value = true;
+    },
+  },
+];
 
 const notifications = ref<NotificationItem[]>([
   {
@@ -121,6 +136,7 @@ onBeforeMount(() => {
         :text="userStore.userInfo?.realname"
         :description="userStore.userInfo?.email"
         trigger="both"
+        :menus="userDropdownMenus"
         @logout="handleLogout"
       />
     </template>
@@ -139,6 +155,11 @@ onBeforeMount(() => {
       >
         <LoginForm />
       </AuthenticationLoginExpiredModal>
+      <!-- 修改密码弹框 -->
+      <UpdatePasswordModal
+        v-if="updatePasswordModalShow"
+        @close="updatePasswordModalShow = false"
+      />
     </template>
     <template #lock-screen>
       <LockScreen :avatar @to-login="handleLogout" />
