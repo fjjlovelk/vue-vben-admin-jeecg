@@ -5,6 +5,7 @@ import type { UserInfo } from '@vben/types';
 
 import type { SystemRoleApi } from '#/api';
 
+import { z } from '@vben/common-ui';
 import { useAccessStore } from '@vben/stores';
 
 import {
@@ -260,3 +261,48 @@ export const userSelectColumns: VxeTableGridOptions<SystemRoleApi.GetRoleListRes
       width: 80,
     },
   ];
+
+// 修改密码schema
+export const userPasswordModalFormSchema: AntdFormSchema[] = [
+  {
+    component: 'Input',
+    label: '用户账号',
+    fieldName: 'username',
+    disabled: true,
+  },
+  {
+    component: 'InputPassword',
+    label: '登录密码',
+    fieldName: 'password',
+    rules: z
+      .string()
+      .min(1, { message: '密码不能为空!' })
+      .refine(
+        (val) =>
+          /^(?=.*[a-z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{8,}$/i.test(
+            val,
+          ),
+        {
+          message: '密码由8位数字、大小写字母和特殊符号组成!',
+        },
+      ),
+  },
+  {
+    component: 'InputPassword',
+    label: '确认新密码',
+    fieldName: 'confirmPassword',
+    dependencies: {
+      triggerFields: ['password'],
+      rules: (values) =>
+        z
+          .string()
+          .nullish()
+          .refine((val) => !!val, {
+            message: '密码不能为空!',
+          })
+          .refine((val) => val === values.password, {
+            message: '两次输入的密码不一致!',
+          }),
+    },
+  },
+];

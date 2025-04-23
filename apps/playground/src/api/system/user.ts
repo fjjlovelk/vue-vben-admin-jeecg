@@ -32,6 +32,11 @@ export namespace SystemUserApi {
     userIds: string;
     roleId: string;
   }
+  export interface ChangeUserPasswordParams {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }
 }
 
 // 获取所有用户列表
@@ -142,4 +147,11 @@ export async function deleteUserRoleBatchApi(
       params,
     },
   );
+}
+
+// 修改用户密码
+export async function changeUserPasswordApi(
+  data: SystemUserApi.ChangeUserPasswordParams,
+) {
+  return requestClient.put<string>('/api/sys/user/changePassword', data);
 }

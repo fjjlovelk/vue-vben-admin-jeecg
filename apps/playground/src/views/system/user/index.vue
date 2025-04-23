@@ -25,6 +25,7 @@ import {
 } from '#/api';
 
 import UserDrawer from './user-drawer.vue';
+import UserPasswordModal from './user-password-modal.vue';
 import UserRecycleBinModal from './user-recycle-bin-modal.vue';
 import { userColumns, userQueryFormSchema } from './user.data';
 
@@ -68,6 +69,12 @@ const [UserDrawerCom, userDrawerApi] = useVbenDrawer({
   destroyOnClose: true,
 });
 
+// 修改密码
+const [UserPasswordModalCom, userPasswordApi] = useVbenModal({
+  connectedComponent: UserPasswordModal,
+  destroyOnClose: true,
+});
+
 // 回收站
 const [UserRecycleBinModalCom, userRecycleBinModalApi] = useVbenModal({
   connectedComponent: UserRecycleBinModal,
@@ -100,6 +107,11 @@ const handleView = (row: UserInfo) => {
     .setState({ footer: false })
     .setData({ ...row, viewType: ViewTypeEnum.VIEW })
     .open();
+};
+
+// 修改密码
+const handleUserPassword = (row: UserInfo) => {
+  userPasswordApi.setData(row).open();
 };
 
 // 冻结/解冻
@@ -228,6 +240,10 @@ const getActions = (row: UserInfo): ActionItem[] => {
       onClick: handleView.bind(null, row),
     },
     {
+      label: '密码',
+      onClick: handleUserPassword.bind(null, row),
+    },
+    {
       label: '解冻',
       ifShow: row.status === 2,
       onClick: handleFreeze.bind(null, row, 2),
@@ -301,6 +317,8 @@ const getBatchActions = (): ActionItem[] => {
     </Grid>
     <!-- 用户 -->
     <UserDrawerCom @success="handleRefresh" />
+    <!-- 修改密码 -->
+    <UserPasswordModalCom @success="handleRefresh" />
     <!-- 回收站 -->
     <UserRecycleBinModalCom @success="handleRefresh" />
   </Page>

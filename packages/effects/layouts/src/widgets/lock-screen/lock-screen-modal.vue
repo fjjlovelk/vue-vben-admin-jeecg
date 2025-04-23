@@ -40,9 +40,7 @@ const [Form, { resetForm, validate, getValues }] = useVbenForm(
         fieldName: 'lockScreenPassword',
         formFieldProps: { validateOnBlur: false },
         label: '密码',
-        rules: z
-          .string()
-          .min(1, { message: '请输入锁屏密码' }),
+        rules: z.string().min(1, { message: '请输入锁屏密码' }),
       },
     ]),
     showDefaultActions: false,
@@ -70,11 +68,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <Modal
-    :footer="false"
-    :fullscreen-button="false"
-    title="锁定屏幕"
-  >
+  <Modal :footer="false" :fullscreen-button="false" title="锁定屏幕">
     <div
       class="mb-10 flex w-full flex-col items-center px-10"
       @keydown.enter.prevent="handleSubmit"
